@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Tarn 依赖注入/控制器扫描配置（Spring Boot 项目也放在 src/main/resources 下）
+    controllers：需要注册到 Tarn 路由表的控制器包
+    services   ：@EService 实现所在包（@EAutowired 按字段名注入）
+-->
+<framework>
+    <controllers>
+        <mapping package="samples.tarn.boot.controller" name="Spring Boot 集成示例" author="dfr"/>
+    </controllers>
+    <services>
+        <mapping package="samples.tarn.boot.service.impl" name="Spring Boot 集成示例服务"/>
+    </services>
+    <repositorys/>
+</framework>

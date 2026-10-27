@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Tarn 控制器/服务扫描配置：放在 src/main/resources 下 -->
+<framework>
+    <controllers>
+        <mapping package="samples.tarn.maven.controller" name="Maven 集成示例" author="dfr"/>
+    </controllers>
+    <services>
+        <mapping package="samples.tarn.maven.service.impl" name="Maven 集成示例服务"/>
+    </services>
+    <repositorys/>
+</framework>

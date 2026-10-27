@@ -1,0 +1,45 @@
+# ============================================================
+# Spring Boot + Tarn MVC 示例配置
+# tarn.spring.*  : Tarn 在 Spring Boot 中的装配参数（starter 专属）
+# tarn.mvc/system/datasource.* : Tarn 框架自身配置（与 web.xml 时代的 dev.properties 等价）
+# ============================================================
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: tarn-springboot-demo
+
+tarn:
+  # ---------- Spring Boot 装配参数 ----------
+  spring:
+    enabled: true
+    # Tarn 拦截哪些 URL；默认 /*（Tarn 未命中的请求会交回 Spring MVC）
+    url-patterns:
+      - /*
+    # 过滤器顺序（数字越小越先执行）
+    order: 10
+    # TarnConfig 实现类全名，可选（等同 web.xml 的 configClass 初始化参数）
+    # config-class: samples.tarn.boot.BootTarnConfig
+
+  # ---------- Tarn MVC ----------
+  mvc:
+    controller-type: auto
+    intercept-suffix: jspx|jsp|do|u|shtml|rx
+    default-view-type: OTHER
+    dev-mode: true
+
+  # ---------- Tarn 系统 ----------
+  system:
+    debug: true
+    encoding: utf-8
+
+  # ---------- 数据库（本示例不访问数据库，仅演示配置方式） ----------
+  datasource:
+    type: MYSQL
+    pool-type: druid
+    url: jdbc:mysql://127.0.0.1:3306/tarn_demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver

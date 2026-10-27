@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        纯 Maven 引用示例（独立工程，不属于 tarn-framework 聚合模块）：
+        演示“同事电脑如何在自己的项目里通过 Maven 坐标引用 Tarn 框架”。
+
+        前置条件：Tarn 已安装到本机仓库（在框架工程根目录执行）
+            mvn -DskipTests install
+        然后本工程即可独立构建：
+            mvn -f samples/tarn-maven-demo/pom.xml clean package
+    -->
+    <groupId>samples.tarn</groupId>
+    <artifactId>tarn-maven-demo</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>tarn-maven-demo</name>
+    <description>Tarn MVC 2.0 通过 Maven 依赖集成示例（entity/dao/service/controller + 独立运行）</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <tarn.version>2.0.0</tarn.version>
+        <jetty.version>9.4.46.v20220331</jetty.version>
+    </properties>
+
+    <dependencies>
+        <!-- 核心依赖：MVC + ORM + 路由 + 连接池 + YAML 配置 -->
+        <dependency>
+            <groupId>cc.ruixing.framework</groupId>
+            <artifactId>tarn-framework</artifactId>
+            <version>${tarn.version}</version>
+        </dependency>
+
+        <!-- 独立运行（内嵌 Jetty）才需要；部署到 Tomcat 可去掉 -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+
+        <!-- 数据库驱动：按实际数据库选择，运行期才需要 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>tarn-maven-demo</finalName>
+        <plugins>
+            <!-- mvn exec:java 直接启动示例 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>samples.tarn.maven.DemoApplication</mainClass>
+                </configuration>
+            </plugin>
+            <!-- 打可执行包：java -cp "target/classes:target/lib/*" samples.tarn.maven.DemoApplication -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

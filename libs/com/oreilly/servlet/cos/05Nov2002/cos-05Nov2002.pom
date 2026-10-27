@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.oreilly.servlet</groupId>
+    <artifactId>cos</artifactId>
+    <version>05Nov2002</version>
+    <packaging>jar</packaging>
+
+    <name>cos</name>
+    <description>O'Reilly COS 文件上传组件（中央仓库无此坐标，由工程内本地仓库提供）</description>
+</project>
