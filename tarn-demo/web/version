@@ -1,0 +1,22 @@
+1.1
+增加支持多个 expand filter
+.....
+20141206
+增加了TextRender方式，同时修改了ViewType,RenderFactory,MainRenderFactory,Controller
+内部pager细微调整
+
+20150301
+context-mapping.xml include,isJar,jarName
+
+
+20150505
+1:新增方法执行前拦截。@Before
+2：基于@before实现验证框架
+3：插件机制实现完成 ××××重要更新
+4：继承自TarnConfig，配置Filter和插件。需在web.xml配置set configClass parameter of TarnDispatcherFilter in web.xml ××××重要更新 (expand-filter.xml对于Filter扩展仍然有效)
+5:控制新增@ViewRootPath 支持
+6：支持multipart/form-data表单文件上传
+7：支持无限级属性注入，即如：user.org.role.id,user.loginLog.type .....
+
+20150614
+1.ORM支持级联属性映射

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<framework>
+	<controllers>
+		<package package="examples/test/controller" name="基础模块控制" author="dfr">
+			<controller class="examples.test.controller.TestController" rule="/ex/${mapping*}" time="Sun Oct 25 15:56:48 CST 2026" viewRootPath="/testa">
+				<method name="save2" isParameters="false" mappingName="save2" requestMethod="POST" isPathVariable="false" />
+				<method name="dirrectHttp" isParameters="false" mappingName="direct" requestMethod="POST" isPathVariable="true" />
+				<method name="dirrect" isParameters="false" mappingName="direct2" requestMethod="POST" isPathVariable="true" />
+				<method name="abadfd" isParameters="true" mappingName="{*}.rx" requestMethod="AUTO" isPathVariable="true" />
+				<method name="index" isParameters="false" mappingName="index" requestMethod="GET" isPathVariable="false" />
+				<method name="delete" isParameters="false" mappingName="delete/{id}" requestMethod="POST" isPathVariable="true" />
+				<method name="save" isParameters="false" mappingName="save" requestMethod="POST" isPathVariable="false" />
+				<method name="index2" isParameters="false" mappingName="index2" requestMethod="GET" isPathVariable="false" />
+			</controller>
+			<controller class="examples.test.controller.HelloController" rule="/hello/${mapping}" time="Sun Oct 25 15:56:48 CST 2026" viewRootPath="/testa">
+				<method name="save2" isParameters="true" mappingName="save2" requestMethod="POST" isPathVariable="false" />
+				<method name="dirrectHttp" isParameters="false" mappingName="direct" requestMethod="POST" isPathVariable="true" />
+				<method name="dirrect" isParameters="false" mappingName="direct2" requestMethod="POST" isPathVariable="true" />
+				<method name="abadfd" isParameters="true" mappingName="{*}.rx" requestMethod="AUTO" isPathVariable="true" />
+				<method name="index223" isParameters="true" mappingName="ggg/{adf}" requestMethod="GET" isPathVariable="true" />
+				<method name="index" isParameters="false" mappingName="index" requestMethod="GET" isPathVariable="false" />
+				<method name="delete" isParameters="false" mappingName="delete/{id}" requestMethod="POST" isPathVariable="true" />
+				<method name="save" isParameters="false" mappingName="save" requestMethod="POST" isPathVariable="false" />
+				<method name="index2" isParameters="true" mappingName="index2" requestMethod="GET" isPathVariable="false" />
+			</controller>
+			<controller class="examples.test.controller.TestAPI" rule="/api/v1/login/${mapping}" time="Sun Oct 25 15:56:48 CST 2026">
+				<method name="doLogin" isParameters="true" mappingName="login" requestMethod="POST" isPathVariable="false" />
+			</controller>
+		</package>
+	</controllers>
+</framework>
+<!--程序自动生成的文件,该文件只是只读的。
+更改此文件不会对应用程序造成任何影响，它存在的意义只是为了让你能够了解到目前你的应用部署Controller（控制器）清单
+Time:2026-10-25 15:56:48-->

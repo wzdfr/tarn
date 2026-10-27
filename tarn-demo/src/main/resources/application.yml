@@ -1,0 +1,112 @@
+# ============================================================
+# Tarn Framework 2.0 主配置文件（Spring Boot 风格 YAML）
+# 优先级：application.yml > dev.properties（老配置兼容保留）
+# 老的 key（如 DBType、controller-type）会自动映射，老项目零改动
+# ============================================================
+
+tarn:
+  # ---------- 数据库 ----------
+  datasource:
+    # 数据库类型：MYSQL / ORACLE / MSSQL / POSTGRESQL / DM(达梦) / KINGBASE(人大金仓) / GAUSSDB / VASTBASE
+    type: MYSQL
+    # 连接池：druid（推荐，默认）/ system（内置简易池）
+    pool-type: druid
+    # 数据库版本（老配置 dbTypeVersion，MSSQL 2008 等场景使用）
+    # db-version: 2008
+    # 连接池配置文件（classpath 下），保持老用法
+    config-file: druid.properties
+    # 直连配置（可选，Spring Boot 风格；配置后优先于 config-file）
+    url: jdbc:mysql://127.0.0.1:3306/tarn_demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: "dfrQ@W#123"    # 建议使用环境变量 / 外置配置管理，不要提交明文密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 密码是否加密（等价 druid.properties 的 decrypt=true）。
+    # 为 true 时框架启动阶段用 Druid ConfigTools 解密 password 后再建连接池，解密失败直接启动报错。
+    decrypt: false
+    # 解密公钥：ConfigTools.genKeyPair() 生成的 publicKey。
+    # 留空时使用 Druid 内置默认公钥（ConfigTools.encrypt(明文) 加密出来的密文可直接解）。
+    # public-key: "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ..."
+
+  # ---------- MVC ----------
+  mvc:
+    # 控制器调度类型：param / method / mapping / auto
+    controller-type: auto
+    # 拦截的 URL 后缀
+    intercept-suffix: jspx|jsp|do|u|shtml|rx
+    # 视图模板目录
+    template-base-directory: /WEB-INF/views
+    # 默认视图类型：JSP / FREE_MARKER / VELOCITY / OTHER
+    default-view-type: FREE_MARKER
+    # 开发模式（freemarker 热加载）
+    dev-mode: true
+
+    # ---------- FreeMarker（2.1 新增适配，对应老 dev.properties 的同名配置） ----------
+    freemarker:
+      # 模板更新检测间隔（秒）。对应老配置 DEFAULT_FREEMARKER_TEMPLATE_UPDATE_DELAY。
+      # 仅 dev-mode: false 时生效；未配置时框架默认 3600（不再因缺失而启动失败）
+      template-update-delay: 3600
+      # stringLoader 字符串模板缓存刷新间隔（秒）。对应老配置 freemarker_stringLoadTemplate_cache。
+      # 未配置时框架默认 300（5 分钟）
+      string-template-cache: 60
+      # 多路径模板加载（对应老配置 isFreeMarkerMultiDir，开启后需 FreeMarkerMultiDirFactory.register()）
+      # multi-dir: false
+
+    # ---------- 扩展 Filter（2.1 新增适配，对应老配置 ExtendFilter / ExtendFilterImpl） ----------
+    # extend-filter:
+    #   enabled: true
+    #   impl: gov.wenzhou.haiguan.admin.CheckLoginFilter    # 需继承 FilterInterface 接口
+
+  # ---------- 系统 ----------
+  system:
+    # 调试模式：输出 SQL 与反射信息
+    debug: true
+    # 是否将 SQL 持久化到 SQLEXECLOG 表（影响性能，生产关闭）
+    save-sql-log: false
+    # 全局编码
+    encoding: utf-8
+    # 运行模式：jar / 空（IDE）
+    run-mode: jar
+
+  # ---------- 会话 ----------
+  session:
+    # 变量存储：session / cookie
+    store-type: session
+    expires: -1
+
+  # ---------- 独立运行（内嵌 Jetty，非 Tomcat 环境） ----------
+  server:
+    port: 8080
+    context-path: /
+    # 含 WEB-INF 的 webapp 目录（相对 tarn-demo 模块根目录；也可写绝对路径）
+    webapp-dir: standalone-web
+    # TarnConfig 实现类全名（等同 web.xml 中 TarnDispatcherFilter 的 configClass 初始化参数）
+    config-class: examples.standalone.StandaloneAppConfig
+
+  # ---------- Redis 插件（可选） ----------
+  redis:
+    enabled: false          # true 时框架启动自动装配 RedisPlugin
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout: 2000           # 毫秒
+    pool:
+      max-total: 32
+      max-idle: 16
+      min-idle: 2
+      max-wait-millis: 3000
+      test-on-borrow: true
+
+  # ---------- MyBatis 插件（可选） ----------
+  mybatis:
+    enabled: false          # true 时自动装配 MybatisPlugin
+    config-location:        # 留空 = 纯编程式构建；或 classpath:mybatis-config.xml
+
+  # ---------- Ehcache 插件 ----------
+  ehcache:
+    enabled: false
+
+  # ---------- 插件声明式装配（高级） ----------
+  # 除内置插件外，可通过列表声明任意实现 IPlugin / Plugin 的类全名
+  plugins: []
+  #  - cc.ruixing.xxx.MyCustomPlugin

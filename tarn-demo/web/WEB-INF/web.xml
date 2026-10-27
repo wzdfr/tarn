@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>demo web.xml config</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
+    <!-- WebStatFilter用于采集web-jdbc关联监控的数据 URL -->
+    <filter>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/RXMonitor/*</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- end -->
+    <filter>
+        <filter-name>CharacterFilter</filter-name>
+        <filter-class>cc.ruixing.framework.tarn.core.TarnDispatcherFilter</filter-class>
+        <init-param>
+            <param-name>configClass</param-name>
+            <param-value>examples.test.AppConfig</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <!--是否启用Ehcache缓存插件-->
+        <init-param>
+            <param-name>OpenEhcache</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <!--如果需要指定缓存插件的配置路径，则需要配置这个属性（仅当OpenEhcache=ture有效），-->
+        <!--默认的配置文件在项目源码的根目录src目录下，文件名为ehcache.xml即是WEB-INF\classes\ehcache.xml -->
+        <!--<init-param>-->
+        <!--<param-name>EhcacheConfigFile</param-name>-->
+        <!--<param-value>/config/echcache.xml</param-value>-->
+        <!--</init-param>-->
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharacterFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- druid 监控  -->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>cc.ruixing.framework.tarn.plugin.druid.DruidStatViewServlet</servlet-class>
+        <!--<init-param>-->
+        <!--&lt;!&ndash; 允许的IP  &ndash;&gt;-->
+        <!--<param-name>allow</param-name>-->
+        <!--<param-value>192.168.0.30</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+        <!--<param-name>deny</param-name>-->
+        <!--<param-value>128.242.127.4</param-value>-->
+        <!--</init-param>-->
+        <init-param>
+            <param-name>loginUsername</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <init-param>
+            <param-name>loginPassword</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/RXMonitor/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!--<error-page>-->
+    <!--<error-code>404</error-code>-->
+    <!--<location>/statics/sys-common/errPages/404.jsp</location>-->
+    <!--</error-page>-->
+
+    <!--<error-page>-->
+    <!--<error-code>500</error-code>-->
+    <!--<location>/statics/sys-common/errPages/500.html</location>-->
+    <!--</error-page>-->
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+
+    <!-- 指定文件格式下载 -->
+    <mime-mapping>
+        <extension>doc</extension>
+        <mime-type>application/msword</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>xls</extension>
+        <mime-type>application/msexcel</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>pdf</extension>
+        <mime-type>application/pdf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>zip</extension>
+        <mime-type>application/zip</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>rar</extension>
+        <mime-type>application/rar</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>txt</extension>
+        <mime-type>application/txt</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>chm</extension>
+        <mime-type>application/mshelp</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>mp3</extension>
+        <mime-type>audio/x-mpeg</mime-type>
+    </mime-mapping>
+</web-app>

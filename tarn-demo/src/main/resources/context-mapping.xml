@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--package:包路径 （必须）
+<name:名称
+remark:备注
+author:作者
+依赖注入配置
+controllers：加载的控制器包路径。该项必须
+services：服务注入的实现包路径。该项必须
+repositorys：注入数据访问层(DAO).该项可不需要
+-->
+<framework>
+    <controllers>
+        <mapping package="examples.test.controller" name="基础模块控制" remark="" author=""/>
+        <mapping package="examples.demo.controller" name="Tarn 2.0 全链路示例" remark="路由/JSON/ORM/SqlBuilder/MyBatis 演示" author="dfr"/>
+        <mapping package="examples.standalone.controller" name="独立运行示例" remark="StandaloneLauncher + 动态路由" author="dfr"/>
+    </controllers>
+    <services>
+        <mapping package="examples.test.services.impl" name="基础模块服务实现"/>
+        <mapping package="examples.standalone.service.impl" name="独立运行示例服务实现"/>
+    </services>
+    <repositorys>
+        <!--<mapping package="cc.ruixing.framework.expand.base.dao.impl" name="dao层"/>-->
+    </repositorys>
+</framework>

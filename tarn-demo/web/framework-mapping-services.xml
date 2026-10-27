@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<framework>
+	<packages>
+		<package package="examples/test/services/impl" name="基础模块服务实现" author="dfr">
+			<service class="examples.test.services.impl.HelloImpl" />
+		</package>
+	</packages>
+</framework>
+<!--程序自动生成的文件,该文件只是只读的。
+更改此文件不会对应用程序造成任何影响，它存在的意义只是为了让你能够了解到目前你的应用部署Service实现类清单
+Time:2026-10-25 15:56:48-->
