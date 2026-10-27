@@ -1,14 +1,14 @@
 package samples.tarn.boot.controller;
 
-import cc.ruixing.framework.tarn.aop.annotation.EAutowired;
-import cc.ruixing.framework.tarn.aop.annotation.EController;
-import cc.ruixing.framework.tarn.aop.annotation.EPathVariable;
-import cc.ruixing.framework.tarn.aop.annotation.ERequestMapping;
-import cc.ruixing.framework.tarn.aop.annotation.ERequestParam;
-import cc.ruixing.framework.tarn.aop.annotation.Json;
-import cc.ruixing.framework.tarn.aop.annotation.RequestMethod;
-import cc.ruixing.framework.tarn.core.Controller;
-import cc.ruixing.framework.tarn.json.JsonResult;
+import com.dfrdev.tarn.aop.annotation.EAutowired;
+import com.dfrdev.tarn.aop.annotation.EController;
+import com.dfrdev.tarn.aop.annotation.EPathVariable;
+import com.dfrdev.tarn.aop.annotation.ERequestMapping;
+import com.dfrdev.tarn.aop.annotation.ERequestParam;
+import com.dfrdev.tarn.aop.annotation.Json;
+import com.dfrdev.tarn.aop.annotation.RequestMethod;
+import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.json.JsonResult;
 import samples.tarn.boot.service.BootGreetService;
 
 import java.util.HashMap;

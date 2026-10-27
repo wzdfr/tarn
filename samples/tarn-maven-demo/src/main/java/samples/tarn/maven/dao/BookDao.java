@@ -1,10 +1,10 @@
 package samples.tarn.maven.dao;
 
-import cc.ruixing.framework.tarn.core.DaoException;
-import cc.ruixing.framework.tarn.core.Q;
-import cc.ruixing.framework.tarn.core.sql.ParameterizedSql;
-import cc.ruixing.framework.tarn.core.sql.SqlBuilder;
-import cc.ruixing.framework.tarn.util.StringUtil;
+import com.dfrdev.tarn.core.DaoException;
+import com.dfrdev.tarn.core.Q;
+import com.dfrdev.tarn.core.sql.ParameterizedSql;
+import com.dfrdev.tarn.core.sql.SqlBuilder;
+import com.dfrdev.tarn.util.StringUtil;
 import samples.tarn.maven.entity.Book;
 
 import java.util.List;

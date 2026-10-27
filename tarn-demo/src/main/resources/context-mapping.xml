@@ -19,6 +19,6 @@ repositorys：注入数据访问层(DAO).该项可不需要
         <mapping package="examples.standalone.service.impl" name="独立运行示例服务实现"/>
     </services>
     <repositorys>
-        <!--<mapping package="cc.ruixing.framework.expand.base.dao.impl" name="dao层"/>-->
+        <!--<mapping package="com.dfrdev.expand.base.dao.impl" name="dao层"/>-->
     </repositorys>
 </framework>

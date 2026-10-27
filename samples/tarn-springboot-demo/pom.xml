@@ -34,7 +34,7 @@
 
         <!-- 只需这一个依赖：自动装配 TarnDispatcherFilter -->
         <dependency>
-            <groupId>cc.ruixing.framework</groupId>
+            <groupId>com.dfrdev</groupId>
             <artifactId>tarn-spring-boot-starter</artifactId>
             <version>${tarn.version}</version>
         </dependency>

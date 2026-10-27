@@ -1,11 +1,11 @@
 package examples.orm;
 
-import cc.ruixing.framework.tarn.core.connection.ConnectionFactory;
-import cc.ruixing.framework.tarn.core.sql.ParameterizedSql;
-import cc.ruixing.framework.tarn.core.sql.SqlBuilder;
-import cc.ruixing.framework.tarn.orm.Orm;
-import cc.ruixing.framework.tarn.orm.OrmTemplate;
-import cc.ruixing.framework.tarn.orm.TransactionCallback;
+import com.dfrdev.tarn.core.connection.ConnectionFactory;
+import com.dfrdev.tarn.core.sql.ParameterizedSql;
+import com.dfrdev.tarn.core.sql.SqlBuilder;
+import com.dfrdev.tarn.orm.Orm;
+import com.dfrdev.tarn.orm.OrmTemplate;
+import com.dfrdev.tarn.orm.TransactionCallback;
 import examples.orm.entity.DemoNote;
 import examples.orm.entity.DemoOrder;
 import examples.standalone.entity.Book;

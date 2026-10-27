@@ -1,7 +1,7 @@
 package samples.tarn.maven.entity;
 
-import cc.ruixing.framework.tarn.aop.annotation.Ekey;
-import cc.ruixing.framework.tarn.aop.annotation.Etable;
+import com.dfrdev.tarn.aop.annotation.Ekey;
+import com.dfrdev.tarn.aop.annotation.Etable;
 
 /**
  * 实体示例：图书。

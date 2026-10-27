@@ -32,7 +32,7 @@
     <dependencies>
         <!-- 核心依赖：MVC + ORM + 路由 + 连接池 + YAML 配置 -->
         <dependency>
-            <groupId>cc.ruixing.framework</groupId>
+            <groupId>com.dfrdev</groupId>
             <artifactId>tarn-framework</artifactId>
             <version>${tarn.version}</version>
         </dependency>

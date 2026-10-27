@@ -1,9 +1,9 @@
 package examples.filter;
 
-import cc.ruixing.framework.tarn.core.Filters;
-import cc.ruixing.framework.tarn.core.TarnConfig;
-import cc.ruixing.framework.tarn.core.Plugins;
-import cc.ruixing.framework.tarn.util.LogUtil;
+import com.dfrdev.tarn.core.Filters;
+import com.dfrdev.tarn.core.TarnConfig;
+import com.dfrdev.tarn.core.Plugins;
+import com.dfrdev.tarn.util.LogUtil;
 
 /**
  * 全局拦截配置示例：在 {@link TarnConfig#configFilter(Filters)} 中装配 Tarn 扩展拦截器。

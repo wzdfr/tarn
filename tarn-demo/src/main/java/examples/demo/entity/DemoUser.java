@@ -1,10 +1,10 @@
 package examples.demo.entity;
 
-import cc.ruixing.framework.tarn.aop.annotation.EFilter;
-import cc.ruixing.framework.tarn.aop.annotation.Ekey;
-import cc.ruixing.framework.tarn.aop.annotation.Etable;
-import cc.ruixing.framework.tarn.aop.annotation.EUpdateNull;
-import cc.ruixing.framework.tarn.aop.annotation.ORMFilter;
+import com.dfrdev.tarn.aop.annotation.EFilter;
+import com.dfrdev.tarn.aop.annotation.Ekey;
+import com.dfrdev.tarn.aop.annotation.Etable;
+import com.dfrdev.tarn.aop.annotation.EUpdateNull;
+import com.dfrdev.tarn.aop.annotation.ORMFilter;
 
 /**
  * 演示实体：用户（Tarn 2.0 ORM）。

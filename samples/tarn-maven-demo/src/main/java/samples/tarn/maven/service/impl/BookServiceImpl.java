@@ -1,7 +1,7 @@
 package samples.tarn.maven.service.impl;
 
-import cc.ruixing.framework.tarn.aop.annotation.EService;
-import cc.ruixing.framework.tarn.core.DaoException;
+import com.dfrdev.tarn.aop.annotation.EService;
+import com.dfrdev.tarn.core.DaoException;
 import samples.tarn.maven.dao.BookDao;
 import samples.tarn.maven.entity.Book;
 import samples.tarn.maven.service.BookService;

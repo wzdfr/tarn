@@ -1,19 +1,19 @@
 package examples.orm;
 
-import cc.ruixing.framework.tarn.core.DaoException;
-import cc.ruixing.framework.tarn.core.Tarn;
-import cc.ruixing.framework.tarn.core.TarnDataException;
-import cc.ruixing.framework.tarn.core.Q;
-import cc.ruixing.framework.tarn.core.RowMapper;
-import cc.ruixing.framework.tarn.core.connection.ConnectionFactory;
-import cc.ruixing.framework.tarn.core.sql.ParameterizedSql;
-import cc.ruixing.framework.tarn.core.sql.SqlBuilder;
-import cc.ruixing.framework.tarn.json.JsonKit;
-import cc.ruixing.framework.tarn.orm.EntityMapper;
-import cc.ruixing.framework.tarn.orm.Orm;
-import cc.ruixing.framework.tarn.orm.OrmTemplate;
-import cc.ruixing.framework.tarn.orm.TransactionCallback;
-import cc.ruixing.framework.tarn.util.StringUtil;
+import com.dfrdev.tarn.core.DaoException;
+import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.TarnDataException;
+import com.dfrdev.tarn.core.Q;
+import com.dfrdev.tarn.core.RowMapper;
+import com.dfrdev.tarn.core.connection.ConnectionFactory;
+import com.dfrdev.tarn.core.sql.ParameterizedSql;
+import com.dfrdev.tarn.core.sql.SqlBuilder;
+import com.dfrdev.tarn.json.JsonKit;
+import com.dfrdev.tarn.orm.EntityMapper;
+import com.dfrdev.tarn.orm.Orm;
+import com.dfrdev.tarn.orm.OrmTemplate;
+import com.dfrdev.tarn.orm.TransactionCallback;
+import com.dfrdev.tarn.util.StringUtil;
 import examples.standalone.entity.Book;
 
 import java.sql.ResultSet;
@@ -135,7 +135,7 @@ public class OrmApiVerification {
         int rows = Orm.template().insert(b);
         check("T02 insert 返回受影响行数=1", rows == 1);
         check("T02 insert 不回填主键(未用 insertReturnKey)", b.getId() == null);
-        ParameterizedSql sql = cc.ruixing.framework.tarn.orm.EntitySql.insert(book(null, "x", null, null));
+        ParameterizedSql sql = com.dfrdev.tarn.orm.EntitySql.insert(book(null, "x", null, null));
         check("T02 自增主键不进入 INSERT 列", !sql.getSql().contains("ID"));
     }
 
@@ -175,7 +175,7 @@ public class OrmApiVerification {
         check("T04 返回受影响行数=1", rows == 1);
         check("T04 更新生效(stock=99)", after != null && Integer.valueOf(99).equals(after.getStock()));
         check("T04 null 字段未更新(author 保留)", "原作者".equals(after.getAuthor()));
-        ParameterizedSql sql = cc.ruixing.framework.tarn.orm.EntitySql.update(change);
+        ParameterizedSql sql = com.dfrdev.tarn.orm.EntitySql.update(change);
         check("T04 主键不进 SET、只进 WHERE", sql.getSql().startsWith("UPDATE demo_book SET ")
                 && sql.getSql().endsWith("WHERE ID = ?") && !sql.getSql().contains("ID = ?,"));
     }

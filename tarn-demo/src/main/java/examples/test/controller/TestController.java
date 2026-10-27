@@ -1,9 +1,9 @@
 package examples.test.controller;
 
-import cc.ruixing.framework.tarn.aop.annotation.*;
-import cc.ruixing.framework.tarn.core.Config;
-import cc.ruixing.framework.tarn.core.Controller;
-import cc.ruixing.framework.tarn.upload.UploadFile;
+import com.dfrdev.tarn.aop.annotation.*;
+import com.dfrdev.tarn.core.Config;
+import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.upload.UploadFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import examples.test.emtity.Hello;

@@ -1,6 +1,6 @@
 package samples.tarn.maven.service;
 
-import cc.ruixing.framework.tarn.core.DaoException;
+import com.dfrdev.tarn.core.DaoException;
 import samples.tarn.maven.entity.Book;
 
 import java.util.List;

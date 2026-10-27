@@ -1,6 +1,6 @@
 package examples.test.services;
 
-import cc.ruixing.framework.tarn.core.Service;
+import com.dfrdev.tarn.core.Service;
 import examples.test.emtity.Hello;
 
 /**

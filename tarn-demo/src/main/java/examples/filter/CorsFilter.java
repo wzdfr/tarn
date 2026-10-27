@@ -1,7 +1,7 @@
 package examples.filter;
 
-import cc.ruixing.framework.tarn.core.FilterInterface;
-import cc.ruixing.framework.tarn.util.StringUtil;
+import com.dfrdev.tarn.core.FilterInterface;
+import com.dfrdev.tarn.util.StringUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

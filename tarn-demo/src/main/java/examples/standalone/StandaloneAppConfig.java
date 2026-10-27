@@ -1,9 +1,9 @@
 package examples.standalone;
 
-import cc.ruixing.framework.tarn.core.Filters;
-import cc.ruixing.framework.tarn.core.TarnConfig;
-import cc.ruixing.framework.tarn.core.Plugins;
-import cc.ruixing.framework.tarn.util.LogUtil;
+import com.dfrdev.tarn.core.Filters;
+import com.dfrdev.tarn.core.TarnConfig;
+import com.dfrdev.tarn.core.Plugins;
+import com.dfrdev.tarn.util.LogUtil;
 
 /**
  * 独立运行的 TarnConfig 实现（等同 web.xml 的 configClass）。

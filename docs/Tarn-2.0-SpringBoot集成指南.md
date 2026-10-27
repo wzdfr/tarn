@@ -37,7 +37,7 @@ TarnDispatcherFilter             (本 starter 注册，默认 order=10)
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-spring-boot-starter</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -193,10 +193,10 @@ tarn:
 ```text
 src/main/resources/META-INF/spring.factories
     org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    cc.ruixing.framework.tarn.springboot.TarnAutoConfiguration
+    com.dfrdev.tarn.springboot.TarnAutoConfiguration
 
 src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
-    cc.ruixing.framework.tarn.springboot.TarnAutoConfiguration
+    com.dfrdev.tarn.springboot.TarnAutoConfiguration
 ```
 
 `TarnAutoConfiguration` 的生效条件：

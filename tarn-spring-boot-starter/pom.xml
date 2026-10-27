@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cc.ruixing.framework</groupId>
+        <groupId>com.dfrdev</groupId>
         <artifactId>tarn-parent</artifactId>
         <version>2.0.0</version>
     </parent>
@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cc.ruixing.framework</groupId>
+            <groupId>com.dfrdev</groupId>
             <artifactId>tarn-framework</artifactId>
         </dependency>
         <dependency>

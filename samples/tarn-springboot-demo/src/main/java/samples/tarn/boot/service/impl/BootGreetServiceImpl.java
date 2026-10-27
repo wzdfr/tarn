@@ -1,6 +1,6 @@
 package samples.tarn.boot.service.impl;
 
-import cc.ruixing.framework.tarn.aop.annotation.EService;
+import com.dfrdev.tarn.aop.annotation.EService;
 import samples.tarn.boot.service.BootGreetService;
 
 /**

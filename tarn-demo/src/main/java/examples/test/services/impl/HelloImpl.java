@@ -1,7 +1,7 @@
 package examples.test.services.impl;
 
-import cc.ruixing.framework.tarn.aop.annotation.EService;
-import cc.ruixing.framework.tarn.core.AbstractService;
+import com.dfrdev.tarn.aop.annotation.EService;
+import com.dfrdev.tarn.core.AbstractService;
 import examples.test.emtity.Hello;
 import examples.test.services.HelloService;
 

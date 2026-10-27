@@ -1,3 +1,3 @@
 # Spring Boot 2.6 及以下的自动装配入口（Boot 2.7+ 同时支持新的 imports 文件）
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cc.ruixing.framework.tarn.springboot.TarnAutoConfiguration
+com.dfrdev.tarn.springboot.TarnAutoConfiguration

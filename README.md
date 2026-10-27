@@ -5,7 +5,7 @@ Tarn 是一套轻量级 Java Web 全栈框架，覆盖 MVC 控制器、静态/�
 - **版本**：2.0.0
 - **JDK**：1.8+
 - **构建**：Maven 3
-- **包名**：`cc.ruixing.framework.tarn`
+- **包名**：`com.dfrdev.tarn`
 
 ---
 
@@ -27,7 +27,7 @@ tarn-parent
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -37,7 +37,7 @@ Spring Boot 集成：
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-spring-boot-starter</artifactId>
     <version>2.0.0</version>
 </dependency>

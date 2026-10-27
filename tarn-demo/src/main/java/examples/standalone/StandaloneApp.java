@@ -1,6 +1,6 @@
 package examples.standalone;
 
-import cc.ruixing.framework.tarn.standalone.StandaloneLauncher;
+import com.dfrdev.tarn.standalone.StandaloneLauncher;
 
 /**
  * 独立运行入口：内嵌 Jetty 启动 Tarn，无需 Tomcat。

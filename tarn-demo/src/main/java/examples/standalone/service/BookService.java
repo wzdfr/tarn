@@ -1,6 +1,6 @@
 package examples.standalone.service;
 
-import cc.ruixing.framework.tarn.core.DaoException;
+import com.dfrdev.tarn.core.DaoException;
 import examples.standalone.entity.Book;
 
 import java.util.List;

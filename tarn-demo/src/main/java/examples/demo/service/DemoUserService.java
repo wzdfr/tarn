@@ -1,10 +1,10 @@
 package examples.demo.service;
 
-import cc.ruixing.framework.tarn.core.DaoException;
-import cc.ruixing.framework.tarn.core.Q;
-import cc.ruixing.framework.tarn.core.sql.ParameterizedSql;
-import cc.ruixing.framework.tarn.core.sql.QueryBuilder;
-import cc.ruixing.framework.tarn.core.sql.SqlBuilder;
+import com.dfrdev.tarn.core.DaoException;
+import com.dfrdev.tarn.core.Q;
+import com.dfrdev.tarn.core.sql.ParameterizedSql;
+import com.dfrdev.tarn.core.sql.QueryBuilder;
+import com.dfrdev.tarn.core.sql.SqlBuilder;
 import examples.demo.entity.DemoUser;
 import examples.demo.mapper.DemoUserMapper;
 
@@ -191,7 +191,7 @@ public class DemoUserService {
      */
     private static final class MybatisKitHolder {
         static DemoUserMapper mapper() {
-            return cc.ruixing.framework.tarn.plugin.mybatis.MybatisKit.getMapper(DemoUserMapper.class);
+            return com.dfrdev.tarn.plugin.mybatis.MybatisKit.getMapper(DemoUserMapper.class);
         }
     }
 }

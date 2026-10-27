@@ -1,7 +1,7 @@
 package examples.test.validate;
 
-import cc.ruixing.framework.tarn.core.Controller;
-import cc.ruixing.framework.tarn.validate.Validator;
+import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.validate.Validator;
 import com.alibaba.fastjson.JSON;
 
 /**

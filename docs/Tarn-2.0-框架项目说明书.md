@@ -40,7 +40,7 @@ tarn-framework-2026-beta/
     └── tarn-springboot-demo/     Spring Boot 共存样例（tarn-spring-boot-starter）
 ```
 
-框架核心包结构（`cc.ruixing.framework.tarn`）：
+框架核心包结构（`com.dfrdev.tarn`）：
 
 | 包 | 职责 |
 | --- | --- |

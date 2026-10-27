@@ -1,6 +1,6 @@
 # Tarn Framework 2.0 项目方案白皮书与升级迁移指南
 
-> 适用版本：`cc.ruixing.framework:tarn-framework:2.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `2.0.0`）
+> 适用版本：`com.dfrdev:tarn-framework:2.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `2.0.0`）
 > 目标读者：平台架构师、老项目维护负责人、新业务开发
 > 核心承诺：**存量项目替换 jar 即可运行，零代码改动；新能力按需增量启用。**
 > **合并版总手册（推荐首选）**：[Tarn-2.1-项目方案与使用全书.md](./Tarn-2.1-项目方案与使用全书.md) —— 已把本白皮书与路由 / ORM / Maven / Spring Boot 文档合并，并补充 2.1 的数据源密码加密、AOP 注入体系重构、全局拦截方案。
@@ -187,7 +187,7 @@ Maven 工程：
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -309,7 +309,7 @@ tarn:
 ```xml
 <filter>
     <filter-name>tarn</filter-name>
-    <filter-class>cc.ruixing.framework.tarn.core.TarnDispatcherFilter</filter-class>
+    <filter-class>com.dfrdev.tarn.core.TarnDispatcherFilter</filter-class>
     <init-param>
         <param-name>configClass</param-name>
         <param-value>examples.test.AppConfig</param-value>
@@ -335,10 +335,10 @@ tarn:
 ```java
 public static void main(String[] args) {
     // 三参：configClass 取 tarn.server.config-class
-    cc.ruixing.framework.tarn.standalone.StandaloneLauncher.run();
+    com.dfrdev.tarn.standalone.StandaloneLauncher.run();
 
     // 或四参：直接指定装配类（优先级高于 YAML），用于测试 / 多环境
-    // cc.ruixing.framework.tarn.standalone.StandaloneLauncher.run(8081, "/", "web", "examples.filter.GlobalFilterConfig");
+    // com.dfrdev.tarn.standalone.StandaloneLauncher.run(8081, "/", "web", "examples.filter.GlobalFilterConfig");
 }
 ```
 
@@ -457,7 +457,7 @@ tarn:
 ```java
 package com.example.platform;
 
-import cc.ruixing.framework.tarn.plugin.Plugin;
+import com.dfrdev.tarn.plugin.Plugin;
 
 public class AuditPlugin implements Plugin {
     @Override

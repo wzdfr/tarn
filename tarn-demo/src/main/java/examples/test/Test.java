@@ -1,11 +1,11 @@
 package examples.test;
 
-import cc.ruixing.framework.tarn.collection.EnumerationIter;
-import cc.ruixing.framework.tarn.plugin.orm.QueryBuffer;
-import cc.ruixing.framework.tarn.util.ClassUtil;
-import cc.ruixing.framework.tarn.util.DateUtil;
-import cc.ruixing.framework.tarn.util.ReflectUtil;
-import cc.ruixing.framework.tarn.util.ResourceUtil;
+import com.dfrdev.tarn.collection.EnumerationIter;
+import com.dfrdev.tarn.plugin.orm.QueryBuffer;
+import com.dfrdev.tarn.util.ClassUtil;
+import com.dfrdev.tarn.util.DateUtil;
+import com.dfrdev.tarn.util.ReflectUtil;
+import com.dfrdev.tarn.util.ResourceUtil;
 import com.alibaba.fastjson.JSON;
 
 import java.net.URL;

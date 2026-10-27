@@ -1,14 +1,14 @@
 package examples.demo.controller;
 
-import cc.ruixing.framework.tarn.aop.annotation.EController;
-import cc.ruixing.framework.tarn.aop.annotation.ERequestBody;
-import cc.ruixing.framework.tarn.aop.annotation.ERequestMapping;
-import cc.ruixing.framework.tarn.aop.annotation.ERequestParam;
-import cc.ruixing.framework.tarn.aop.annotation.Json;
-import cc.ruixing.framework.tarn.aop.annotation.RequestMethod;
-import cc.ruixing.framework.tarn.core.Controller;
-import cc.ruixing.framework.tarn.core.DaoException;
-import cc.ruixing.framework.tarn.json.JsonResult;
+import com.dfrdev.tarn.aop.annotation.EController;
+import com.dfrdev.tarn.aop.annotation.ERequestBody;
+import com.dfrdev.tarn.aop.annotation.ERequestMapping;
+import com.dfrdev.tarn.aop.annotation.ERequestParam;
+import com.dfrdev.tarn.aop.annotation.Json;
+import com.dfrdev.tarn.aop.annotation.RequestMethod;
+import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.DaoException;
+import com.dfrdev.tarn.json.JsonResult;
 import examples.demo.entity.DemoUser;
 import examples.demo.service.DemoUserService;
 

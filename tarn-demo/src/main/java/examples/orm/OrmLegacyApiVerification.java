@@ -1,15 +1,15 @@
 package examples.orm;
 
-import cc.ruixing.framework.tarn.core.DAO;
-import cc.ruixing.framework.tarn.core.TarnDataException;
-import cc.ruixing.framework.tarn.core.Model;
-import cc.ruixing.framework.tarn.core.Pager;
-import cc.ruixing.framework.tarn.core.Q;
-import cc.ruixing.framework.tarn.core.RowMapper;
-import cc.ruixing.framework.tarn.core.connection.ConnectionFactory;
-import cc.ruixing.framework.tarn.core.sql.SqlBuilder;
-import cc.ruixing.framework.tarn.orm.Orm;
-import cc.ruixing.framework.tarn.plugin.orm.QueryBuffer;
+import com.dfrdev.tarn.core.DAO;
+import com.dfrdev.tarn.core.TarnDataException;
+import com.dfrdev.tarn.core.Model;
+import com.dfrdev.tarn.core.Pager;
+import com.dfrdev.tarn.core.Q;
+import com.dfrdev.tarn.core.RowMapper;
+import com.dfrdev.tarn.core.connection.ConnectionFactory;
+import com.dfrdev.tarn.core.sql.SqlBuilder;
+import com.dfrdev.tarn.orm.Orm;
+import com.dfrdev.tarn.plugin.orm.QueryBuffer;
 import examples.standalone.entity.Book;
 
 import java.sql.ResultSet;

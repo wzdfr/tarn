@@ -1,6 +1,6 @@
 # Tarn 2.1 项目方案与使用全书
 
-> 适用版本：`cc.ruixing.framework:tarn-framework:2.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `2.0.0`）
+> 适用版本：`com.dfrdev:tarn-framework:2.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `2.0.0`）
 > 运行环境：JDK 8、Servlet 3.1、Maven 3.6+，验证数据库 MySQL 5.7
 > 读者：平台架构师、业务开发、老项目维护负责人
 > 核心承诺：**存量 1.x 项目替换 jar 即可运行，零代码改动；新能力按需增量启用。**
@@ -98,7 +98,7 @@ tarn-framework-2026-beta/
 
 > `samples/**` 与 `tarn-demo` 都不是框架发布物，可独立构建，用来模拟「同事电脑上的业务工程」。
 
-### 2.2 框架包结构（`cc.ruixing.framework.tarn`）
+### 2.2 框架包结构（`com.dfrdev.tarn`）
 
 | 包 | 职责 |
 | --- | --- |
@@ -135,7 +135,7 @@ tarn-framework-2026-beta/
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -693,7 +693,7 @@ public class GlobalFilterConfig extends TarnConfig {
 ```xml
 <filter>
     <filter-name>TarnDispatcherFilter</filter-name>
-    <filter-class>cc.ruixing.framework.tarn.core.TarnDispatcherFilter</filter-class>
+    <filter-class>com.dfrdev.tarn.core.TarnDispatcherFilter</filter-class>
     <init-param>
         <param-name>configClass</param-name>
         <param-value>examples.filter.GlobalFilterConfig</param-value>
@@ -1069,7 +1069,7 @@ Tarn **未命中的请求会放行**，所以两套 MVC 可共存，迁移可按
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-spring-boot-starter</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -1148,9 +1148,9 @@ com/oreilly/servlet/cos/05Nov2002/
 
 | 构件 | 坐标 | 用途 |
 | --- | --- | --- |
-| 核心框架 | `cc.ruixing.framework:tarn-framework:2.0.0` | MVC + ORM + 路由 + 连接池 + YAML |
-| Boot starter | `cc.ruixing.framework:tarn-spring-boot-starter:2.0.0` | Spring Boot 自动装配 |
-| 父 POM | `cc.ruixing.framework:tarn-parent:2.0.0` | 框架工程内部用，业务工程不需要继承 |
+| 核心框架 | `com.dfrdev:tarn-framework:2.0.0` | MVC + ORM + 路由 + 连接池 + YAML |
+| Boot starter | `com.dfrdev:tarn-spring-boot-starter:2.0.0` | Spring Boot 自动装配 |
+| 父 POM | `com.dfrdev:tarn-parent:2.0.0` | 框架工程内部用，业务工程不需要继承 |
 
 已传递引入（无需再声明）：fastjson、druid、snakeyaml、slf4j + logback、dom4j、
 commons-fileupload/io/beanutils/codec/collections4、cos、log4j-over-slf4j。
@@ -1295,7 +1295,7 @@ java -cp "target/classes:target/lib/*" examples.standalone.StandaloneApp
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
     <version>2.0.0</version>
 </dependency>

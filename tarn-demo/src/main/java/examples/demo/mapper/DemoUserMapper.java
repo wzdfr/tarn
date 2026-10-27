@@ -18,7 +18,7 @@ import java.util.List;
  * 适用场景：复杂 SQL、需数据库方言特定语法、或团队已习惯 MyBatis 的模块。
  *
  * @author dfr
- * @see cc.ruixing.framework.tarn.plugin.mybatis.MybatisKit
+ * @see com.dfrdev.tarn.plugin.mybatis.MybatisKit
  */
 public interface DemoUserMapper {
 

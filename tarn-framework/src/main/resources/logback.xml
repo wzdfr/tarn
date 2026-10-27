@@ -108,11 +108,11 @@
     </logger>
 
     <!-- 具体包级别可单独调：例如 SQL 日志 -->
-    <logger name="cc.ruixing.framework.tarn.orm" level="INFO"/>
-    <logger name="cc.ruixing.framework.tarn.standalone" level="INFO"/>
+    <logger name="com.dfrdev.tarn.orm" level="INFO"/>
+    <logger name="com.dfrdev.tarn.standalone" level="INFO"/>
 
     <!-- 调试时临时打开 DEBUG：
-         <logger name="cc.ruixing.framework.tarn" level="DEBUG" additivity="false">
+         <logger name="com.dfrdev.tarn" level="DEBUG" additivity="false">
              <appender-ref ref="DEBUG_FILE"/>
          </logger>
     -->

@@ -277,8 +277,8 @@ q.batchInsert(list);
 新代码**无需继承任何类**，一行工厂调用获得完整 ORM 能力：
 
 ```java
-import cc.ruixing.framework.tarn.orm.Orm;
-import cc.ruixing.framework.tarn.orm.OrmTemplate;
+import com.dfrdev.tarn.orm.Orm;
+import com.dfrdev.tarn.orm.OrmTemplate;
 
 OrmTemplate orm = Orm.template();   // 全局共享单例，线程安全
 
@@ -861,9 +861,9 @@ Map<String, Object> params = Collections.singletonMap("s", 1);  // 缺 #{q}
 这两个类是 **public** 的，业务代码可直接调用，适合写通用 DAO 或自己拼 SQL：
 
 ```java
-import cc.ruixing.framework.tarn.orm.EntityMapper;
-import cc.ruixing.framework.tarn.orm.EntitySql;
-import cc.ruixing.framework.tarn.orm.EntityMapper.Meta;
+import com.dfrdev.tarn.orm.EntityMapper;
+import com.dfrdev.tarn.orm.EntitySql;
+import com.dfrdev.tarn.orm.EntityMapper.Meta;
 
 // === EntityMapper：元数据查询 ===
 Meta meta = EntityMapper.meta(Book.class);

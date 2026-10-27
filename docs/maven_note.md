@@ -30,7 +30,7 @@ cc/ruixing/framework/tarn-spring-boot-starter/2.0.0/
 # 安装主框架
 mvn install:install-file \
   -Dfile=libs/tarn-framework-2.0.0.jar \
-  -DgroupId=cc.ruixing.framework \
+  -DgroupId=com.dfrdev \
   -DartifactId=tarn-framework \
   -Dversion=2.0.0 \
   -Dpackaging=jar
@@ -38,7 +38,7 @@ mvn install:install-file \
 # 安装 Spring Boot starter
 mvn install:install-file \
   -Dfile=libs/tarn-spring-boot-starter-2.0.0.jar \
-  -DgroupId=cc.ruixing.framework \
+  -DgroupId=com.dfrdev \
   -DartifactId=tarn-spring-boot-starter \
   -Dversion=2.0.0 \
   -Dpackaging=jar

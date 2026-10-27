@@ -103,15 +103,15 @@ mvn clean deploy -DskipTests
 
 | 构件 | 坐标 | 用途 |
 | --- | --- | --- |
-| 核心框架 | `cc.ruixing.framework:tarn-framework:2.0.0` | MVC + ORM + 路由 + 连接池 + YAML 配置 |
-| Spring Boot 插件 | `cc.ruixing.framework:tarn-spring-boot-starter:2.0.0` | Spring Boot 自动装配（可选） |
-| 父 POM | `cc.ruixing.framework:tarn-parent:2.0.0` | 仅框架工程内部使用，业务工程**不需要**继承 |
+| 核心框架 | `com.dfrdev:tarn-framework:2.0.0` | MVC + ORM + 路由 + 连接池 + YAML 配置 |
+| Spring Boot 插件 | `com.dfrdev:tarn-spring-boot-starter:2.0.0` | Spring Boot 自动装配（可选） |
+| 父 POM | `com.dfrdev:tarn-parent:2.0.0` | 仅框架工程内部使用，业务工程**不需要**继承 |
 
 业务工程最小依赖：
 
 ```xml
 <dependency>
-    <groupId>cc.ruixing.framework</groupId>
+    <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -368,7 +368,7 @@ curl -X POST http://127.0.0.1:9090/book/save \
 ```xml
 <filter>
     <filter-name>TarnDispatcherFilter</filter-name>
-    <filter-class>cc.ruixing.framework.tarn.core.TarnDispatcherFilter</filter-class>
+    <filter-class>com.dfrdev.tarn.core.TarnDispatcherFilter</filter-class>
     <init-param>
         <param-name>configClass</param-name>
         <param-value>com.myapp.AppConfig</param-value>   <!-- 可选，需实现 TarnConfig -->

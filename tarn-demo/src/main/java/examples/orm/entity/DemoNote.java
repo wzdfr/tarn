@@ -1,7 +1,7 @@
 package examples.orm.entity;
 
-import cc.ruixing.framework.tarn.aop.annotation.Ekey;
-import cc.ruixing.framework.tarn.aop.annotation.Etable;
+import com.dfrdev.tarn.aop.annotation.Ekey;
+import com.dfrdev.tarn.aop.annotation.Etable;
 
 import java.util.List;
 import java.util.Map;

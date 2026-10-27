@@ -1,5 +1,5 @@
-<%@ page import="cc.ruixing.framework.tarn.core.Tarn" %>
-<%@ page import="cc.ruixing.framework.tarn.core.DAO" %>
+<%@ page import="com.dfrdev.tarn.core.Tarn" %>
+<%@ page import="com.dfrdev.tarn.core.DAO" %>
 <%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.

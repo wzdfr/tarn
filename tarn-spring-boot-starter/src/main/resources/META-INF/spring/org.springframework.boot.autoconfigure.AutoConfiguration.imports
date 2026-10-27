@@ -1,1 +1,1 @@
-cc.ruixing.framework.tarn.springboot.TarnAutoConfiguration
+com.dfrdev.tarn.springboot.TarnAutoConfiguration

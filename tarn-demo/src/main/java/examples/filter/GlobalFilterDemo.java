@@ -1,6 +1,6 @@
 package examples.filter;
 
-import cc.ruixing.framework.tarn.standalone.StandaloneLauncher;
+import com.dfrdev.tarn.standalone.StandaloneLauncher;
 
 /**
  * 全局拦截示例入口（内嵌 Jetty，非 Tomcat 环境）。

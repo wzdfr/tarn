@@ -1,10 +1,10 @@
 package examples.test;
 
-import cc.ruixing.framework.tarn.core.Filters;
-import cc.ruixing.framework.tarn.core.TarnConfig;
-import cc.ruixing.framework.tarn.core.Plugins;
-import cc.ruixing.framework.tarn.plugin.IPlugin;
-import cc.ruixing.framework.tarn.plugin.sqlScript.ScriptsPlugin;
+import com.dfrdev.tarn.core.Filters;
+import com.dfrdev.tarn.core.TarnConfig;
+import com.dfrdev.tarn.core.Plugins;
+import com.dfrdev.tarn.plugin.IPlugin;
+import com.dfrdev.tarn.plugin.sqlScript.ScriptsPlugin;
 import com.alibaba.fastjson.JSON;
 
 /**
