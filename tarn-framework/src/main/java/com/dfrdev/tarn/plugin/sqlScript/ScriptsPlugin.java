@@ -2,6 +2,7 @@ package com.dfrdev.tarn.plugin.sqlScript;
 
 import com.dfrdev.tarn.plugin.IDataSourceProvider;
 import com.dfrdev.tarn.plugin.IPlugin;
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +121,7 @@ public class ScriptsPlugin implements IPlugin {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("执行 SQL 脚本失败: " + e.getMessage(), e);
         } finally {
             dataSourceProvider.close(conn, null, null);
         }

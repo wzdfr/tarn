@@ -210,7 +210,10 @@ public class SecKit {
      * @param rawKey    密钥字符串, 可以为任意字符, 但最长不得超过8个字符(如最超过，后面的字符会被截掉).
      * @return 解密之后的字符串.
      * @see #DESEncrypt(String, String)
+     * @deprecated DES 算法已不安全（密钥长度仅56位，可被暴力破解），仅保留用于兼容存量数据。
+     *             新代码请使用 {@link #AESGCMDecrypt(String, String)}（AES/GCM 认证加密）。
      */
+    @Deprecated
     @SuppressWarnings({"JavaDoc"})
     public static String DESDecrypt(String encrypted, String rawKey) throws TarnException {
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
@@ -236,7 +239,10 @@ public class SecKit {
      * @param rawKey  密钥字符串,  可以为任意字符, 但最长不得超过8个字符(如最超过，后面的字符会被截掉).
      * @return 加密之后的字符串.
      * @see #DESDecrypt(String, String)
+     * @deprecated DES 算法已不安全（密钥长度仅56位，可被暴力破解），仅保留用于兼容存量数据。
+     *             新代码请使用 {@link #AESGCMEncrypt(String, String)}（AES/GCM 认证加密）。
      */
+    @Deprecated
     @SuppressWarnings({"JavaDoc"})
     public static String DESEncrypt(String message, String rawKey) throws TarnException {
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
@@ -262,7 +268,11 @@ public class SecKit {
      * @param length  指定返回加密后字符串长度，其值必须是16或者32.
      * @return 加密之后的字符串
      * @throws dfr.tarn.core.TarnException 如果length参数的值不是16,也不是32，可能抛出此异常.
+     * @deprecated MD5 算法已不安全（存在碰撞攻击和彩虹表攻击），不应用于口令存储或安全敏感场景。
+     *             仅保留用于一般性数据校验（如文件完整性校验）。
+     *             口令存储请使用 {@link #PBKDF2Encrypt(String, String, int)}，一般摘要请使用 {@link #SHA256Encrypt(String)}。
      */
+    @Deprecated
     public static String MD5Encrypt(String message, int length) throws TarnException {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");

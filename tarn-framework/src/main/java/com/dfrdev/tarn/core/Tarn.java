@@ -35,7 +35,7 @@ public class Tarn extends Q {
     /**
      * 框架版本号，与 Maven 坐标版本保持一致
      */
-    public static final String TARN_VERSION = "2.0.0";
+    public static final String TARN_VERSION = "1.0.0";
 
     /**
      * 是否处于 jar 运行模式（独立运行 / 可执行 jar）

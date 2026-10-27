@@ -1,5 +1,6 @@
 package com.dfrdev.tarn.core.castor;
 
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.ObjectUtil;
 
 public class FloatCastor extends AbstractCastor {
@@ -26,7 +27,7 @@ public class FloatCastor extends AbstractCastor {
         try {
             return Float.valueOf(Float.parseFloat(obj.toString()));
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.warn("Float 类型转换失败: " + obj + " -> " + e.getMessage());
         }
 
         return Float.valueOf(0.0F);

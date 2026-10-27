@@ -1,5 +1,6 @@
 package com.dfrdev.tarn.render;
 
+import com.dfrdev.tarn.util.LogUtil;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.*;
 
@@ -128,11 +129,11 @@ public class FreeMarkerRender extends Render {
                 config.setNumberFormat("#0.#####");
             }
         } catch (TemplateException e) {
-            e.printStackTrace();
+            LogUtil.error("FreeMarker 模板配置异常: " + e.getMessage(), e);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LogUtil.error("FreeMarker 模板文件未找到: " + e.getMessage(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("FreeMarker 初始化失败: " + e.getMessage(), e);
         }
     }
 

@@ -137,7 +137,7 @@ public class DruidPlugin implements IPlugin, IDataSourceProvider {
                 if (inputStream != null)
                     inputStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtil.error("关闭 Druid 配置文件输入流失败: " + e.getMessage(), e);
             }
         }
         return p;
@@ -271,7 +271,7 @@ public class DruidPlugin implements IPlugin, IDataSourceProvider {
             try {
                 conn = ds.getConnection();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("Druid 获取数据库连接失败: " + e.getMessage(), e);
             }
         }
         return conn;

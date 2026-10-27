@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.dfrdev</groupId>
         <artifactId>tarn-parent</artifactId>
-        <version>2.0.0</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <name>tarn-framework</name>
-    <description>Tarn MVC Framework 2.0 - 轻量级自研 MVC/ORM 框架核心</description>
+    <description>Tarn MVC Framework 1.0 - 轻量级自研 MVC/ORM 框架核心</description>
 
     <dependencies>
         <!-- ============ Servlet / Web（容器提供） ============ -->
@@ -184,7 +184,7 @@
     </dependencies>
 
     <build>
-        <finalName>tarn-framework-2.0.0</finalName>
+        <finalName>tarn-framework-1.0.0</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

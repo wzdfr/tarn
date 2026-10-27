@@ -2,6 +2,7 @@ package com.dfrdev.tarn.render;
 
 import com.dfrdev.tarn.core.Config;
 import com.dfrdev.tarn.util.FileUtil;
+import com.dfrdev.tarn.util.LogUtil;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.TemplateLoader;
@@ -26,7 +27,7 @@ public class FreeMarkerMultiDirFactory {
         try {
             multiDirPool.add(new FileTemplateLoader(file));
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("注册 FreeMarker 模板目录失败: " + file.getAbsolutePath() + " -> " + e.getMessage(), e);
             return false;
         }
         return true;

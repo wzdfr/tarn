@@ -6,6 +6,7 @@ package com.dfrdev.tarn.supports;
 import com.dfrdev.tarn.core.DaoException;
 import com.dfrdev.tarn.core.Tarn;
 import com.dfrdev.tarn.supports.vo.SQLEXECVo;
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.TextKit;
 import com.dfrdev.tarn.util.VisitIpAddr;
 
@@ -30,14 +31,14 @@ public class SQLEXECLOG extends Thread {
                 try {
                     saveSQLExecLog(p);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LogUtil.error("保存 SQL 执行日志失败: " + e.getMessage(), e);
                 } catch (DaoException e) {
-                    e.printStackTrace();
+                    LogUtil.error("保存 SQL 执行日志失败: " + e.getMessage(), e);
                 }
                 try {
                     this.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LogUtil.error("SQL 日志线程中断: " + e.getMessage(), e);
                 }
             } else {
                 remove(this);

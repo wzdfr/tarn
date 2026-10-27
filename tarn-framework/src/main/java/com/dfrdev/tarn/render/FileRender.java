@@ -1,6 +1,7 @@
 package com.dfrdev.tarn.render;
 
 
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.PathKit;
 
 import javax.servlet.ServletContext;
@@ -78,14 +79,14 @@ public class FileRender extends Render {
                 try {
 					inputStream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LogUtil.error("关闭输入流失败: " + e.getMessage(), e);
 				}
             }
             if (outputStream != null) {
             	try {
 					outputStream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LogUtil.error("关闭输出流失败: " + e.getMessage(), e);
 				}
             }
         }

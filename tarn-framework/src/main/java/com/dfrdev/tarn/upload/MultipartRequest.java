@@ -14,6 +14,7 @@ import com.dfrdev.tarn.aop.ActionInvocation;
 import com.dfrdev.tarn.aop.AttrInject;
 import com.dfrdev.tarn.core.Controller;
 import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.StringUtil;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -153,25 +154,56 @@ public class MultipartRequest extends HttpServletRequestWrapper {
     }
 
     private boolean isSafeFile(UploadFile uploadFile) {
-        String ext = extractExtension(uploadFile.getFileName());
-        // 路径穿越兜底防护：文件名不得包含路径分隔符 / 上级目录引用
-        if (uploadFile.getFileName().indexOf("..") != -1) {
+        String fileName = uploadFile.getFileName();
+        String ext = extractExtension(fileName);
+        
+        // Tarn 1.0 安全加固：增强路径穿越防护
+        // 1) 文件名不得包含路径分隔符或上级目录引用
+        if (fileName.indexOf("..") != -1 || fileName.indexOf('/') != -1 || fileName.indexOf('\\') != -1) {
+            LogUtil.warn("[文件上传] 检测到路径穿越攻击尝试: " + fileName);
             uploadFile.getFile().delete();
             return false;
         }
-        // 1) 白名单优先
+        
+        // 2) 规范化路径检查：确保文件确实在目标目录内
+        try {
+            File targetDir = new File(uploadFile.getSaveDirectory()).getCanonicalFile();
+            File uploadedFile = new File(uploadFile.getSaveDirectory(), fileName).getCanonicalFile();
+            if (!uploadedFile.getPath().startsWith(targetDir.getPath())) {
+                LogUtil.warn("[文件上传] 路径规范化检查失败: " + fileName);
+                uploadFile.getFile().delete();
+                return false;
+            }
+        } catch (IOException e) {
+            LogUtil.error("[文件上传] 路径规范化异常: " + e.getMessage(), e);
+            uploadFile.getFile().delete();
+            return false;
+        }
+        
+        // 3) 文件名长度限制（防止缓冲区溢出攻击）
+        if (fileName.length() > 255) {
+            LogUtil.warn("[文件上传] 文件名过长: " + fileName.length() + " 字符");
+            uploadFile.getFile().delete();
+            return false;
+        }
+        
+        // 4) 白名单优先
         if (allowedExtensions != null && allowedExtensions.length > 0) {
             if (!containsExt(allowedExtensions, ext)) {
+                LogUtil.warn("[文件上传] 扩展名不在白名单内: " + ext);
                 uploadFile.getFile().delete();
                 return false;
             }
             return true;
         }
-        // 2) 黑名单兜底（默认启用）
+        
+        // 5) 黑名单兜底（默认启用）
         if (containsExt(DEFAULT_DENIED_EXT, ext)) {
+            LogUtil.warn("[文件上传] 扩展名在黑名单内: " + ext);
             uploadFile.getFile().delete();
             return false;
         }
+        
         return true;
     }
 

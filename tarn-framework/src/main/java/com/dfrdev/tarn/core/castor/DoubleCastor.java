@@ -1,6 +1,7 @@
 package com.dfrdev.tarn.core.castor;
 
 
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.ObjectUtil;
 
 public class DoubleCastor extends AbstractCastor {
@@ -27,7 +28,7 @@ public class DoubleCastor extends AbstractCastor {
         try {
             return Double.valueOf(Double.parseDouble(obj.toString()));
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.warn("Double 类型转换失败: " + obj + " -> " + e.getMessage());
         }
 
         return Double.valueOf(0.0D);

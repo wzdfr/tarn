@@ -4,6 +4,7 @@ import com.dfrdev.tarn.core.TarnException;
 import com.dfrdev.tarn.core.connection.ConnectionConfig;
 import com.dfrdev.tarn.plugin.IDataSourceProvider;
 import com.dfrdev.tarn.plugin.IPlugin;
+import com.dfrdev.tarn.util.LogUtil;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import javax.sql.DataSource;
@@ -143,13 +144,13 @@ public class C3p0Plugin extends ConnectionConfig implements IPlugin, IDataSource
                     toInt(ps.getProperty("maxPoolSize")), toInt(ps.getProperty("minPoolSize")), toInt(ps.getProperty("initialPoolSize")),
                     toInt(ps.getProperty("maxIdleTime")), toInt(ps.getProperty("acquireIncrement")));
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("加载 c3p0 配置文件失败: " + propertyfile.getAbsolutePath() + " -> " + e.getMessage(), e);
         } finally {
             if (fis != null)
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LogUtil.error("关闭 c3p0 配置文件输入流失败: " + e.getMessage(), e);
                 }
         }
     }
@@ -239,7 +240,7 @@ public class C3p0Plugin extends ConnectionConfig implements IPlugin, IDataSource
             try {
                 conn = dataSource.getConnection();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("c3p0 获取数据库连接失败: " + e.getMessage(), e);
             }
         }
         return conn;

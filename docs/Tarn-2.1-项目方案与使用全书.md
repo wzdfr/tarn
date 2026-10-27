@@ -96,7 +96,7 @@ tarn-framework-2026-beta/
     └── tarn-springboot-demo/        Spring Boot 共存样例
 ```
 
-> `samples/**` 与 `tarn-demo` 都不是框架发布物，可独立构建，用来模拟「同事电脑上的业务工程」。
+> `samples/**` 与 `tarn-demo` 都不是框架发布物，可独立构建，用来模拟「其它电脑上的业务工程」。
 
 ### 2.2 框架包结构（`com.dfrdev.tarn`）
 
@@ -1183,7 +1183,7 @@ mvn clean deploy -DskipTests
 mvn -f samples/tarn-maven-demo/pom.xml clean package
 ```
 
-它模拟「同事电脑上的业务工程」：只依赖坐标、`context-mapping.xml`、`application.yml` 三样东西。
+它模拟「其它电脑上的业务工程」：只依赖坐标、`context-mapping.xml`、`application.yml` 三样东西。
 
 ---
 

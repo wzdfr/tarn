@@ -8,6 +8,7 @@ import com.dfrdev.tarn.render.RenderFactory;
 import com.dfrdev.tarn.upload.MultipartRequest;
 import com.dfrdev.tarn.upload.UploadFile;
 import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.LogUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,30 +21,68 @@ import java.util.Map;
 
 /**
  * 控制器抽象类，content上下文等常用操作
+ * <p>
+ * Tarn 1.0 安全加固：字段封装性改进，静态字段改为线程安全
  */
 public abstract class Controller {
-    public HttpServletRequest request;
-    public HttpServletResponse response;
+    /** HTTP 请求对象（通过 getRequest() 获取） */
+    protected HttpServletRequest request;
+    /** HTTP 响应对象（通过 getResponse() 获取） */
+    protected HttpServletResponse response;
     /**
-     * Tarn 页面上下文对象
+     * Tarn 页面上下文对象（通过 getContext() 获取）
      */
-    public PageContext context = null;
+    protected PageContext context = null;
 
-    public static Tarn tarn = null;
+    /**
+     * Tarn ORM 门面（线程安全，通过 getTarn() 获取）
+     * @deprecated 新代码请使用 {@code Orm.template()} 替代
+     */
+    @Deprecated
+    private static final ThreadLocal<Tarn> tarnHolder = new ThreadLocal<Tarn>() {
+        @Override
+        protected Tarn initialValue() {
+            return new Tarn();
+        }
+    };
+    
     // render below ---
     private static RenderFactory renderFactory = null;
     private String viewRootPath;
     private ControllerInfo controllerInfo;
 
+    /** 验证错误状态标记 */
     public boolean INVALID_ERROR_STATUS = false;
+    /** 验证错误字段映射 */
+    @SuppressWarnings("rawtypes")
     public Map invalidErrorkeys;
 
+    @SuppressWarnings("rawtypes")
     public Map getInvalidErrorkeys() {
         return invalidErrorkeys;
     }
 
+    @SuppressWarnings("rawtypes")
     public void setInvalidErrorkeys(Map invalidErrorkeys) {
         this.invalidErrorkeys = invalidErrorkeys;
+    }
+
+    /**
+     * 获取 HttpServletRequest 对象
+     * @return HTTP 请求对象
+     */
+    public HttpServletRequest getRequest() {
+        initRequest();
+        return request;
+    }
+
+    /**
+     * 获取 HttpServletResponse 对象
+     * @return HTTP 响应对象
+     */
+    public HttpServletResponse getHttpResponse() {
+        initResponsep();
+        return response;
     }
 
     /**
@@ -213,9 +252,9 @@ public abstract class Controller {
         try {
             BeforeInject.handle(this, request);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("FreeMarker 渲染失败: " + e.getMessage(), e);
         } catch (ServletException e) {
-            e.printStackTrace();
+            LogUtil.error("FreeMarker 渲染失败: " + e.getMessage(), e);
         }
         renderFactory.getFreeMarkerRender(getView(view)).setContext(request, response).render();
     }
@@ -232,9 +271,9 @@ public abstract class Controller {
         try {
             BeforeInject.handle(this, request);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("JSP 渲染失败: " + e.getMessage(), e);
         } catch (ServletException e) {
-            e.printStackTrace();
+            LogUtil.error("JSP 渲染失败: " + e.getMessage(), e);
         }
         renderFactory.getJspRender(getView(view)).setContext(request, response).render();
     }
@@ -252,9 +291,9 @@ public abstract class Controller {
         try {
             BeforeInject.handle(this, request);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("Velocity 渲染失败: " + e.getMessage(), e);
         } catch (ServletException e) {
-            e.printStackTrace();
+            LogUtil.error("Velocity 渲染失败: " + e.getMessage(), e);
         }
         renderFactory.getVelocityRender(getView(view)).setContext(request, response).render();
     }
@@ -321,15 +360,7 @@ public abstract class Controller {
     }
 
     /**
-     * 获取HttpServletRequest
-     */
-    public HttpServletRequest getRequest() {
-        initRequest();
-        return request;
-    }
-
-    /**
-     * 获取PageContext
+     * 获取 PageContext
      */
     public PageContext getContext() {
         initResponsep();
@@ -493,15 +524,17 @@ public abstract class Controller {
     }
 
     /**
-     * 获取Tarn
+     * 获取 Tarn ORM 门面（线程安全）
+     * @return Tarn 实例
+     * @deprecated 新代码请使用 {@code Orm.template()} 替代
      */
+    @Deprecated
     public Tarn getTarn() {
-        initTarn();
-        return tarn;
+        return tarnHolder.get();
     }
 
     /**
-     * 初始化构造HttpServletRequest
+     * 初始化构造 HttpServletRequest
      */
     public void initRequest() {
         if (request == null) {
@@ -521,20 +554,11 @@ public abstract class Controller {
     }
 
     /**
-     * 初始化构造PageContext
+     * 初始化构造 PageContext
      */
     public void initPageContext() {
         if (context == null) {
             context = Tarn.getPageContext();
-        }
-    }
-
-    /**
-     * 初始化构造Tarn
-     */
-    public void initTarn() {
-        if (tarn == null) {
-            tarn = new Tarn();
         }
     }
 

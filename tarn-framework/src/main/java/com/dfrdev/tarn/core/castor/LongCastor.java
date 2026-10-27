@@ -1,6 +1,7 @@
 package com.dfrdev.tarn.core.castor;
 
 
+import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.ObjectUtil;
 
 public class LongCastor extends AbstractCastor {
@@ -27,7 +28,7 @@ public class LongCastor extends AbstractCastor {
             }
             return Long.valueOf(Long.parseLong(obj.toString()));
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.warn("Long 类型转换失败: " + obj + " -> " + e.getMessage());
         }
 
         return Long.valueOf(0L);
