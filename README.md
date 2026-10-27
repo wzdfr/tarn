@@ -86,6 +86,4 @@ mvn jetty:run
 | [Spring Boot 集成指南](docs/Tarn-2.0-SpringBoot集成指南.md) | Starter 接入 |
 | [Maven 集成指南](docs/Tarn-2.0-Maven集成指南.md) | Maven 项目接入 |
 
-## 许可证
 
-本项目为内部框架，仅供授权项目使用。
