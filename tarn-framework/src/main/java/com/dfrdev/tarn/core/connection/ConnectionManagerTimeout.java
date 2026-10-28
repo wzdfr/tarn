@@ -42,7 +42,7 @@ public class ConnectionManagerTimeout extends Thread {
                 tsnum++;
                 sleep(timeDiff);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LogUtil.error("连接超时监控线程中断: " + e.getMessage(), e);
             }
         }
     }
@@ -62,7 +62,7 @@ public class ConnectionManagerTimeout extends Thread {
             try {
                 pstmt.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("关闭测试语句失败: " + e.getMessage(), e);
             }
 
         }

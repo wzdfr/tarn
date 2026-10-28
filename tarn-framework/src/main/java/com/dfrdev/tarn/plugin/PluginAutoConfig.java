@@ -4,7 +4,7 @@ import com.dfrdev.tarn.config.YamlConfigKit;
 import com.dfrdev.tarn.plugin.mybatis.MybatisPlugin;
 import com.dfrdev.tarn.plugin.redis.RedisPlugin;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.dfrdev.tarn.standalone;
 
 import com.dfrdev.tarn.config.YamlConfigKit;
-import com.dfrdev.tarn.core.TarnDispatcherFilter;
+import com.dfrdev.tarn.core.web.TarnDispatcherFilter;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 

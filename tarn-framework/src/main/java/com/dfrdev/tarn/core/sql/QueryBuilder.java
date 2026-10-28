@@ -4,6 +4,7 @@ import com.dfrdev.tarn.orm.dialect.DialectFactory;
 
 import java.util.regex.Pattern;
 
+import com.dfrdev.tarn.core.boot.Tarn;
 /**
  * 查询构建器（Tarn 2.0+）：在 {@link SqlBuilder} 基础上支持多表 JOIN 与方言分页。
  * <p>

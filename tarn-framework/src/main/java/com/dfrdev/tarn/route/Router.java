@@ -5,7 +5,7 @@ import com.dfrdev.tarn.aop.ControllerMethodInfo;
 import com.dfrdev.tarn.aop.Inject;
 import com.dfrdev.tarn.aop.annotation.ERequestMapping;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

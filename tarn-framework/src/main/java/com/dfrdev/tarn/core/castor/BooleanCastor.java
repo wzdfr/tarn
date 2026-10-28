@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.core.castor;
 
 
-import com.dfrdev.tarn.util.NumberUtil;
+import com.dfrdev.tarn.util.classloader.NumberUtil;
 
 public class BooleanCastor extends AbstractCastor {
     private static BooleanCastor singleton = new BooleanCastor();

@@ -1,8 +1,8 @@
 package com.dfrdev.tarn.util.resource;
 
 import com.dfrdev.tarn.collection.JarClassLoader;
-import com.dfrdev.tarn.util.FileUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.io.FileUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.io.File;
 import java.nio.file.Path;

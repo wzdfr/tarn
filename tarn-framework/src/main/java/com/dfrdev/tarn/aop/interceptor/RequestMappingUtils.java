@@ -6,9 +6,9 @@ import com.dfrdev.tarn.aop.annotation.ERequestMapping;
 import com.dfrdev.tarn.aop.annotation.RequestMethod;
 import com.dfrdev.tarn.aop.ControllerInfo;
 import com.dfrdev.tarn.plugin.ehcache.TarnCacheKit;
-import com.dfrdev.tarn.util.ClassUtil;
+import com.dfrdev.tarn.util.classloader.ClassUtil;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -96,11 +96,11 @@ public class RequestMappingUtils {
                         pi.setMethodInfoList(requestMappingItem);
 //                        TarnCacheKit.put("Tarn.RequestMapping." + pi.getValue(), requestMappingItem);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     }
                 } else {
                     for (ControllerMethodInfo m : list) {
@@ -201,11 +201,11 @@ public class RequestMappingUtils {
                         pi.setMethodInfoList(requestMappingItem);
 //                        TarnCacheKit.put("Tarn.RequestMapping." + pi.getValue(), requestMappingItem);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     }
                 } else {
                     for (ControllerMethodInfo m : list) {
@@ -289,11 +289,11 @@ public class RequestMappingUtils {
             }
             TarnCacheKit.put("Tarn.RequestMapping." + classPath, requestMappingItem);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         }
     }
 
@@ -363,11 +363,11 @@ public class RequestMappingUtils {
                         pi.setMethodInfoList(requestMappingItem);
 //                        TarnCacheKit.put("Tarn.RequestMapping." + pi.getValue(), requestMappingItem);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     }
                 } else {
                     for (ControllerMethodInfo m : list) {

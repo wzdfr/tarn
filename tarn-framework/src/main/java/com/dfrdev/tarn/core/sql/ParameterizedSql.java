@@ -3,6 +3,7 @@ package com.dfrdev.tarn.core.sql;
 import java.util.Collections;
 import java.util.List;
 
+import com.dfrdev.tarn.core.boot.Tarn;
 /**
  * 参数化 SQL 载体（Tarn 2.0+）。
  * <p>

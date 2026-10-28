@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.dfrdev.tarn.util.LogUtil;
 
 /**
  * 直接方法的控制器
@@ -89,17 +90,17 @@ public class MethodInterceptor implements Serializable {
                                 return;
                             }
                         } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
                         } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
                         } catch (InstantiationException e) {
-                            e.printStackTrace();
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
                         } catch (NoSuchFieldException e) {
-                            e.printStackTrace();
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
                         } catch (NoSuchMethodException e) {
-                            e.printStackTrace();
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
                         }
                     }
                 }

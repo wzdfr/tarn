@@ -2,11 +2,11 @@ package com.dfrdev.tarn.render;
 
 
 import com.dfrdev.tarn.aop.annotation.EViewType;
-import com.dfrdev.tarn.core.Tarn;
-import com.dfrdev.tarn.core.PageContext;
+import com.dfrdev.tarn.core.boot.Tarn;
+import com.dfrdev.tarn.core.web.PageContext;
 import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.PathKit;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 

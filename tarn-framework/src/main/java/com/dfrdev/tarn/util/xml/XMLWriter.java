@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.util.xml;
 
 
-import com.dfrdev.tarn.util.FileUtil;
+import com.dfrdev.tarn.util.io.FileUtil;
 
 import java.io.File;
 

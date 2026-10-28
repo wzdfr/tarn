@@ -7,7 +7,7 @@ import com.dfrdev.tarn.aop.annotation.ERequestMapping;
 import com.dfrdev.tarn.aop.annotation.ERequestParam;
 import com.dfrdev.tarn.aop.annotation.Json;
 import com.dfrdev.tarn.aop.annotation.RequestMethod;
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.web.Controller;
 import com.dfrdev.tarn.json.JsonResult;
 import samples.tarn.boot.service.BootGreetService;
 

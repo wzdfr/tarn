@@ -1,10 +1,11 @@
 package com.dfrdev.tarn.util;
 
-import com.dfrdev.tarn.core.Assert;
-import com.dfrdev.tarn.core.Config;
+import com.dfrdev.tarn.core.db.Assert;
+import com.dfrdev.tarn.core.boot.Config;
 
 import java.io.File;
 
+import com.dfrdev.tarn.util.io.Resource;
 /**
  * new File("..\path\abc.txt") 中的三个方法获取路径的方法
  * 1： getPath() 获取相对路径，例如   ..\path\abc.txt

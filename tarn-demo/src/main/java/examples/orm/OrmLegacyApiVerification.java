@@ -1,11 +1,11 @@
 package examples.orm;
 
-import com.dfrdev.tarn.core.DAO;
+import com.dfrdev.tarn.core.db.DAO;
 import com.dfrdev.tarn.core.TarnDataException;
-import com.dfrdev.tarn.core.Model;
-import com.dfrdev.tarn.core.Pager;
-import com.dfrdev.tarn.core.Q;
-import com.dfrdev.tarn.core.RowMapper;
+import com.dfrdev.tarn.core.web.Model;
+import com.dfrdev.tarn.core.web.Pager;
+import com.dfrdev.tarn.core.db.Q;
+import com.dfrdev.tarn.core.db.RowMapper;
 import com.dfrdev.tarn.core.connection.ConnectionFactory;
 import com.dfrdev.tarn.core.sql.SqlBuilder;
 import com.dfrdev.tarn.orm.Orm;

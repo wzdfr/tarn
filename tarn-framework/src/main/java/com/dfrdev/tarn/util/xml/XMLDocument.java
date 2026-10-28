@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.util.xml;
 
 
-import com.dfrdev.tarn.util.FastStringBuilder;
+import com.dfrdev.tarn.util.text.FastStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

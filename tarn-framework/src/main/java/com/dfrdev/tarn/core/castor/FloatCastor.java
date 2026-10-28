@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.core.castor;
 
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.ObjectUtil;
+import com.dfrdev.tarn.util.classloader.ObjectUtil;
 
 public class FloatCastor extends AbstractCastor {
     private static FloatCastor singleton = new FloatCastor();

@@ -38,6 +38,16 @@ public final class PluginManager {
     }
 
     /**
+     * 获取插件管理器单例（推荐命名）。
+     *
+     * @return 插件管理器实例
+     * @since 1.1
+     */
+    public static PluginManager getInstance() {
+        return INSTANCE;
+    }
+
+    /**
      * 注册新插件
      */
     public PluginManager register(Plugin plugin) {

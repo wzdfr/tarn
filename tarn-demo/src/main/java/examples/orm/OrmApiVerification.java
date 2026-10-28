@@ -1,10 +1,10 @@
 package examples.orm;
 
-import com.dfrdev.tarn.core.DaoException;
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.db.DaoException;
+import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.core.TarnDataException;
-import com.dfrdev.tarn.core.Q;
-import com.dfrdev.tarn.core.RowMapper;
+import com.dfrdev.tarn.core.db.Q;
+import com.dfrdev.tarn.core.db.RowMapper;
 import com.dfrdev.tarn.core.connection.ConnectionFactory;
 import com.dfrdev.tarn.core.sql.ParameterizedSql;
 import com.dfrdev.tarn.core.sql.SqlBuilder;
@@ -13,7 +13,7 @@ import com.dfrdev.tarn.orm.EntityMapper;
 import com.dfrdev.tarn.orm.Orm;
 import com.dfrdev.tarn.orm.OrmTemplate;
 import com.dfrdev.tarn.orm.TransactionCallback;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import examples.standalone.entity.Book;
 
 import java.sql.ResultSet;

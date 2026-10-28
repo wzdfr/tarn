@@ -1,8 +1,8 @@
 package com.dfrdev.tarn.core.connection;
 
 import com.dfrdev.tarn.collection.RunMode;
-import com.dfrdev.tarn.core.Tarn;
-import com.dfrdev.tarn.util.FileUtil;
+import com.dfrdev.tarn.core.boot.Tarn;
+import com.dfrdev.tarn.util.io.FileUtil;
 import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.ResourceUtil;
 import com.dfrdev.tarn.util.resource.ClassPathResource;
@@ -42,7 +42,7 @@ public abstract class ConnectionKit {
             props.load(in);
             sysConfs.put("dev", props);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("加载 dev.properties 配置失败: " + e.getMessage(), e);
         } finally {
             try {
                 in.close();

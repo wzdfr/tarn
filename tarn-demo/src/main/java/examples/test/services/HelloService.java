@@ -1,6 +1,6 @@
 package examples.test.services;
 
-import com.dfrdev.tarn.core.Service;
+import com.dfrdev.tarn.core.db.Service;
 import examples.test.emtity.Hello;
 
 /**

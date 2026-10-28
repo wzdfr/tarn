@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import com.dfrdev.tarn.util.LogUtil;
 
 /**
  * 携带参数的控制器
@@ -90,17 +91,17 @@ public class ParamInterceptor implements Serializable {
                             return;
                         }
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     }
                 }
             }

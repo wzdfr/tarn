@@ -2,7 +2,7 @@ package com.dfrdev.tarn.aop;
 
 import com.dfrdev.tarn.aop.inject.BeanProperties;
 import com.dfrdev.tarn.aop.inject.BeanProperty;
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.boot.Tarn;
 
 import javax.servlet.jsp.PageContext;
 

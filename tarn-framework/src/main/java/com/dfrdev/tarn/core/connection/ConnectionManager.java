@@ -1,6 +1,7 @@
 package com.dfrdev.tarn.core.connection;
 
 
+import com.dfrdev.tarn.util.LogUtil;
 
 
 /**
@@ -23,7 +24,7 @@ public class ConnectionManager extends Thread {
         try {
             sleep(timeDiff*2);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LogUtil.error("连接管理线程启动等待中断: " + e.getMessage(), e);
         }
         while (true) {
             int poolTol = jds.getPoolSize();
@@ -70,7 +71,7 @@ public class ConnectionManager extends Thread {
                 //     System.out.println(timeDiff);
                 sleep(timeDiff);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LogUtil.error("连接管理线程中断: " + e.getMessage(), e);
             }
         }
 

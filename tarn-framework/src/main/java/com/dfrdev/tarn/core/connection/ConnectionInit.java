@@ -2,8 +2,8 @@ package com.dfrdev.tarn.core.connection;
 
 
 import com.dfrdev.tarn.collection.RunMode;
-import com.dfrdev.tarn.core.Config;
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.boot.Config;
+import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.plugin.IDataSourceProvider;
 import com.dfrdev.tarn.plugin.IPlugin;
 import com.dfrdev.tarn.plugin.c3p0.C3p0Plugin;

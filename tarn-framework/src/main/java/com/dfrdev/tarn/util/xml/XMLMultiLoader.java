@@ -1,12 +1,13 @@
 package com.dfrdev.tarn.util.xml;
 
 
-import com.dfrdev.tarn.core.Tarn;
-import com.dfrdev.tarn.util.FileUtil;
+import com.dfrdev.tarn.core.boot.Tarn;
+import com.dfrdev.tarn.util.io.FileUtil;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+import com.dfrdev.tarn.util.LogUtil;
 
 public class XMLMultiLoader {
     private XMLElement root = new XMLElement("_ROOT");
@@ -55,7 +56,7 @@ public class XMLMultiLoader {
             XMLElement singleRoot = parser.getDocument().getRoot();
             singleRoot.setParent(this.root);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         }
     }
 

@@ -2,9 +2,9 @@ package examples.test;
 
 import com.dfrdev.tarn.collection.EnumerationIter;
 import com.dfrdev.tarn.plugin.orm.QueryBuffer;
-import com.dfrdev.tarn.util.ClassUtil;
-import com.dfrdev.tarn.util.DateUtil;
-import com.dfrdev.tarn.util.ReflectUtil;
+import com.dfrdev.tarn.util.classloader.ClassUtil;
+import com.dfrdev.tarn.util.date.DateUtil;
+import com.dfrdev.tarn.util.classloader.ReflectUtil;
 import com.dfrdev.tarn.util.ResourceUtil;
 import com.alibaba.fastjson.JSON;
 

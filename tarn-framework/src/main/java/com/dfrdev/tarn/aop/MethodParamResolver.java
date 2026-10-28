@@ -9,7 +9,7 @@ import com.dfrdev.tarn.aop.annotation.ERequestParam;
 import com.dfrdev.tarn.aop.interceptor.PathRuleUtils;
 import com.dfrdev.tarn.core.castor.CastorNotFoundException;
 import com.dfrdev.tarn.core.castor.CastorService;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;

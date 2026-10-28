@@ -4,7 +4,7 @@ package com.dfrdev.tarn.aop;
 import com.dfrdev.tarn.aop.annotation.Before;
 import com.dfrdev.tarn.aop.inject.BeanProperties;
 import com.dfrdev.tarn.aop.inject.BeanProperty;
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.web.Controller;
 import com.dfrdev.tarn.core.TarnException;
 import com.dfrdev.tarn.util.LogUtil;
 

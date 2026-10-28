@@ -6,7 +6,7 @@ import com.dfrdev.tarn.aop.annotation.Ekey;
 import com.dfrdev.tarn.aop.annotation.Etable;
 import com.dfrdev.tarn.aop.annotation.ORMFilter;
 import com.dfrdev.tarn.json.JsonKit;
-import com.dfrdev.tarn.util.TextKit;
+import com.dfrdev.tarn.util.text.TextKit;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -1,6 +1,6 @@
 package com.dfrdev.tarn.springboot;
 
-import com.dfrdev.tarn.core.TarnDispatcherFilter;
+import com.dfrdev.tarn.core.web.TarnDispatcherFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

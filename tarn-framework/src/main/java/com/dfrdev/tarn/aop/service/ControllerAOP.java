@@ -9,9 +9,9 @@ import com.dfrdev.tarn.aop.annotation.ERequestMapping;
 import com.dfrdev.tarn.aop.annotation.EResponseType;
 import com.dfrdev.tarn.aop.annotation.ViewRootPath;
 import com.dfrdev.tarn.collection.Mapx;
-import com.dfrdev.tarn.util.ClassUtil;
+import com.dfrdev.tarn.util.classloader.ClassUtil;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import com.dfrdev.tarn.util.xml.XMLElement;
 
 import java.io.File;
@@ -234,7 +234,7 @@ public class ControllerAOP implements LoadAOP {
                     }
 
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    LogUtil.error("扫描 Controller 类失败: " + pcn + " -> " + e.getMessage(), e);
                 }
                 LogUtil.info("Controller Scanning success >> " + pcn);
             }

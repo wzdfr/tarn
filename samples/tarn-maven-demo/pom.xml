@@ -19,13 +19,13 @@
     <packaging>jar</packaging>
 
     <name>tarn-maven-demo</name>
-    <description>Tarn MVC 2.0 通过 Maven 依赖集成示例（entity/dao/service/controller + 独立运行）</description>
+    <description>Tarn MVC 1.0 通过 Maven 依赖集成示例（entity/dao/service/controller + 独立运行）</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <tarn.version>2.0.0</tarn.version>
+        <tarn.version>1.0.0</tarn.version>
         <jetty.version>9.4.46.v20220331</jetty.version>
     </properties>
 

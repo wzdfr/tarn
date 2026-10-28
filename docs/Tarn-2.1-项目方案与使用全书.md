@@ -1,13 +1,13 @@
 # Tarn 2.1 项目方案与使用全书
 
-> 适用版本：`com.dfrdev:tarn-framework:2.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `2.0.0`）
+> 适用版本：`com.dfrdev:tarn-framework:1.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `1.0.0`）
 > 运行环境：JDK 8、Servlet 3.1、Maven 3.6+，验证数据库 MySQL 5.7
 > 读者：平台架构师、业务开发、老项目维护负责人
 > 核心承诺：**存量 1.x 项目替换 jar 即可运行，零代码改动；新能力按需增量启用。**
 
 本文是把框架说明书、白皮书、路由、ORM、Maven、Spring Boot 六份文档合并后的**单一权威手册**，
 并包含 2.1 新增的**数据源密码加密、AOP 注入体系重构、全局拦截方案**。
-细粒度的 ORM API 全量与断言明细仍可参考 [Tarn-2.0-ORM使用指南.md](./Tarn-2.0-ORM使用指南.md)。
+细粒度的 ORM API 全量与断言明细仍可参考 [Tarn-1.0-ORM使用指南.md](./Tarn-1.0-ORM使用指南.md)。
 
 ---
 
@@ -67,7 +67,7 @@ Tarn 是自研的轻量级 Java Web 框架，覆盖 **MVC 控制器、静态/动
 
 | 项 | 说明 |
 | --- | --- |
-| 版本号 | 父 POM 统一管理，当前 `2.0.0` |
+| 版本号 | 父 POM 统一管理，当前 `1.0.0` |
 | 2.1 代号 | ORM 组合式引擎、注入体系重构、数据源解密、全局拦截规范等增量能力 |
 | 二进制兼容 | 2.x 未删除/未改签名任何 1.x 公开 API |
 | 配置兼容 | `dev.properties` 老 key 全部可读；`application.yml` 优先 |
@@ -84,7 +84,7 @@ tarn-framework-2026-beta/
 ├── pom.xml                         父 POM（版本 / 依赖 / 插件管理）
 ├── docs/                           文档（本手册 + 分册 + 迁移说明）
 ├── libs/                           工程内本地仓库（中央仓库缺失的历史 jar，如 cos）
-├── tarn-framework/                  框架核心（发布物 tarn-framework-2.0.0.jar）
+├── tarn-framework/                  框架核心（发布物 tarn-framework-1.0.0.jar）
 ├── tarn-spring-boot-starter/        Spring Boot 自动装配（发布物）
 ├── tarn-demo/                       示例工程（不随框架发布）
 │   ├── src/main/java/examples/     demo / test / standalone / orm / filter 示例
@@ -137,7 +137,7 @@ tarn-framework-2026-beta/
 <dependency>
     <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
 </dependency>
 <!-- 独立运行需要：jetty-server / jetty-webapp / javax.servlet-api -->
 ```
@@ -1071,7 +1071,7 @@ Tarn **未命中的请求会放行**，所以两套 MVC 可共存，迁移可按
 <dependency>
     <groupId>com.dfrdev</groupId>
     <artifactId>tarn-spring-boot-starter</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -1136,9 +1136,9 @@ mvn -pl tarn-framework -am clean install -DskipTests
 安装后 `~/.m2` 会出现：
 
 ```
-cc/ruixing/framework/tarn-parent/2.0.0/
-cc/ruixing/framework/tarn-framework/2.0.0/
-cc/ruixing/framework/tarn-spring-boot-starter/2.0.0/
+cc/ruixing/framework/tarn-parent/1.0.0/
+cc/ruixing/framework/tarn-framework/1.0.0/
+cc/ruixing/framework/tarn-spring-boot-starter/1.0.0/
 com/oreilly/servlet/cos/05Nov2002/
 ```
 
@@ -1148,9 +1148,9 @@ com/oreilly/servlet/cos/05Nov2002/
 
 | 构件 | 坐标 | 用途 |
 | --- | --- | --- |
-| 核心框架 | `com.dfrdev:tarn-framework:2.0.0` | MVC + ORM + 路由 + 连接池 + YAML |
-| Boot starter | `com.dfrdev:tarn-spring-boot-starter:2.0.0` | Spring Boot 自动装配 |
-| 父 POM | `com.dfrdev:tarn-parent:2.0.0` | 框架工程内部用，业务工程不需要继承 |
+| 核心框架 | `com.dfrdev:tarn-framework:1.0.0` | MVC + ORM + 路由 + 连接池 + YAML |
+| Boot starter | `com.dfrdev:tarn-spring-boot-starter:1.0.0` | Spring Boot 自动装配 |
+| 父 POM | `com.dfrdev:tarn-parent:1.0.0` | 框架工程内部用，业务工程不需要继承 |
 
 已传递引入（无需再声明）：fastjson、druid、snakeyaml、slf4j + logback、dom4j、
 commons-fileupload/io/beanutils/codec/collections4、cos、log4j-over-slf4j。
@@ -1297,7 +1297,7 @@ java -cp "target/classes:target/lib/*" examples.standalone.StandaloneApp
 <dependency>
     <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -1349,7 +1349,7 @@ java -cp "target/classes:target/lib/*" examples.standalone.StandaloneApp
 
 | 现象 | 原因 | 处理 |
 | --- | --- | --- |
-| `dev.properties not exist` | 使用未修复旧 jar | 升级 2.0.0 并重新打包 |
+| `dev.properties not exist` | 使用未修复旧 jar | 升级 1.0.0 并重新打包 |
 | `RenderFactory` `NumberFormatException` | FreeMarker 配置缺失/非法（旧版本） | 升级 2.1（安全默认值 3600） |
 | `PluginAutoConfig` NPE | `tarn.plugins` 未配置（旧版本） | 升级；或临时 `tarn.plugins: []` |
 | `Resource not found: context-mapping.xml`（jar 内） | 旧版本用文件系统路径读取 | 升级（改为 classpath 流） |
@@ -1444,5 +1444,5 @@ mvn -pl tarn-demo exec:java -Dexec.mainClass=examples.filter.GlobalFilterDemo
 
 | 版本 | 日期 | 说明 |
 | --- | --- | --- |
-| 2.0.0 | 2026-10 | 路由 / JSON / 参数化 SQL / 方言 / YAML / 插件体系 / 独立运行 |
+| 1.0.0 | 2026-10 | 路由 / JSON / 参数化 SQL / 方言 / YAML / 插件体系 / 独立运行 |
 | 2.1 | 2026-10 | ORM 组合式引擎（`OrmTemplate`）、老 ORM 链全量委托、`TarnDataException`、复杂字段 JSON 往返、注入体系重构（`aop.inject` 五组件）、数据源密码解密（`decrypt` / `public-key`）、全局拦截规范与示例 |

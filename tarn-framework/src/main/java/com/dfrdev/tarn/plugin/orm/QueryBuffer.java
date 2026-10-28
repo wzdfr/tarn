@@ -2,10 +2,10 @@ package com.dfrdev.tarn.plugin.orm;
 
 import com.dfrdev.tarn.aop.annotation.Etable;
 import com.dfrdev.tarn.collection.Mapx;
-import com.dfrdev.tarn.core.AppendDaoSQLUtils;
+import com.dfrdev.tarn.core.sql.AppendDaoSQLUtils;
 import com.dfrdev.tarn.core.TarnException;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

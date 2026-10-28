@@ -3,12 +3,12 @@ package com.dfrdev.tarn.supports;
 
 
 
-import com.dfrdev.tarn.core.DaoException;
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.db.DaoException;
+import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.supports.vo.SQLEXECVo;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.TextKit;
-import com.dfrdev.tarn.util.VisitIpAddr;
+import com.dfrdev.tarn.util.text.TextKit;
+import com.dfrdev.tarn.util.net.VisitIpAddr;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;

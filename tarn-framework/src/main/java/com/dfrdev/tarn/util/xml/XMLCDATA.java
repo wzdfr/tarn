@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.util.xml;
 
 
-import com.dfrdev.tarn.util.FastStringBuilder;
+import com.dfrdev.tarn.util.text.FastStringBuilder;
 
 public final class XMLCDATA extends XMLNode {
     String text;

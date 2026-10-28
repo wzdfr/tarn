@@ -1,6 +1,6 @@
 # Tarn Framework 框架项目说明书
 
-> 版本：2.0.0（ORM 架构重构等新增能力以「2.1」为代号，`Tarn.version()` 返回 2.0.0）　|　配套文档见文末索引　|　验证环境：JDK 8 / Maven 3 / MySQL 5.7
+> 版本：1.0.0（ORM 架构重构等新增能力以「2.1」为代号，`Tarn.version()` 返回 1.0.0）　|　配套文档见文末索引　|　验证环境：JDK 8 / Maven 3 / MySQL 5.7
 >
 > **合并版总手册**：[Tarn-2.1-项目方案与使用全书.md](./Tarn-2.1-项目方案与使用全书.md)
 > （框架说明 / 配置 / MVC / 注入 / 路由 / 全局拦截 / ORM / 插件 / Spring Boot / Maven / 迁移 / FAQ 一站式查阅）
@@ -32,7 +32,7 @@ tarn-framework-2026-beta/
 ├── pom.xml                      父 POM（统一版本 / 依赖管理 / 插件管理）
 ├── docs/                        全套文档（白皮书 / ORM 指南 / 路由指南 / Maven / SpringBoot）
 ├── libs/                        工程内本地仓库（中央仓库缺失的历史 jar）
-├── tarn-framework/               框架核心（发布物：tarn-framework-2.0.0.jar）
+├── tarn-framework/               框架核心（发布物：tarn-framework-1.0.0.jar）
 ├── tarn-spring-boot-starter/     Spring Boot 自动装配（发布物，注册 Tarn 过滤器）
 ├── tarn-demo/                   示例工程（demo / test / standalone / orm / filter 五套示例，不随框架发布）
 └── samples/
@@ -44,11 +44,14 @@ tarn-framework-2026-beta/
 
 | 包 | 职责 |
 | --- | --- |
-| `core` | 内核：`TarnDispatcherFilter` / `Config` / `Tarn` / `PageContext` / `Pager`；`Q` / `DB` / `DAOAbstract` 老门面 |
+| `core.boot` | 框架启动与配置：`Tarn` / `Config` / `ConfigLoader` / `TarnConfig` / `PluginInit` / `Plugins` |
+| `core.web` | Web/MVC 层：`Controller` / `PageContext` / `Pager` / `Model` / `TarnDispatcherFilter` / `Filters` |
+| `core.db` | 数据库/ORM 继承链（@Deprecated）：`Q` / `DB` / `DAOAbstract` / `DAO` / `Service` / `AbstractService` |
 | `core.connection` | 连接池抽象与线程事务（`ConnectionFactory` / `ConnectionInit` / Druid） |
 | `core.sql` | 参数化 SQL：`SqlBuilder` / `QueryBuilder` / `ParameterizedSql` |
+| `core`（保留） | 异常基类：`TarnException` / `TarnDataException` |
 | `route` | 路由：`Router`（静态表）/ `RouteEntry` / `RouteDispatcher` |
-| `orm` | **组合式 ORM 引擎（2.1）**：`OrmTemplate` / `Orm` / `TransactionCallback` / `EntitySql` / `EntityMapper` |
+| `orm` | **组合式 ORM 引擎（推荐）**：`OrmTemplate` / `Orm` / `TransactionCallback` / `EntitySql` / `EntityMapper` |
 | `orm.dialect` | 9 种方言分页：MySQL / PostgreSQL / Oracle / Oracle12c / SQLServer / DM / Kingbase / GaussDB / Vastbase |
 | `aop` | 注入与调度：`Inject` / `ServiceInject` / `RepositoryInject` / `ExecuteInject` / `BeforeInject` / `AttrInject` / `TarnInject`；注解体系（`EController` / `Etable` / `Ekey` ...） |
 | `aop.inject` | **2.1 注入基础设施**：`BeanProperty` / `BeanProperties` / `ComponentRegistry` / `ComponentScanner` / `ComponentInjector` |
@@ -346,8 +349,8 @@ mvn -DskipTests -pl tarn-framework deploy   # 发布团队私服（配置见父 
 | 文档 | 内容 |
 | --- | --- |
 | [Tarn-2.1-项目方案与使用全书.md](./Tarn-2.1-项目方案与使用全书.md) | **合并版总手册**：框架 / 配置 / MVC / 注入 / 路由 / 全局拦截 / ORM / 插件 / Spring Boot / Maven / 独立运行 / 迁移 / 排障 |
-| [Tarn-2.0-白皮书与升级迁移指南.md](./Tarn-2.0-白皮书与升级迁移指南.md) | 架构总览、新能力清单、老项目五步迁移、回滚方案 |
-| [Tarn-2.0-ORM使用指南.md](./Tarn-2.0-ORM使用指南.md) | ORM 全量 API、注解速查、多表关联、方言分页、事务、MySQL 验证报告 |
-| [Tarn-2.0-路由与独立运行使用指南.md](./Tarn-2.0-路由与独立运行使用指南.md) | 静态/动态路由语法、StandaloneLauncher |
-| [Tarn-2.0-Maven集成指南.md](./Tarn-2.0-Maven集成指南.md) | 团队 Maven 集成与私服发布 |
-| [Tarn-2.0-SpringBoot集成指南.md](./Tarn-2.0-SpringBoot集成指南.md) | tarn-spring-boot-starter 与 Spring MVC 共存 |
+| [Tarn-1.0-白皮书与升级迁移指南.md](./Tarn-1.0-白皮书与升级迁移指南.md) | 架构总览、新能力清单、老项目五步迁移、回滚方案 |
+| [Tarn-1.0-ORM使用指南.md](./Tarn-1.0-ORM使用指南.md) | ORM 全量 API、注解速查、多表关联、方言分页、事务、MySQL 验证报告 |
+| [Tarn-1.0-路由与独立运行使用指南.md](./Tarn-1.0-路由与独立运行使用指南.md) | 静态/动态路由语法、StandaloneLauncher |
+| [Tarn-1.0-Maven集成指南.md](./Tarn-1.0-Maven集成指南.md) | 团队 Maven 集成与私服发布 |
+| [Tarn-1.0-SpringBoot集成指南.md](./Tarn-1.0-SpringBoot集成指南.md) | tarn-spring-boot-starter 与 Spring MVC 共存 |

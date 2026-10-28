@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.token;
 
-import com.dfrdev.tarn.core.Controller;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.core.web.Controller;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;

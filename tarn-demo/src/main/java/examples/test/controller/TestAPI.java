@@ -1,7 +1,7 @@
 package examples.test.controller;
 
 import com.dfrdev.tarn.aop.annotation.*;
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.web.Controller;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 

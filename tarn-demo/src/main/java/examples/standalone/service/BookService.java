@@ -1,6 +1,6 @@
 package examples.standalone.service;
 
-import com.dfrdev.tarn.core.DaoException;
+import com.dfrdev.tarn.core.db.DaoException;
 import examples.standalone.entity.Book;
 
 import java.util.List;

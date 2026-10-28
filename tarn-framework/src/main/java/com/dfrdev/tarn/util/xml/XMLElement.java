@@ -2,8 +2,8 @@ package com.dfrdev.tarn.util.xml;
 
 
 import com.dfrdev.tarn.collection.Mapx;
-import com.dfrdev.tarn.util.FastStringBuilder;
-import com.dfrdev.tarn.util.ObjectUtil;
+import com.dfrdev.tarn.util.text.FastStringBuilder;
+import com.dfrdev.tarn.util.classloader.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;

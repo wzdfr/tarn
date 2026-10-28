@@ -1,6 +1,6 @@
 # Tarn Framework 2.0 项目方案白皮书与升级迁移指南
 
-> 适用版本：`com.dfrdev:tarn-framework:2.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `2.0.0`）
+> 适用版本：`com.dfrdev:tarn-framework:1.0.0`（2.1 为能力代号，`Tarn.version()` 仍返回 `1.0.0`）
 > 目标读者：平台架构师、老项目维护负责人、新业务开发
 > 核心承诺：**存量项目替换 jar 即可运行，零代码改动；新能力按需增量启用。**
 > **合并版总手册（推荐首选）**：[Tarn-2.1-项目方案与使用全书.md](./Tarn-2.1-项目方案与使用全书.md) —— 已把本白皮书与路由 / ORM / Maven / Spring Boot 文档合并，并补充 2.1 的数据源密码加密、AOP 注入体系重构、全局拦截方案。
@@ -15,7 +15,7 @@ Tarn 是自研的轻量级 Java MVC / ORM 框架（`javax.servlet` 3.1、JDK 8�
 - 数据访问通过 `Q` / `DB` / `DAOAbstract` 的实体方法（`save` / `update` / `delete` / `querys`）完成；
 - 配置走 `dev.properties`，主引导是 `web.xml` 中的 `TarnDispatcherFilter`。
 
-这些系统仍在生产运行，**不能推倒重写**。Tarn 2.0 的目标是：
+这些系统仍在生产运行，**不能推倒重写**。Tarn 1.0 的目标是：
 
 | 目标 | 落地方式 |
 | --- | --- |
@@ -35,9 +35,12 @@ Tarn 是自研的轻量级 Java MVC / ORM 框架（`javax.servlet` 3.1、JDK 8�
 
 ```
 com.ruixing.framework.tarn
-├── core              框架内核：TarnDispatcherFilter / Config / Tarn / PageContext / Model / Pager
+├── core              框架内核
+│   ├── boot          启动与配置：Tarn / Config / ConfigLoader / TarnConfig / PluginInit / Plugins
+│   ├── web           Web/MVC 层：Controller / PageContext / Model / Pager / TarnDispatcherFilter / Filters
+│   ├── db            数据库/ORM 继承链（@Deprecated）：Q / DB / DAOAbstract / DAO / Service / AbstractService
 │   ├── connection    连接池抽象与事务（ConnectionFactory / ConnectionInit / TarnDataSource）
-│   ├── sql           参数化 SQL 构建：SqlBuilder / QueryBuilder / ParameterizedSql
+│   ├── sql           参数化 SQL 构建：SqlBuilder / QueryBuilder / ParameterizedSql + Append* 工具
 │   └── castor        类型转换（含请求体 JSON 反序列化）
 ├── route             路由层：Router（静态表 O(1)）/ RouteEntry / RouteDispatcher
 ├── orm               组合式 ORM 引擎：OrmTemplate（单一实现，组合 ConnectionFactory）/ Orm（工厂入口）
@@ -84,7 +87,7 @@ finally: MybatisKit.close()（释放请求级 MyBatis 会话）
 - 控制器根路径本身含 `${mapping}`（老写法）→ 不进路由表，仍走老拦截器链（老项目零感知）；
 - `@ERequestMapping(method=...)` 与请求方法不匹配时不命中 → 回退老链路/404，不报错。
 
-> 动态路由的完整语法、正则设置与匹配顺序见 [Tarn-2.0-路由与独立运行使用指南.md](./Tarn-2.0-路由与独立运行使用指南.md)。
+> 动态路由的完整语法、正则设置与匹配顺序见 [Tarn-1.0-路由与独立运行使用指南.md](./Tarn-1.0-路由与独立运行使用指南.md)。
 
 ---
 
@@ -95,7 +98,7 @@ tarn-framework-2026-beta/
 ├── pom.xml                     父 POM（统一版本、依赖管理、插件管理）
 ├── docs/                       全书 / 说明书 / 白皮书 / ORM 指南 / 路由指南 / Maven 指南 / Spring Boot 指南
 ├── libs/                       工程内本地仓库（中央仓库缺失的历史 jar，如 cos）
-├── tarn-framework/              框架核心（jar：tarn-framework-2.0.0.jar）
+├── tarn-framework/              框架核心（jar：tarn-framework-1.0.0.jar）
 │   └── src/main/java/cc/ruixing/framework/tarn/**
 ├── tarn-spring-boot-starter/    Spring Boot 自动装配（可选）
 ├── samples/                    外部工程示例：tarn-maven-demo / tarn-springboot-demo（不在父 POM modules）
@@ -110,7 +113,7 @@ tarn-framework-2026-beta/
 构建与运行：
 
 ```bash
-mvn -DskipTests package            # 父 POM 聚合构建，产出 tarn-framework-2.0.0.jar
+mvn -DskipTests package            # 父 POM 聚合构建，产出 tarn-framework-1.0.0.jar
 cd tarn-demo && mvn -q package      # 顺带把运行时依赖复制到 target/lib
 java -cp "target/classes:target/lib/*" examples.standalone.StandaloneApp
 ```
@@ -174,7 +177,7 @@ java -cp "target/classes:target/lib/*" examples.standalone.StandaloneApp
 
 | 档位 | 改动内容 | 代码改动 | 典型耗时 | 收益 |
 | --- | --- | --- | --- | --- |
-| **L0 仅换 jar** | `WEB-INF/lib` 替换为 `tarn-framework-2.0.0.jar`（及新增依赖） | 0 | 分钟级 | 安全修复、性能提升（路由/ORM 缓存） |
+| **L0 仅换 jar** | `WEB-INF/lib` 替换为 `tarn-framework-1.0.0.jar`（及新增依赖） | 0 | 分钟级 | 安全修复、性能提升（路由/ORM 缓存） |
 | **L1 配置迁移** | 新增 `application.yml`（可保留 `dev.properties`） | 0 | 0.5 天 | 集中配置、插件声明式装配 |
 | **L2 增量新功能** | 新页面用 `Router + @Json + SqlBuilder`，老页面不动 | 仅新代码 | 按需求 | 前后端分离、防注入 |
 | **L3 深度改造** | 国产库、MyBatis、Redis、独立运行、ORM 多表 | 局部 | 按模块 | 技术栈统一 |
@@ -189,14 +192,14 @@ Maven 工程：
 <dependency>
     <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 非 Maven 的老 Web 工程（`WEB-INF/lib` 方式）：
 
-1. 删除旧框架 jar（与 `tarn-framework-2.0.0.jar` 同名/旧版本均可）；
-2. 放入 `tarn-framework-2.0.0.jar`；
+1. 删除旧框架 jar（与 `tarn-framework-1.0.0.jar` 同名/旧版本均可）；
+2. 放入 `tarn-framework-1.0.0.jar`；
 3. 补齐新增的运行时依赖（如果尚未存在）：
    - `snakeyaml-2.2.jar`（YAML 配置，纯老模式可不加）
    - `druid-1.2.23.jar`（推荐连接池）
@@ -287,7 +290,7 @@ tarn:
 <framework>
     <controllers>
         <mapping package="examples.test.controller" name="基础模块控制"/>
-        <mapping package="examples.demo.controller" name="Tarn 2.0 示例"/>   <!-- 新增 -->
+        <mapping package="examples.demo.controller" name="Tarn 1.0 示例"/>   <!-- 新增 -->
     </controllers>
     <services>
         <mapping package="examples.test.services.impl" name="服务实现"/>
@@ -586,7 +589,7 @@ try {
 
 ### 10.2 注解速查（ORM）
 
-详见 [Tarn-2.0-ORM使用指南.md](./Tarn-2.0-ORM使用指南.md)。
+详见 [Tarn-1.0-ORM使用指南.md](./Tarn-1.0-ORM使用指南.md)。
 
 ### 10.3 常见问题（FAQ）
 
@@ -625,5 +628,5 @@ try {
 
 | 版本 | 日期 | 说明 |
 | --- | --- | --- |
-| 2.0.0 | 2026-10 | 路由 / JSON / 参数化 SQL / 方言 / YAML / 插件体系 / 独立运行 |
+| 1.0.0 | 2026-10 | 路由 / JSON / 参数化 SQL / 方言 / YAML / 插件体系 / 独立运行 |
 | 2.1（能力代号） | 2026-10 | 组合式 ORM 引擎（`OrmTemplate` 单一实现）/ 数据源密码加密（`decrypt` + `public-key`）/ AOP 注入体系重构（`aop.inject` 五组件）/ 全局拦截规范与可运行示例 / FreeMarker 配置兜底与 legacy key 修正 |

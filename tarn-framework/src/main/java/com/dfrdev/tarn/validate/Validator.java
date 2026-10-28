@@ -2,9 +2,9 @@ package com.dfrdev.tarn.validate;
 
 import com.dfrdev.tarn.aop.ActionInfo;
 import com.dfrdev.tarn.aop.Interceptor;
-import com.dfrdev.tarn.core.Controller;
-import com.dfrdev.tarn.util.NumberUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.core.web.Controller;
+import com.dfrdev.tarn.util.classloader.NumberUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.net.MalformedURLException;
 import java.net.URL;

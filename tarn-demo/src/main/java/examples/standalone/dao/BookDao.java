@@ -1,10 +1,10 @@
 package examples.standalone.dao;
 
-import com.dfrdev.tarn.core.DaoException;
-import com.dfrdev.tarn.core.Q;
+import com.dfrdev.tarn.core.db.DaoException;
+import com.dfrdev.tarn.core.db.Q;
 import com.dfrdev.tarn.core.sql.ParameterizedSql;
 import com.dfrdev.tarn.core.sql.SqlBuilder;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import examples.standalone.entity.Book;
 
 import java.util.List;

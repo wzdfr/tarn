@@ -1,6 +1,6 @@
 package com.dfrdev.tarn.plugin.mybatis;
 
-import com.dfrdev.tarn.core.Config;
+import com.dfrdev.tarn.core.boot.Config;
 import com.dfrdev.tarn.plugin.IDataSourceProvider;
 import com.dfrdev.tarn.plugin.IPlugin;
 import com.dfrdev.tarn.util.LogUtil;

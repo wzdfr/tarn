@@ -1,8 +1,8 @@
-# Tarn 2.0 Spring Boot 集成指南
+# Tarn 1.0 Spring Boot 集成指南
 
 > 目标：让已有的 Spring Boot 项目（Boot 2.x / JDK 8）**只加一个依赖**就能使用 Tarn MVC。
 > 示例工程：[samples/tarn-springboot-demo](../samples/tarn-springboot-demo)
-> Maven 引用与本地/私服安装见：[Tarn-2.0-Maven集成指南.md](./Tarn-2.0-Maven集成指南.md)
+> Maven 引用与本地/私服安装见：[Tarn-1.0-Maven集成指南.md](./Tarn-1.0-Maven集成指南.md)
 > **合并版总手册**：[Tarn-2.1-项目方案与使用全书.md](./Tarn-2.1-项目方案与使用全书.md)（Spring Boot 章节见 §11）
 
 ---
@@ -39,7 +39,7 @@ TarnDispatcherFilter             (本 starter 注册，默认 order=10)
 <dependency>
     <groupId>com.dfrdev</groupId>
     <artifactId>tarn-spring-boot-starter</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -260,7 +260,7 @@ java -jar target/tarn-springboot-demo-1.0.0.jar
 
 | 现象 | 原因 | 处理 |
 | --- | --- | --- |
-| 启动报 `Exception starting filter [tarnDispatcherFilter]` + `dev.properties not exist` | 使用了未修复的旧 jar | 升级到 2.0.0 并用 `mvn clean package` 重新打包业务工程 |
+| 启动报 `Exception starting filter [tarnDispatcherFilter]` + `dev.properties not exist` | 使用了未修复的旧 jar | 升级到 1.0.0 并用 `mvn clean package` 重新打包业务工程 |
 | 启动报 `PluginAutoConfig` NPE | `application.yml` 没有 `tarn.plugins` 且使用旧 jar | 同上；或临时加 `tarn.plugins: []` |
 | Tarn 接口 404，Spring 接口正常 | `context-mapping.xml` 缺失/包名不对 | 检查资源文件与 `<mapping package>` |
 | Spring 接口被 Tarn 抢走 | `url-patterns` 太宽且 Tarn 有同名路由 | 收敛 `url-patterns: /tarn/*`，或调整 Tarn 路由前缀 |

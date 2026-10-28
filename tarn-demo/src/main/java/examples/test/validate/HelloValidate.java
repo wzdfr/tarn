@@ -1,6 +1,6 @@
 package examples.test.validate;
 
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.web.Controller;
 import com.dfrdev.tarn.validate.Validator;
 import com.alibaba.fastjson.JSON;
 

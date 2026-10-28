@@ -3,7 +3,7 @@ package com.dfrdev.tarn.aop.service;
 import com.dfrdev.tarn.aop.RepositoryInject;
 import com.dfrdev.tarn.aop.annotation.ERepository;
 import com.dfrdev.tarn.collection.Mapx;
-import com.dfrdev.tarn.util.ClassUtil;
+import com.dfrdev.tarn.util.classloader.ClassUtil;
 import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.xml.XMLElement;
 
@@ -74,7 +74,7 @@ public class RepositoryAOP implements LoadAOP {
                         writerXml.addElement("service").addAttribute("class", pcn);
                     }
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    LogUtil.error("扫描 Repository 类失败: " + pcn + " -> " + e.getMessage(), e);
                 }
             }
         }

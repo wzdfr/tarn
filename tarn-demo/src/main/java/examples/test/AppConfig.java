@@ -1,8 +1,8 @@
 package examples.test;
 
-import com.dfrdev.tarn.core.Filters;
-import com.dfrdev.tarn.core.TarnConfig;
-import com.dfrdev.tarn.core.Plugins;
+import com.dfrdev.tarn.core.web.Filters;
+import com.dfrdev.tarn.core.boot.TarnConfig;
+import com.dfrdev.tarn.core.boot.Plugins;
 import com.dfrdev.tarn.plugin.IPlugin;
 import com.dfrdev.tarn.plugin.sqlScript.ScriptsPlugin;
 import com.alibaba.fastjson.JSON;

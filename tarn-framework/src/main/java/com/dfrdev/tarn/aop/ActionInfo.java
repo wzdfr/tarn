@@ -1,6 +1,6 @@
 package com.dfrdev.tarn.aop;
 
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.web.Controller;
 
 /**
  * Created by dfr on 15-5-5.

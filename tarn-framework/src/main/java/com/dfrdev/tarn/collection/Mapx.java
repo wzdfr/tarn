@@ -1,8 +1,9 @@
 package com.dfrdev.tarn.collection;
 
 
-import com.dfrdev.tarn.util.DateUtil;
-import com.dfrdev.tarn.util.Primitives;
+import com.dfrdev.tarn.util.date.DateUtil;
+import com.dfrdev.tarn.util.LogUtil;
+import com.dfrdev.tarn.util.classloader.Primitives;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -534,7 +535,7 @@ public class Mapx<K, V> extends AbstractMap<K, V>
             try {
                 return DateUtil.parseDateTime(o.toString());
             } catch (Exception e) {
-                e.printStackTrace();
+                LogUtil.warn("日期解析失败: " + o.toString() + " -> " + e.getMessage());
             }
         }
         return null;

@@ -2,7 +2,7 @@ package com.dfrdev.tarn.core.castor;
 
 
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.ObjectUtil;
+import com.dfrdev.tarn.util.classloader.ObjectUtil;
 
 public class DoubleCastor extends AbstractCastor {
     private static DoubleCastor singleton = new DoubleCastor();

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.dfrdev.tarn.core.boot.Tarn;
 /**
  * MyBatis 风格链式 SQL 构建器（Tarn 2.0+）。
  * <p>

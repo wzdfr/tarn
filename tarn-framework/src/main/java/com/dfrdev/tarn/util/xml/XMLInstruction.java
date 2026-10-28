@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.util.xml;
 
 
-import com.dfrdev.tarn.util.FastStringBuilder;
+import com.dfrdev.tarn.util.text.FastStringBuilder;
 
 public class XMLInstruction extends XMLNode {
     String instruction;

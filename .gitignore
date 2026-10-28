@@ -3,6 +3,12 @@ target/
 
 # IDE
 .idea/
+.qoder/
+.vscode/
+.eclipse/
+.netbeans/
+.idea/workspace.xml
+.tare/
 *.iml
 
 # Logs

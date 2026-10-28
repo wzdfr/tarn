@@ -9,6 +9,10 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import com.dfrdev.tarn.util.classloader.ObjectUtil;
+import com.dfrdev.tarn.util.io.FileUtil;
+import com.dfrdev.tarn.util.io.IORuntimeException;
+import com.dfrdev.tarn.util.io.Resource;
 /**
  * URL资源访问类
  * @author Looly

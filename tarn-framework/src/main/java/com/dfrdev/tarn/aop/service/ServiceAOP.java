@@ -3,9 +3,9 @@ package com.dfrdev.tarn.aop.service;
 import com.dfrdev.tarn.aop.ServiceInject;
 import com.dfrdev.tarn.aop.annotation.EService;
 import com.dfrdev.tarn.collection.Mapx;
-import com.dfrdev.tarn.util.ClassUtil;
+import com.dfrdev.tarn.util.classloader.ClassUtil;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.ReflectUtil;
+import com.dfrdev.tarn.util.classloader.ReflectUtil;
 import com.dfrdev.tarn.util.xml.XMLElement;
 
 import java.io.File;

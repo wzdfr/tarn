@@ -1,8 +1,8 @@
-# Tarn 2.0 Maven 集成指南
+# Tarn 1.0 Maven 集成指南
 
 > 面向“别的同事/别的项目如何引用 Tarn 框架”。
 > 示例工程：[samples/tarn-maven-demo](../samples/tarn-maven-demo)（纯 Maven 引用 + 独立运行）
-> Spring Boot 接入见：[Tarn-2.0-SpringBoot集成指南.md](./Tarn-2.0-SpringBoot集成指南.md)
+> Spring Boot 接入见：[Tarn-1.0-SpringBoot集成指南.md](./Tarn-1.0-SpringBoot集成指南.md)
 > **合并版总手册**：[Tarn-2.1-项目方案与使用全书.md](./Tarn-2.1-项目方案与使用全书.md)（Maven 章节见 §12）
 
 ---
@@ -40,9 +40,9 @@ mvn -pl tarn-framework -am clean install -DskipTests
 安装成功后，本机 `~/.m2/repository` 中会有：
 
 ```text
-cc/ruixing/framework/tarn-parent/2.0.0/
-cc/ruixing/framework/tarn-framework/2.0.0/
-cc/ruixing/framework/tarn-spring-boot-starter/2.0.0/
+cc/ruixing/framework/tarn-parent/1.0.0/
+cc/ruixing/framework/tarn-framework/1.0.0/
+cc/ruixing/framework/tarn-spring-boot-starter/1.0.0/
 com/oreilly/servlet/cos/05Nov2002/
 ```
 
@@ -103,9 +103,9 @@ mvn clean deploy -DskipTests
 
 | 构件 | 坐标 | 用途 |
 | --- | --- | --- |
-| 核心框架 | `com.dfrdev:tarn-framework:2.0.0` | MVC + ORM + 路由 + 连接池 + YAML 配置 |
-| Spring Boot 插件 | `com.dfrdev:tarn-spring-boot-starter:2.0.0` | Spring Boot 自动装配（可选） |
-| 父 POM | `com.dfrdev:tarn-parent:2.0.0` | 仅框架工程内部使用，业务工程**不需要**继承 |
+| 核心框架 | `com.dfrdev:tarn-framework:1.0.0` | MVC + ORM + 路由 + 连接池 + YAML 配置 |
+| Spring Boot 插件 | `com.dfrdev:tarn-spring-boot-starter:1.0.0` | Spring Boot 自动装配（可选） |
+| 父 POM | `com.dfrdev:tarn-parent:1.0.0` | 仅框架工程内部使用，业务工程**不需要**继承 |
 
 业务工程最小依赖：
 
@@ -113,7 +113,7 @@ mvn clean deploy -DskipTests
 <dependency>
     <groupId>com.dfrdev</groupId>
     <artifactId>tarn-framework</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
 </dependency>
 
 <!-- 按需：数据库驱动 -->

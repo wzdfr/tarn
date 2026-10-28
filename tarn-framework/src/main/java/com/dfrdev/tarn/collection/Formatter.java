@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.collection;
 
 
-import com.dfrdev.tarn.util.FastStringBuilder;
+import com.dfrdev.tarn.util.text.FastStringBuilder;
 
 import java.lang.reflect.Array;
 

@@ -61,7 +61,7 @@ public class TarnDataSource extends ConnectionConfig implements IPlugin,IDataSou
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.error("从连接池获取连接失败: " + e.getMessage(), e);
         }
         if (conn == null) {
             conn = getnewConnection();
@@ -76,7 +76,7 @@ public class TarnDataSource extends ConnectionConfig implements IPlugin,IDataSou
         try {
             config(this, (Map) properties);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.error("数据源配置失败: " + e.getMessage(), e);
         }
         start();
         return false;
@@ -175,7 +175,7 @@ public class TarnDataSource extends ConnectionConfig implements IPlugin,IDataSou
             }
             connectionPool = null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.error("关闭连接池失败: " + e.getMessage(), e);
         }
 
         return true;
@@ -251,7 +251,7 @@ public class TarnDataSource extends ConnectionConfig implements IPlugin,IDataSou
                 break;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.error("关闭连接失败: " + e.getMessage(), e);
         }
 
     }
@@ -288,9 +288,9 @@ public class TarnDataSource extends ConnectionConfig implements IPlugin,IDataSou
             Class.forName(driverClassName);
             conn = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtil.error("数据库驱动加载失败: " + driverClassName + " -> " + e.getMessage(), e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.error("创建数据库连接失败: " + url + " -> " + e.getMessage(), e);
         }
         return conn;
     }

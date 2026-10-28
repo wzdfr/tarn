@@ -3,7 +3,7 @@ package com.dfrdev.tarn.aop;
 
 import com.dfrdev.tarn.aop.inject.ComponentScanner;
 import com.dfrdev.tarn.aop.service.ControllerAOP;
-import com.dfrdev.tarn.core.Config;
+import com.dfrdev.tarn.core.boot.Config;
 import com.dfrdev.tarn.util.xml.XMLDocument;
 import com.dfrdev.tarn.util.xml.XMLElement;
 

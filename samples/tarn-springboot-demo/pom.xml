@@ -23,7 +23,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <tarn.version>2.0.0</tarn.version>
+        <tarn.version>1.0.0</tarn.version>
     </properties>
 
     <dependencies>

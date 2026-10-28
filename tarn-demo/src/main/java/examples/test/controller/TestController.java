@@ -1,8 +1,8 @@
 package examples.test.controller;
 
 import com.dfrdev.tarn.aop.annotation.*;
-import com.dfrdev.tarn.core.Config;
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.boot.Config;
+import com.dfrdev.tarn.core.web.Controller;
 import com.dfrdev.tarn.upload.UploadFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.core;
 
 
-import com.dfrdev.tarn.util.TextKit;
+import com.dfrdev.tarn.util.text.TextKit;
 
 public class TarnException extends RuntimeException {
     public TarnException(String errStr) {

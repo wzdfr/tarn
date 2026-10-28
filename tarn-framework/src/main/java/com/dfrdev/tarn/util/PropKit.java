@@ -9,8 +9,13 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import com.dfrdev.tarn.util.LogUtil;
 
 
+import com.dfrdev.tarn.util.classloader.ObjectUtil;
+import com.dfrdev.tarn.util.io.FileUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
+import com.dfrdev.tarn.util.text.TextKit;
 public final class PropKit {
     private static Logger logger = Logger.getLogger(PropKit.class);
 
@@ -52,7 +57,7 @@ public final class PropKit {
         try {
             fis = new FileInputStream(f);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
             return null;
         }
         try {
@@ -61,7 +66,7 @@ public final class PropKit {
             try {
                 fis.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtil.error("操作失败: " + e.getMessage(), e);
             }
         }
     }
@@ -73,7 +78,7 @@ public final class PropKit {
             write(fis, map);
             fis.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         }
     }
 
@@ -90,9 +95,9 @@ public final class PropKit {
         try {
             os.write(sb.toString().getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         }
     }
 
@@ -156,7 +161,7 @@ public final class PropKit {
             }
             prop.store(fos, new String(comments.getBytes("UTF-8"), "ISO-8859-1"));
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         }
     }
 
@@ -468,7 +473,7 @@ public final class PropKit {
                 LogUtil.debug(key + Property);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
         }
     }
 
@@ -482,7 +487,7 @@ public final class PropKit {
             LogUtil.debug(key + value);
             return value;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("操作失败: " + e.getMessage(), e);
             return null;
         }
     }

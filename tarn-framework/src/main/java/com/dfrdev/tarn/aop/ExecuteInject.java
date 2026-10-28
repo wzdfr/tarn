@@ -4,12 +4,12 @@ package com.dfrdev.tarn.aop;
 import com.dfrdev.tarn.aop.annotation.Before;
 import com.dfrdev.tarn.aop.annotation.EResponseType;
 import com.dfrdev.tarn.aop.annotation.Json;
-import com.dfrdev.tarn.core.Controller;
+import com.dfrdev.tarn.core.web.Controller;
 import com.dfrdev.tarn.core.castor.CastorNotFoundException;
 import com.dfrdev.tarn.json.JsonResult;
 import com.dfrdev.tarn.render.JsonRender;
 import com.dfrdev.tarn.render.RenderFactory;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

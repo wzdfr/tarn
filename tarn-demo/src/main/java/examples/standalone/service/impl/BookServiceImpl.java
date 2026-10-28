@@ -1,7 +1,7 @@
 package examples.standalone.service.impl;
 
 import com.dfrdev.tarn.aop.annotation.EService;
-import com.dfrdev.tarn.core.DaoException;
+import com.dfrdev.tarn.core.db.DaoException;
 import examples.standalone.dao.BookDao;
 import examples.standalone.entity.Book;
 import examples.standalone.service.BookService;

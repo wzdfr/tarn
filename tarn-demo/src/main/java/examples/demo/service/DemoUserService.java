@@ -1,7 +1,7 @@
 package examples.demo.service;
 
-import com.dfrdev.tarn.core.DaoException;
-import com.dfrdev.tarn.core.Q;
+import com.dfrdev.tarn.core.db.DaoException;
+import com.dfrdev.tarn.core.db.Q;
 import com.dfrdev.tarn.core.sql.ParameterizedSql;
 import com.dfrdev.tarn.core.sql.QueryBuilder;
 import com.dfrdev.tarn.core.sql.SqlBuilder;

@@ -1,6 +1,6 @@
 package com.dfrdev.tarn.aop.interceptor;
 
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;

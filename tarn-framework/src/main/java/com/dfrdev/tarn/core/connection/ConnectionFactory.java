@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.core.connection;
 
 
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.core.TarnException;
 import com.dfrdev.tarn.plugin.IDataSourceProvider;
 

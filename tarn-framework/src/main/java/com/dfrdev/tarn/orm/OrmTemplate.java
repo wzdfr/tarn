@@ -1,11 +1,11 @@
 package com.dfrdev.tarn.orm;
 
-import com.dfrdev.tarn.core.AppendAbstractUtils;
-import com.dfrdev.tarn.core.Config;
-import com.dfrdev.tarn.core.DAO;
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.sql.AppendAbstractUtils;
+import com.dfrdev.tarn.core.boot.Config;
+import com.dfrdev.tarn.core.db.DAO;
+import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.core.TarnDataException;
-import com.dfrdev.tarn.core.RowMapper;
+import com.dfrdev.tarn.core.db.RowMapper;
 import com.dfrdev.tarn.aop.ActionInvocation;
 import com.dfrdev.tarn.core.connection.ConnectionFactory;
 import com.dfrdev.tarn.core.sql.ParameterizedSql;
@@ -74,6 +74,16 @@ public class OrmTemplate {
     private final ConnectionFactory connections = new ConnectionFactory();
 
     public static OrmTemplate shared() {
+        return SHARED;
+    }
+
+    /**
+     * 获取 ORM 引擎共享实例（与 {@link #shared()} 等价，推荐命名）。
+     *
+     * @return 共享 ORM 引擎实例
+     * @since 1.1
+     */
+    public static OrmTemplate getInstance() {
         return SHARED;
     }
 

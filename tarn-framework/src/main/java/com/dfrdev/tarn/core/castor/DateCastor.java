@@ -1,6 +1,6 @@
 package com.dfrdev.tarn.core.castor;
 
-import com.dfrdev.tarn.util.DateUtil;
+import com.dfrdev.tarn.util.date.DateUtil;
 
 import java.util.Date;
 

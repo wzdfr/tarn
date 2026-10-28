@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.render;
 
 
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.boot.Tarn;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,10 +1,10 @@
 package com.dfrdev.tarn.aop.interceptor;
 
 import com.dfrdev.tarn.aop.ActionInvocation;
-import com.dfrdev.tarn.core.Tarn;
-import com.dfrdev.tarn.core.PageContext;
+import com.dfrdev.tarn.core.boot.Tarn;
+import com.dfrdev.tarn.core.web.PageContext;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.TextKit;
+import com.dfrdev.tarn.util.text.TextKit;
 import com.oreilly.servlet.MultipartRequest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -40,7 +40,7 @@ public class HTTPInterceptor {
                 value = clazz.getMethod("get" + TextKit.firstLetterToUpper(fieldName)).invoke(o);
                 if (value != null) request.setAttribute(fieldName, value);
             } catch (Exception e) {
-                e.printStackTrace();
+                LogUtil.error("操作失败: " + e.getMessage(), e);
             }
         }
     }
@@ -63,7 +63,7 @@ public class HTTPInterceptor {
                 }
                 //todo
             } catch (Exception e) {
-                e.printStackTrace();
+                LogUtil.error("操作失败: " + e.getMessage(), e);
             }
         }
     }

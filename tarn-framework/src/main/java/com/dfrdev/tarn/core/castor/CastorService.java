@@ -1,6 +1,6 @@
 package com.dfrdev.tarn.core.castor;
 
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import com.dfrdev.tarn.json.JsonKit;
 
 import com.sun.xml.internal.fastinfoset.util.StringArray; // TODO(Tarn 2.0+迁移): JDK 内部 API，升级 JDK9+ 前需替换为 String[] 并同步修改 StringArrayCastor

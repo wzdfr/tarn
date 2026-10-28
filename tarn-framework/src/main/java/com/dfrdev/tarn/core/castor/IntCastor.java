@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.core.castor;
 
 
-import com.dfrdev.tarn.util.ObjectUtil;
+import com.dfrdev.tarn.util.classloader.ObjectUtil;
 
 public class IntCastor extends AbstractCastor {
     private static IntCastor singleton = new IntCastor();

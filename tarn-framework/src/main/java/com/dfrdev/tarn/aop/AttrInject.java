@@ -3,7 +3,7 @@ package com.dfrdev.tarn.aop;
 
 import com.dfrdev.tarn.aop.inject.BeanProperties;
 import com.dfrdev.tarn.aop.inject.BeanProperty;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;

@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.core.castor;
 
 
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 
 public class DoubleArrayCastor extends AbstractCastor {
     private static DoubleArrayCastor singleton = new DoubleArrayCastor();

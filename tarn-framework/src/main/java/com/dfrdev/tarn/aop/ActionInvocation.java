@@ -2,14 +2,14 @@ package com.dfrdev.tarn.aop;
 
 
 import com.dfrdev.tarn.aop.annotation.Ekey;
-import com.dfrdev.tarn.core.AppendReflectSQLUtils;
+import com.dfrdev.tarn.core.sql.AppendReflectSQLUtils;
 import com.dfrdev.tarn.core.castor.CastorNotFoundException;
 import com.dfrdev.tarn.core.castor.CastorService;
 import com.dfrdev.tarn.core.castor.DateCastor;
-import com.dfrdev.tarn.util.DateUtil;
+import com.dfrdev.tarn.util.date.DateUtil;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
-import com.dfrdev.tarn.util.TextKit;
+import com.dfrdev.tarn.util.text.StringUtil;
+import com.dfrdev.tarn.util.text.TextKit;
 import com.dfrdev.tarn.json.JsonKit;
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -217,9 +217,9 @@ public class ActionInvocation {
             method = objectClass.getMethod(str, parameterTypes);
             return method;
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            LogUtil.debug("字段未找到，跳过注入: " + fieldName);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            LogUtil.debug("setter 方法未找到，跳过注入: " + e.getMessage());
         }
         return method;
     }

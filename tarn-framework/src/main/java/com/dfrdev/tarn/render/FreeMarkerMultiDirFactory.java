@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.render;
 
-import com.dfrdev.tarn.core.Config;
-import com.dfrdev.tarn.util.FileUtil;
+import com.dfrdev.tarn.core.boot.Config;
+import com.dfrdev.tarn.util.io.FileUtil;
 import com.dfrdev.tarn.util.LogUtil;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;

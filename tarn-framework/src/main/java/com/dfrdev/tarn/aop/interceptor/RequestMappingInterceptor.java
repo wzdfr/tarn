@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import com.dfrdev.tarn.util.LogUtil;
 
 /**
  * Mapping的方式映射的控制器<br/>
@@ -82,17 +83,17 @@ public class RequestMappingInterceptor implements Serializable {
                             return;
                         }
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
+                        LogUtil.error("操作失败: " + e.getMessage(), e);
                     }
                 }
             }

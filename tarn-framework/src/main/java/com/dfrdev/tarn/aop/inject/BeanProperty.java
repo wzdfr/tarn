@@ -1,7 +1,7 @@
 package com.dfrdev.tarn.aop.inject;
 
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.TextKit;
+import com.dfrdev.tarn.util.text.TextKit;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

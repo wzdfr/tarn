@@ -1,8 +1,8 @@
 package examples.filter;
 
-import com.dfrdev.tarn.core.FilterInterface;
+import com.dfrdev.tarn.core.web.FilterInterface;
 import com.dfrdev.tarn.json.JsonResult;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import com.alibaba.fastjson.JSON;
 
 import javax.servlet.FilterChain;

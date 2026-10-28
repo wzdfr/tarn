@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import com.dfrdev.tarn.aop.ActionInvocation;
 import com.dfrdev.tarn.aop.AttrInject;
-import com.dfrdev.tarn.core.Controller;
-import com.dfrdev.tarn.core.Tarn;
+import com.dfrdev.tarn.core.web.Controller;
+import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 /**

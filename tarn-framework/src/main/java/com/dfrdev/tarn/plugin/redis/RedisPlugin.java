@@ -3,7 +3,7 @@ package com.dfrdev.tarn.plugin.redis;
 import com.dfrdev.tarn.config.YamlConfigKit;
 import com.dfrdev.tarn.plugin.Plugin;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

@@ -3,7 +3,7 @@ package com.dfrdev.tarn.plugin.sqlScript;
 import com.dfrdev.tarn.plugin.IDataSourceProvider;
 import com.dfrdev.tarn.plugin.IPlugin;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.StringUtil;
+import com.dfrdev.tarn.util.text.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
