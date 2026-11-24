@@ -10,7 +10,7 @@ tarn:
     # 直连配置优先于连接池配置文件
     url: jdbc:mysql://127.0.0.1:3306/tarn_demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: "dfrQ@W#123"
+    password: "${TARN_DB_PASSWORD:}"    # 从环境变量 TARN_DB_PASSWORD 读取，禁止提交明文口令
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # ---------- MVC ----------

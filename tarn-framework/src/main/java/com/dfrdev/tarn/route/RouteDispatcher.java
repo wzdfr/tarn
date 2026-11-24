@@ -4,7 +4,7 @@ import com.dfrdev.tarn.aop.AttrInject;
 import com.dfrdev.tarn.aop.ControllerInfo;
 import com.dfrdev.tarn.aop.ControllerMappingInfo;
 import com.dfrdev.tarn.aop.ExecuteInject;
-import com.dfrdev.tarn.aop.ServiceInject;
+import com.dfrdev.tarn.container.TarnApplicationContext;
 import com.dfrdev.tarn.core.castor.CastorNotFoundException;
 import com.dfrdev.tarn.util.LogUtil;
 
@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
  * 执行流程与老 {@code RequestMappingInterceptor} 完全一致，保证行为兼容：
  * <ol>
  *     <li>实例化控制器</li>
- *     <li>{@link ServiceInject#inject(Object)} 完成 Service 依赖注入</li>
+ *     <li>{@link TarnApplicationContext#createBean(Class)} 创建控制器并注入依赖、执行生命周期</li>
  *     <li>{@link AttrInject#handle(HttpServletRequest, Object)} 完成请求属性注入</li>
  *     <li>存在 {@code execute()} 则先执行</li>
  *     <li>路由条目带方法名则执行映射方法（携带参数元数据，支持
@@ -50,8 +50,8 @@ public final class RouteDispatcher {
                                 FilterChain filterChain) throws IOException, ServletException {
         ControllerInfo ci = entry.getControllerInfo();
         try {
-            Object target = Class.forName(entry.getControllerClass()).newInstance();
-            ServiceInject.inject(target);
+            Object target = TarnApplicationContext.getInstance()
+                    .createBean(Class.forName(entry.getControllerClass()));
             AttrInject.handle(request, target);
 
             // 1. 默认 execute()

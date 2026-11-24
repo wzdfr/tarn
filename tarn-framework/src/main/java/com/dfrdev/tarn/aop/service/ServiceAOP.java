@@ -5,7 +5,6 @@ import com.dfrdev.tarn.aop.annotation.EService;
 import com.dfrdev.tarn.collection.Mapx;
 import com.dfrdev.tarn.util.classloader.ClassUtil;
 import com.dfrdev.tarn.util.LogUtil;
-import com.dfrdev.tarn.util.classloader.ReflectUtil;
 import com.dfrdev.tarn.util.xml.XMLElement;
 
 import java.io.File;
@@ -66,9 +65,17 @@ public class ServiceAOP implements LoadAOP {
             boolean status = isCompletePackageName ? true : (classAllName.indexOf(".class") != -1);
             if (status && classAllName.indexOf("$") == -1) {
                 String pcn = (isCompletePackageName) ? classAllName : mapx.getString("package").replace('/', '.') + "." + classAllName.substring(0, classAllName.lastIndexOf("."));
-                Class o = null;
-                o=  ReflectUtil.newInstance(pcn);
-//                    o = Class.forName(pcn);
+                Class<?> o;
+                try {
+                    o = Class.forName(pcn, false, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException e) {
+                    try {
+                        o = Class.forName(pcn);
+                    } catch (ClassNotFoundException ex) {
+                        LogUtil.error("[Tarn] Service 类加载失败 " + pcn + ": " + ex.getMessage());
+                        continue;
+                    }
+                }
                 boolean aann = o.isAnnotationPresent(EService.class);
                 if (aann) {
                     EService ann = (EService) o.getAnnotation(EService.class);

@@ -18,7 +18,7 @@ tarn:
     # 直连配置（可选，Spring Boot 风格；配置后优先于 config-file）
     url: jdbc:mysql://127.0.0.1:3306/tarn_demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: "dfrQ@W#123"    # 建议使用环境变量 / 外置配置管理，不要提交明文密码
+    password: "${TARN_DB_PASSWORD:}"    # 从环境变量 TARN_DB_PASSWORD 读取，禁止提交明文口令
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 密码是否加密（等价 druid.properties 的 decrypt=true）。
     # 为 true 时框架启动阶段用 Druid ConfigTools 解密 password 后再建连接池，解密失败直接启动报错。

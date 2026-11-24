@@ -25,11 +25,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.dfrdev.tarn.core.web.ExpandFilterFactory;
 import com.dfrdev.tarn.core.web.Filters;
 public class Config {
-    protected static Map<String, Object> configMap = new HashMap<String, Object>();
+    protected static Map<String, Object> configMap = new ConcurrentHashMap<String, Object>();
     private static final Plugins plugins = new Plugins();
     private static final Filters filters = new Filters();
     public static int OnlineUserCount = 0;
@@ -58,7 +59,7 @@ public class Config {
 
     private static int DEFAULT_MAX_POST_SIZE = 1024 * 1024 * 10;            // Default max post size of multipart request: 10 Meg
 
-    protected static void init() {
+    protected static synchronized void init() {
         if (!configMap.containsKey("System.JavaVersion")) {
             ConfigLoader.load();
             configMap.put("App.ContextRealPath", getContextRealPath());
@@ -134,10 +135,11 @@ public class Config {
             if (uploadedFileSaveDirectory == null || "".equals(uploadedFileSaveDirectory.trim())) {
 
                 if(RunMode.getInstance().isJarStatus()){
-                    uploadedFileSaveDirectory = Config.getContextRealPath() + File.separator + "upload" + File.separator;
+                    // S9：默认落点移到 Web 根之外，避免上传文件被容器当作静态资源/脚本执行
+                    uploadedFileSaveDirectory = Config.getContextRealPath() + "_upload" + File.separator;
                     Config.setUploadedFileSaveDirectory(uploadedFileSaveDirectory);
                 }else{
-                    uploadedFileSaveDirectory = PathKit.getWebRootPath() + File.separator + "upload" + File.separator;
+                    uploadedFileSaveDirectory = PathKit.getWebRootPath() + "_upload" + File.separator;
                     Config.setUploadedFileSaveDirectory(uploadedFileSaveDirectory);
                 }
 
@@ -145,6 +147,11 @@ public class Config {
 				/*File file = new File(uploadedFileSaveDirectory);
                 if (!file.exists())
 					file.mkdirs();*/
+            }
+            // 上传根目录由框架统一创建（子目录仍按相对路径在根目录内创建）
+            File uploadRoot = new File(uploadedFileSaveDirectory);
+            if (!uploadRoot.isDirectory() && !uploadRoot.mkdirs()) {
+                LogUtil.error("[Tarn] 无法创建上传根目录: " + uploadedFileSaveDirectory);
             }
             OreillyCos.init(uploadedFileSaveDirectory, Config.getMaxDefaultPostSize(), Config.getGlobalCharset());
         }
@@ -205,6 +212,37 @@ public class Config {
 
             list.addAll(xmlMultiLoader.elements("framework.services.mapping"));
             Config.setValue("Context.services.mapping", list);
+        }
+        return list;
+    }
+
+    /**
+     * 读取 {@code context-mapping.xml} 中 {@code <components>} 声明的通用组件包（Tarn 2.2+）。
+     */
+    public static List getConfigContextMappingComponents() {
+        List<XMLElement> list = (List<XMLElement>) Config.getValue("Context.components.mapping");
+        if (list == null || list.size() == 0) {
+            XMLMultiLoader xmlMultiLoader = ConfigLoader.loadContextMapping();
+            List<XMLElement> includes = xmlMultiLoader.elements("framework.components.include");
+            list = new ArrayList<XMLElement>();
+            if (includes != null && includes.size() > 0) {
+                for (XMLElement inc : includes) {
+                    Mapx mapx = inc.getAttributes();
+                    if (!StringUtil.isEmpty(mapx.getString("path"))) {
+                        InputStream inputStream = Config.class.getClass().getResourceAsStream(mapx.getString("path"));
+                        XMLMultiLoader incLoad = new XMLMultiLoader();
+                        incLoad.load(inputStream);
+                        list.addAll(incLoad.elements("framework.components.mapping"));
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                            LogUtil.error("操作失败: " + e.getMessage(), e);
+                        }
+                    }
+                }
+            }
+            list.addAll(xmlMultiLoader.elements("framework.components.mapping"));
+            Config.setValue("Context.components.mapping", list);
         }
         return list;
     }

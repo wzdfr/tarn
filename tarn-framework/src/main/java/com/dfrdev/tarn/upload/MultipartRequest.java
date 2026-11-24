@@ -37,7 +37,18 @@ public class MultipartRequest extends HttpServletRequestWrapper {
      */
     private static final String[] DEFAULT_DENIED_EXT = {
             "jsp", "jspx", "jspa", "jsw", "jsv", "jhtml", "shtml",
-            "class", "jar", "war", "exe", "sh", "bat", "cmd", "vbs", "php", "asp", "aspx", "asax"
+            "class", "jar", "war", "exe", "sh", "bat", "cmd", "vbs", "php", "asp", "aspx", "asax",
+            "html", "htm", "svg", "js", "phtml", "phar", "cgi", "htaccess", "user.ini"
+    };
+
+    /**
+     * 默认允许上传的扩展名（白名单，S9）。
+     * 未调用 {@link #setAllowedExtensions(String[])} 时按此列表校验。
+     */
+    private static final String[] DEFAULT_ALLOWED_EXT = {
+            "jpg", "jpeg", "png", "gif", "bmp", "webp",
+            "pdf", "txt", "csv", "doc", "docx", "xls", "xlsx", "ppt", "pptx",
+            "zip", "rar", "7z"
     };
 
     /**
@@ -83,15 +94,40 @@ public class MultipartRequest extends HttpServletRequestWrapper {
     }
 
     /**
-     * 添加对相对路径的支持
-     * 1: 以 "/" 开头或者以 "x:开头的目录被认为是绝对路径
-     * 2: 其它路径被认为是相对路径, 需要 JFinalConfig.uploadedFileSaveDirectory 结合
+     * 将请求指定的保存目录解析到配置的上传根目录内。
+     * <p>
+     * 安全约束：只接受相对路径，拒绝绝对路径（/、盘符）、盘符穿越（..）与 NUL；
+     * 规范化后必须仍位于配置根目录内，防止写入任意目录（S2）。
      */
     private String handleSaveDirectory(String saveDirectory) {
-        if (saveDirectory.startsWith("/") || saveDirectory.indexOf(":") == 1)
-            return saveDirectory;
-        else
-            return MultipartRequest.saveDirectory + saveDirectory;
+        return resolveSaveDirectory(MultipartRequest.saveDirectory, saveDirectory);
+    }
+
+    /**
+     * 在给定上传根目录内解析保存目录（包级可见，便于单测）。
+     */
+    static String resolveSaveDirectory(String rootPath, String saveDirectory) {
+        String dir = saveDirectory == null ? "" : saveDirectory.replace('\\', '/');
+        if (dir.indexOf('\0') >= 0 || dir.indexOf("..") >= 0 || dir.startsWith("/") || dir.matches("^[A-Za-z]:.*")) {
+            LogUtil.warn("[文件上传] 拒绝非法保存目录: " + saveDirectory);
+            throw new IllegalArgumentException("非法的上传保存目录: " + saveDirectory);
+        }
+        if (rootPath == null || rootPath.trim().length() == 0) {
+            throw new IllegalStateException("上传根目录未配置，请先调用 OreillyCos.init 或 setSaveDirectory");
+        }
+        try {
+            File root = new File(rootPath).getCanonicalFile();
+            File target = new File(root, dir).getCanonicalFile();
+            String rootCanonical = root.getPath();
+            if (!target.getPath().equals(rootCanonical)
+                    && !target.getPath().startsWith(rootCanonical + File.separator)) {
+                LogUtil.warn("[文件上传] 保存目录越出上传根目录: " + saveDirectory);
+                throw new IllegalArgumentException("上传保存目录越界: " + saveDirectory);
+            }
+            return target.getPath();
+        } catch (IOException e) {
+            throw new RuntimeException("上传保存目录规范化失败: " + saveDirectory, e);
+        }
     }
 
     private void wrapMultipartRequest(HttpServletRequest request, String saveDirectory, int maxPostSize, String encoding) {
@@ -102,6 +138,10 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 
         File dir = new File(saveDirectory);
         if (!dir.exists()) {
+            // 仅允许在已存在的配置根目录下创建子目录，避免自动创建任意路径
+            if (!new File(MultipartRequest.saveDirectory).isDirectory()) {
+                throw new RuntimeException("Upload root directory not exists: " + MultipartRequest.saveDirectory);
+            }
             if (!dir.mkdirs()) {
                 throw new RuntimeException("Directory " + saveDirectory + " not exists and can not create directory.");
             }
@@ -125,9 +165,9 @@ public class MultipartRequest extends HttpServletRequestWrapper {
                     String parameterValue = multipartRequest.getParameter(fieldName);
                     String vals[] = multipartRequest.getParameterValues(fieldName);
                     if (fieldName.indexOf(".") != -1) {
-                        AttrInject.invokeRecursive(controller, fieldName, parameterValue,AOP_FIELD_);
+                        AttrInject.invokeRecursiveChecked(controller, fieldName, parameterValue, AOP_FIELD_);
                     } else {
-                        if (StringUtil.isNotEmpty(parameterValue))
+                        if (StringUtil.isNotEmpty(parameterValue) && AttrInject.isBindable(controller, fieldName))
                             ActionInvocation.invokeSet(controller, fieldName, parameterValue);
                     }
                 }
@@ -142,8 +182,21 @@ public class MultipartRequest extends HttpServletRequestWrapper {
                     String originalFileName = multipartRequest.getOriginalFileName(name);
                     String contentType = multipartRequest.getContentType(name);
                     UploadFile uploadFile = new UploadFile(name, saveDirectory, filesystemName, originalFileName, contentType);
-                    if (isSafeFile(uploadFile))
-                        uploadFiles.add(uploadFile);
+                    if (isSafeFile(uploadFile)) {
+                        // 随机化落盘文件名，原始文件名仅作为展示（S9）
+                        String ext = extractExtension(
+                                StringUtil.isNotEmpty(originalFileName) ? originalFileName : filesystemName);
+                        String randomName = randomFileName(ext);
+                        File src = new File(saveDirectory, filesystemName);
+                        File dest = new File(saveDirectory, randomName);
+                        if (src.renameTo(dest)) {
+                            uploadFiles.add(new UploadFile(name, saveDirectory, randomName,
+                                    originalFileName, contentType));
+                        } else {
+                            LogUtil.warn("[文件上传] 重命名文件失败: " + filesystemName);
+                            src.delete();
+                        }
+                    }
                 }
             }
 
@@ -153,9 +206,10 @@ public class MultipartRequest extends HttpServletRequestWrapper {
         }
     }
 
-    private boolean isSafeFile(UploadFile uploadFile) {
+    static boolean isSafeFile(UploadFile uploadFile) {
         String fileName = uploadFile.getFileName();
-        String ext = extractExtension(fileName);
+        String originalFileName = uploadFile.getOriginalFileName();
+        String ext = extractExtension(StringUtil.isNotEmpty(originalFileName) ? originalFileName : fileName);
         
         // Tarn 1.0 安全加固：增强路径穿越防护
         // 1) 文件名不得包含路径分隔符或上级目录引用
@@ -187,23 +241,82 @@ public class MultipartRequest extends HttpServletRequestWrapper {
             return false;
         }
         
-        // 4) 白名单优先
-        if (allowedExtensions != null && allowedExtensions.length > 0) {
-            if (!containsExt(allowedExtensions, ext)) {
-                LogUtil.warn("[文件上传] 扩展名不在白名单内: " + ext);
-                uploadFile.getFile().delete();
-                return false;
-            }
-            return true;
+        // 4) 白名单校验（默认启用内置白名单；显式设置后以设置为准）
+        String[] whiteList = (allowedExtensions != null && allowedExtensions.length > 0)
+                ? allowedExtensions : DEFAULT_ALLOWED_EXT;
+        if (!containsExt(whiteList, ext)) {
+            LogUtil.warn("[文件上传] 扩展名不在白名单内: " + ext);
+            uploadFile.getFile().delete();
+            return false;
         }
-        
-        // 5) 黑名单兜底（默认启用）
+
+        // 5) 黑名单兜底（防白名单配置失误）
         if (containsExt(DEFAULT_DENIED_EXT, ext)) {
             LogUtil.warn("[文件上传] 扩展名在黑名单内: " + ext);
             uploadFile.getFile().delete();
             return false;
         }
-        
+
+        // 6) 文件内容魔数校验（已知类型必须匹配，防止伪装扩展名）
+        if (!hasValidMagic(uploadFile.getFile(), ext)) {
+            LogUtil.warn("[文件上传] 文件内容与扩展名不匹配: " + ext);
+            uploadFile.getFile().delete();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 随机落盘文件名（保留小写扩展名）。
+     */
+    private static String randomFileName(String ext) {
+        String base = java.util.UUID.randomUUID().toString().replace("-", "");
+        return ext == null || ext.length() == 0 ? base : base + "." + ext;
+    }
+
+    /**
+     * 校验常见文件类型的魔数；未定义签名的类型返回 true。
+     */
+    private static boolean hasValidMagic(File file, String ext) {
+        if (file == null || !file.isFile()) {
+            return false;
+        }
+        byte[] head = new byte[16];
+        int n;
+        try {
+            java.io.InputStream in = new java.io.FileInputStream(file);
+            try {
+                n = in.read(head);
+            } finally {
+                in.close();
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        if (n < 4) {
+            return false;
+        }
+        int b0 = head[0] & 0xFF;
+        int b1 = head[1] & 0xFF;
+        int b2 = head[2] & 0xFF;
+        int b3 = head[3] & 0xFF;
+        if ("jpg".equals(ext) || "jpeg".equals(ext)) {
+            return b0 == 0xFF && b1 == 0xD8 && b2 == 0xFF;
+        } else if ("png".equals(ext)) {
+            return b0 == 0x89 && b1 == 'P' && b2 == 'N' && b3 == 'G';
+        } else if ("gif".equals(ext)) {
+            return b0 == 'G' && b1 == 'I' && b2 == 'F' && b3 == '8';
+        } else if ("bmp".equals(ext)) {
+            return b0 == 'B' && b1 == 'M';
+        } else if ("webp".equals(ext)) {
+            return n >= 12 && b0 == 'R' && b1 == 'I' && b2 == 'F' && b3 == 'F'
+                    && head[8] == 'W' && head[9] == 'E' && head[10] == 'B' && head[11] == 'P';
+        } else if ("pdf".equals(ext)) {
+            return b0 == '%' && b1 == 'P' && b2 == 'D' && b3 == 'F';
+        } else if ("zip".equals(ext) || "docx".equals(ext) || "xlsx".equals(ext) || "pptx".equals(ext)) {
+            return b0 == 'P' && b1 == 'K';
+        }
         return true;
     }
 

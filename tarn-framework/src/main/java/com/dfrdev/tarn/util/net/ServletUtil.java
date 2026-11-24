@@ -190,14 +190,14 @@ public class ServletUtil {
                 cookie.setValue(cValue);
                 cookie.setPath(contextPath);
                 cookie.setMaxAge(maxAge);
-                response.addCookie(cookie);
+                CookieUtil.addCookie(request, response, cookie);
             }
         }
         if (!cookieexistflag) {
             Cookie cookie = new Cookie(cookieName, cValue);
             cookie.setPath(contextPath);
             cookie.setMaxAge(maxAge);
-            response.addCookie(cookie);
+            CookieUtil.addCookie(request, response, cookie);
         }
     }
 

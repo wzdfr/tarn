@@ -5,16 +5,16 @@ import com.dfrdev.tarn.plugin.IDataSourceProvider;
 import com.dfrdev.tarn.plugin.IPlugin;
 import com.dfrdev.tarn.plugin.ehcache.EhCachePlugin;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Plugins.
  */
 final public class Plugins {
 
-    private final List<IPlugin> pluginList = new ArrayList<IPlugin>();
+    private final List<IPlugin> pluginList = new CopyOnWriteArrayList<IPlugin>();
 
     public Plugins add(IPlugin plugin) {
         if (plugin != null)

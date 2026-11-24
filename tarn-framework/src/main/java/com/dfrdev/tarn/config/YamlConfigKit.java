@@ -106,9 +106,45 @@ public final class YamlConfigKit {
             if (value instanceof Map) {
                 flatten(key, (Map<String, Object>) value, out);
             } else {
-                out.put(key, value);
+                out.put(key, resolvePlaceholders(value));
             }
         }
+    }
+
+    /**
+     * 解析字符串中的 {@code ${ENV_NAME}} / {@code ${ENV_NAME:default}} 占位符，
+     * 支持环境变量与 JVM 系统属性，便于敏感配置（如数据库口令）不落盘。
+     */
+    private static Object resolvePlaceholders(Object value) {
+        if (!(value instanceof String)) {
+            return value;
+        }
+        String text = (String) value;
+        int start = text.indexOf("${");
+        while (start >= 0) {
+            int end = text.indexOf('}', start + 2);
+            if (end < 0) {
+                break;
+            }
+            String expression = text.substring(start + 2, end);
+            String name = expression;
+            String defaultValue = null;
+            int colon = expression.indexOf(':');
+            if (colon >= 0) {
+                name = expression.substring(0, colon);
+                defaultValue = expression.substring(colon + 1);
+            }
+            String resolved = System.getenv(name);
+            if (resolved == null) {
+                resolved = System.getProperty(name);
+            }
+            if (resolved == null) {
+                resolved = defaultValue == null ? "" : defaultValue;
+            }
+            text = text.substring(0, start) + resolved + text.substring(end + 1);
+            start = text.indexOf("${", start + resolved.length());
+        }
+        return text;
     }
 
     /**

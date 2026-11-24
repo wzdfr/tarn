@@ -7,18 +7,24 @@ author:作者
 controllers：加载的控制器包路径。该项必须
 services：服务注入的实现包路径。该项必须
 repositorys：注入数据访问层(DAO).该项可不需要
+components：通用组件包（@EComponent），自动注入并执行 @EPostConstruct 等生命周期回调
 -->
 <framework>
     <controllers>
         <mapping package="examples.test.controller" name="基础模块控制" remark="" author=""/>
         <mapping package="examples.demo.controller" name="Tarn 2.0 全链路示例" remark="路由/JSON/ORM/SqlBuilder/MyBatis 演示" author="dfr"/>
         <mapping package="examples.standalone.controller" name="独立运行示例" remark="StandaloneLauncher + 动态路由" author="dfr"/>
+        <mapping package="examples.di.controller" name="依赖注入示例" remark="容器 / 生命周期 / 循环依赖 / BeanPostProcessor" author="dfr"/>
     </controllers>
     <services>
         <mapping package="examples.test.services.impl" name="基础模块服务实现"/>
         <mapping package="examples.standalone.service.impl" name="独立运行示例服务实现"/>
+        <mapping package="examples.di.service.impl" name="依赖注入示例服务实现"/>
     </services>
     <repositorys>
         <!--<mapping package="com.dfrdev.expand.base.dao.impl" name="dao层"/>-->
     </repositorys>
+    <components>
+        <mapping package="examples.di.component" name="依赖注入示例组件"/>
+    </components>
 </framework>

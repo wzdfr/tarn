@@ -11,7 +11,7 @@
 
 Tarn 是自研的轻量级 Java MVC / ORM 框架（`javax.servlet` 3.1、JDK 8），大量存量业务系统直接依赖它：
 
-- 控制器通过 `@EController` + `config` 中的 `controller-type`（param / method / mapping / auto）调度；
+- 控制器通过 `@EController` + `config` 中的 `controller-type`（`auto` / `requestMapping`）调度（`param` / `method` 已废弃，启动告警并降级为 `auto`）；
 - 数据访问通过 `Q` / `DB` / `DAOAbstract` 的实体方法（`save` / `update` / `delete` / `querys`）完成；
 - 配置走 `dev.properties`，主引导是 `web.xml` 中的 `TarnDispatcherFilter`。
 

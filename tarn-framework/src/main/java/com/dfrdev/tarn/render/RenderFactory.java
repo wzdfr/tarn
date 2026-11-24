@@ -13,7 +13,9 @@ import freemarker.cache.TemplateLoader;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -28,6 +30,54 @@ public class RenderFactory {
     private static final RenderFactory rf = new RenderFactory();
     private static final String defaultViewType = Tarn.sysDevConf("defaultViewType");
     private static PageContext context;
+
+    /**
+     * 允许跳转的外部主机白名单（支持 {@code *.example.com}）；未配置时拒绝所有外链重定向（S7）
+     */
+    private static final Set<String> redirectAllowedHosts = new HashSet<String>();
+
+    static {
+        String hosts = Tarn.sysDevConf("redirectAllowedHosts");
+        if (hosts != null) {
+            for (String host : hosts.split(",")) {
+                if (host.trim().length() > 0) {
+                    redirectAllowedHosts.add(host.trim());
+                }
+            }
+        }
+    }
+
+    /**
+     * 运行时设置重定向主机白名单（覆盖配置值）。
+     */
+    public static void setRedirectAllowedHosts(String... hosts) {
+        redirectAllowedHosts.clear();
+        if (hosts != null) {
+            for (String host : hosts) {
+                if (host != null && host.trim().length() > 0) {
+                    redirectAllowedHosts.add(host.trim());
+                }
+            }
+        }
+    }
+
+    /**
+     * 校验并规范化视图路径：拒绝 NUL、反斜杠与 {@code ..} 路径段（S6）。
+     */
+    static String checkViewPath(String view) {
+        return ViewPathKit.checkViewPath(view);
+    }
+
+    private static boolean isRedirectView(String view) {
+        return ViewPathKit.isRedirectView(view);
+    }
+
+    /**
+     * 外链跳转主机白名单校验（S7），未命中返回 false。
+     */
+    private static boolean isAllowedRedirect(String url) {
+        return ViewPathKit.isAllowedRedirect(url, redirectAllowedHosts);
+    }
 
     private RenderFactory() {
         init();
@@ -196,7 +246,8 @@ public class RenderFactory {
      */
     public Render getRender(String view, Method method) {
         checkSelectView(method);
-        if (view.indexOf("http://") != -1 || view.indexOf("https://") != -1) {
+        view = checkViewPath(view);
+        if (isRedirectView(view)) {
             return getRedirectRender(view);
         } else {
             return mainRenderFactory.getRender(view);
@@ -207,7 +258,8 @@ public class RenderFactory {
      */
     public Render getRender(String view, Method method,String viewRootPath) {
         checkSelectView(method);
-        if (view.indexOf("http://") != -1 || view.indexOf("https://") != -1) {
+        view = checkViewPath(view);
+        if (isRedirectView(view)) {
             return getRedirectRender(view);
         } else {
             view=view.trim();
@@ -217,7 +269,7 @@ public class RenderFactory {
                 if(view.substring(0,1).equals("/")) view=view.substring(1,view.length());
                 view=viewRootPath+view;
             }
-            return mainRenderFactory.getRender(view);
+            return mainRenderFactory.getRender(checkViewPath(view));
         }
     }
 
@@ -228,7 +280,12 @@ public class RenderFactory {
      * @return Render
      */
     public Render getRedirectRender(String view) {
-        return new RedirectRender(view);
+        String url = view == null ? null : view.trim();
+        if (!isRedirectView(url) || !isAllowedRedirect(url)) {
+            LogUtil.warn("[Render] 拒绝未授权的重定向地址: " + view);
+            throw new RenderException("非法的重定向地址: " + view);
+        }
+        return new RedirectRender(url);
     }
 
     /**
@@ -238,7 +295,7 @@ public class RenderFactory {
      * @return Render
      */
     public Render getFreeMarkerRender(String view) {
-        return new FreeMarkerRender(view);
+        return new FreeMarkerRender(checkViewPath(view));
     }
 
     /**
@@ -248,7 +305,7 @@ public class RenderFactory {
      * @return Render
      */
     public Render getJspRender(String view) {
-        return new JspRender(view);
+        return new JspRender(checkViewPath(view));
     }
 
     /**
@@ -258,7 +315,7 @@ public class RenderFactory {
      * @return Render
      */
     public Render getVelocityRender(String view) {
-        return new VelocityRender(view);
+        return new VelocityRender(checkViewPath(view));
     }
 
     /**

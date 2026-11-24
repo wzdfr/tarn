@@ -2,7 +2,9 @@ package com.dfrdev.tarn.aop;
 
 
 import com.dfrdev.tarn.aop.inject.ComponentScanner;
+import com.dfrdev.tarn.aop.service.ComponentAOP;
 import com.dfrdev.tarn.aop.service.ControllerAOP;
+import com.dfrdev.tarn.container.TarnApplicationContext;
 import com.dfrdev.tarn.core.boot.Config;
 import com.dfrdev.tarn.util.xml.XMLDocument;
 import com.dfrdev.tarn.util.xml.XMLElement;
@@ -29,6 +31,13 @@ public class Inject implements Serializable {
         controllers = new ArrayList<ControllerInfo>();
         XMLDocument report = ComponentScanner.scan("Controller（控制器）", packages, new ControllerAOP(), "controllers");
         new ServiceInject();
+        List<XMLElement> components = Config.getConfigContextMappingComponents();
+        if (components != null && !components.isEmpty()) {
+            XMLDocument componentReport = ComponentScanner.scan("Component（通用组件）", components,
+                    new ComponentAOP(), "packages");
+            ComponentScanner.write(componentReport, "framework-mapping-components.xml");
+        }
+        TarnApplicationContext.getInstance().refresh();
         ComponentScanner.write(report, "framework-mapping-controllers.xml");
     }
 

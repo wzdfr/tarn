@@ -17,14 +17,11 @@ public class RequestFactory implements RequestInterceptor {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain, String impl, HttpServletRequest req,String vpath) throws ServletException, IOException, CastorNotFoundException {
-        if (impl.equals("method")) {
-            new MethodInterceptor(request, response, filterChain, req,vpath);
-        } else if (impl.equals("auto")) {
-            new AutoInterceptor(request, response, filterChain, req,vpath);
-        }  else if (impl.equals("requestMapping")) {
-            new RequestMappingInterceptor(request, response, filterChain, req,vpath);
+        if ("auto".equals(impl)) {
+            new AutoInterceptor(request, response, filterChain, req, vpath);
         } else {
-            new ParamInterceptor(request, response, filterChain, req,vpath);
+            // requestMapping / mapping 及未知值统一走基于映射元数据的调度
+            new RequestMappingInterceptor(request, response, filterChain, req, vpath);
         }
     }
 }

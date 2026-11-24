@@ -1,11 +1,10 @@
 package com.dfrdev.tarn.aop;
 
 
-import com.dfrdev.tarn.aop.annotation.EResource;
-import com.dfrdev.tarn.aop.inject.ComponentInjector;
 import com.dfrdev.tarn.aop.inject.ComponentRegistry;
 import com.dfrdev.tarn.aop.inject.ComponentScanner;
 import com.dfrdev.tarn.aop.service.RepositoryAOP;
+import com.dfrdev.tarn.container.TarnApplicationContext;
 import com.dfrdev.tarn.core.boot.Config;
 import com.dfrdev.tarn.util.LogUtil;
 import com.dfrdev.tarn.util.text.StringUtil;
@@ -13,13 +12,13 @@ import com.dfrdev.tarn.util.xml.XMLDocument;
 import com.dfrdev.tarn.util.xml.XMLElement;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 
 /**
- * DAO 层注入（{@code @ERepository} / {@code @EResource}）。
+ * DAO 层入口（{@code @ERepository} / {@code @EResource}）。
  * <p>
- * Tarn 2.1 重构：与 {@link ServiceInject} 共用扫描/注册/注入组件，只保留对外静态 API。
+ * Tarn 2.2 起，Repository 的创建、注入与生命周期统一由
+ * {@link TarnApplicationContext} 负责；本类只保留注册、白名单与兼容 API。
  *
  * @author dfr
  */
@@ -33,17 +32,6 @@ public class RepositoryInject implements Serializable {
      */
     private static String[] LIMIT_PACKAGE = null;
 
-    private static final ComponentInjector INJECTOR = new ComponentInjector(
-            EResource.class, REGISTRY,
-            new ComponentInjector.BeanNameParser() {
-                @Override
-                public String parse(Annotation annotation, String fieldName) {
-                    String value = ((EResource) annotation).value();
-                    return StringUtil.isNotEmpty(value) ? value : fieldName;
-                }
-            },
-            null);
-
     static {
         Config.Repositorys repositorys = Config.getConfigContextMappingRepositorys();
         LIMIT_PACKAGE = parseLimitPackages(repositorys.getBase());
@@ -54,17 +42,28 @@ public class RepositoryInject implements Serializable {
     }
 
     /**
-     * 为目标的 {@code @EResource} 字段注入 Repository 单例
+     * 为目标的 {@code @EResource} 字段注入 Repository，并执行生命周期回调。
+     * <p>
+     * 兼容旧调用入口；容器创建的 Bean 无需调用本方法。
      */
     public static void inject(Object obj) {
-        INJECTOR.inject(obj);
+        TarnApplicationContext.getInstance().injectBean(obj);
     }
 
     /**
      * 注册 Repository 实现（供 {@code RepositoryAOP} 扫描时调用）
      */
     public static HashMap<String, String> setRepositoryImpl(String key, String value) {
-        REGISTRY.register(key, value);
+        if (StringUtil.isEmpty(value)) {
+            return REGISTRY.impls();
+        }
+        String beanName = StringUtil.isNotEmpty(key) ? key.trim()
+                : TarnApplicationContext.defaultBeanName(null, value);
+        if (StringUtil.isEmpty(beanName)) {
+            return REGISTRY.impls();
+        }
+        REGISTRY.register(beanName, value);
+        TarnApplicationContext.getInstance().registerSingleton(beanName, value);
         return REGISTRY.impls();
     }
 
@@ -72,13 +71,14 @@ public class RepositoryInject implements Serializable {
      * 实现类是否落在 limitPackage 白名单内（未配置时全部允许）
      */
     public static boolean checkPackage(String impl) {
-        if (LIMIT_PACKAGE == null || LIMIT_PACKAGE.length == 0) {
+        String[] limitPackage = LIMIT_PACKAGE;
+        if (limitPackage == null || limitPackage.length == 0) {
             return true;
         }
         if (StringUtil.isEmpty(impl)) {
             return false;
         }
-        for (String limit : LIMIT_PACKAGE) {
+        for (String limit : limitPackage) {
             if (StringUtil.isNotEmpty(limit) && impl.indexOf(limit) != -1) {
                 return true;
             }
@@ -87,7 +87,7 @@ public class RepositoryInject implements Serializable {
     }
 
     /**
-     * 按名称创建新的 Repository 实例（不参与单例缓存）
+     * 按名称创建新的 Repository 实例（不参与单例缓存，也不执行注入与生命周期）
      */
     public static Object newInstance(String insName) {
         return REGISTRY.newInstance(insName);

@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -41,6 +42,14 @@ public class TarnDispatcherFilter implements Filter {
     private TarnConfig tarnConfig;
     private static boolean isExtendFilter = false;
     private static String[] interceptSuffixs = null;
+    /**
+     * 是否输出安全响应头（配置 securityHeaders=false 可关闭）
+     */
+    private static boolean securityHeadersEnabled = true;
+    /**
+     * 自定义 Content-Security-Policy，未配置时不输出
+     */
+    private static String contentSecurityPolicy = null;
 
     /**
      * Initial
@@ -54,14 +63,35 @@ public class TarnDispatcherFilter implements Filter {
         }
         createTarnConfig(filterConfig.getInitParameter("configClass"));
 
-        controllerType = ConnectionKit.getDevConf("controller-type");
+        controllerType = normalizeControllerType(ConnectionKit.getDevConf("controller-type"));
         isExtendFilter = Boolean.parseBoolean(ConnectionKit.getDevConf("ExtendFilter"));
         String suffixConf = ConnectionKit.getDevConf("InterceptSuffix");
         // 缺省（如 Spring Boot 场景未提供 dev.properties）时按“不限制扩展名”处理
         interceptSuffixs = StringUtil.isEmpty(suffixConf) ? new String[0] : suffixConf.split("\\|");
+        String securityHeaders = ConnectionKit.getDevConf("securityHeaders");
+        securityHeadersEnabled = StringUtil.isEmpty(securityHeaders) || Boolean.parseBoolean(securityHeaders);
+        contentSecurityPolicy = ConnectionKit.getDevConf("contentSecurityPolicy");
         LogUtil.info("ruixing framework.Tarn Successfully Start jdk1.7");
         Config.configTarn(tarnConfig, filterConfig);
         LogUtil.info("jar run mode "+RunMode.getInstance().isJarStatus());
+    }
+
+    /**
+     * 归一化 controller-type。
+     * <p>{@code param}（{@code ?m=} 反射调用）与 {@code method}（方法名直调）已废弃，
+     * 存在任意 public 方法被调用的安全风险，统一降级为 {@code auto}。
+     */
+    static String normalizeControllerType(String type) {
+        if (StringUtil.isEmpty(type)) {
+            return "";
+        }
+        String normalized = type.trim();
+        if ("param".equalsIgnoreCase(normalized) || "method".equalsIgnoreCase(normalized)) {
+            LogUtil.warn("[Tarn] controller-type=" + normalized
+                    + " 已废弃（?m= 反射调用存在安全风险），已降级为 auto");
+            return "auto";
+        }
+        return normalized;
     }
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
@@ -72,6 +102,7 @@ public class TarnDispatcherFilter implements Filter {
         }
         res.setCharacterEncoding(Config.getGlobalCharset());
         HttpServletRequest request = (HttpServletRequest) req;
+        applySecurityHeaders(request, res);
         Map<String, Object> mp = new HashMap<String, Object>();
         mp.put(PageContext.HTTP_REQUEST, request);
         mp.put(PageContext.HTTP_RESPONSE, res);
@@ -103,6 +134,26 @@ public class TarnDispatcherFilter implements Filter {
             // 清理 ThreadLocal 绑定的请求上下文，防止内存泄漏
             Tarn.clearPageContext();
             Controller.clearTarnHolder();
+        }
+    }
+
+    /**
+     * 输出基础安全响应头（S10）：防 MIME 嗅探、点击劫持、Referrer 泄露，HTTPS 下启用 HSTS。
+     * 通过 securityHeaders=false 关闭，contentSecurityPolicy 配置自定义 CSP。
+     */
+    static void applySecurityHeaders(HttpServletRequest request, ServletResponse res) {
+        if (!securityHeadersEnabled || !(res instanceof HttpServletResponse)) {
+            return;
+        }
+        HttpServletResponse response = (HttpServletResponse) res;
+        response.setHeader("X-Content-Type-Options", "nosniff");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        response.setHeader("Referrer-Policy", "no-referrer");
+        if (contentSecurityPolicy != null && contentSecurityPolicy.trim().length() > 0) {
+            response.setHeader("Content-Security-Policy", contentSecurityPolicy.trim());
+        }
+        if (request != null && request.isSecure()) {
+            response.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
         }
     }
 

@@ -35,9 +35,41 @@ public class FileRender extends Render {
 		webRootPath = PathKit.getWebRootPath();
 	}
 	
+	/**
+	 * 将下载路径解析到 Web 根目录内，拒绝路径穿越、绝对路径与敏感目录（WEB-INF/META-INF）。
+	 *
+	 * @param path 控制器传入的相对文件名
+	 * @return 规范化后的文件；非法路径返回 null
+	 */
+	static File resolveDownloadFile(String path) {
+		if (path == null || path.indexOf('\0') >= 0 || path.startsWith("~")) {
+			return null;
+		}
+		String p = path.replace('\\', '/');
+		for (String seg : p.split("/")) {
+			if ("..".equals(seg) || "WEB-INF".equalsIgnoreCase(seg) || "META-INF".equalsIgnoreCase(seg)) {
+				LogUtil.warn("[FileRender] 拒绝非法下载路径: " + path);
+				return null;
+			}
+		}
+		try {
+			File root = new File(PathKit.getWebRootPath()).getCanonicalFile();
+			File target = new File(root, p).getCanonicalFile();
+			String rootPath = root.getPath();
+			if (!target.getPath().equals(rootPath) && !target.getPath().startsWith(rootPath + File.separator)) {
+				LogUtil.warn("[FileRender] 下载路径越出 Web 根目录: " + path);
+				return null;
+			}
+			return target;
+		} catch (IOException e) {
+			LogUtil.warn("[FileRender] 下载路径规范化失败: " + path);
+			return null;
+		}
+	}
+
 	public void render() {
 		if (fileName != null) {
-            file = new File(webRootPath + fileName);
+            file = resolveDownloadFile(fileName);
 		}
 		
 		if (file == null || !file.isFile() || file.length() > Integer.MAX_VALUE) {

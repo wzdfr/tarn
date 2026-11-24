@@ -4,6 +4,7 @@ import com.dfrdev.tarn.util.io.FileKit;
 import com.dfrdev.tarn.util.text.StringUtil;
 import com.dfrdev.tarn.util.text.TextKit;
 import com.dfrdev.tarn.util.net.Url;
+import com.dfrdev.tarn.util.net.CookieUtil;
 import com.oreilly.servlet.MultipartRequest;
 
 import javax.servlet.ReadListener;
@@ -190,7 +191,7 @@ public class PageContext {
                 if (name.equals(aC.getName())) {
                     aC.setMaxAge(0);
                     aC.setPath(getRequest().getContextPath() + "/");
-                    getResponse().addCookie(aC);
+                    CookieUtil.addCookie(getRequest(), getResponse(), aC);
                     break;
                 }
         } else {
@@ -198,7 +199,7 @@ public class PageContext {
                 Cookie c = new Cookie(name, URLEncoder.encode(value, "utf-8"));
                 c.setMaxAge(maxAge == 0 ? -1 : maxAge);
                 c.setPath(getRequest().getContextPath() + "/");
-                getResponse().addCookie(c);
+                CookieUtil.addCookie(getRequest(), getResponse(), c);
             } catch (UnsupportedEncodingException ignore) {
             }
         }
@@ -206,7 +207,7 @@ public class PageContext {
     }
 
     public boolean isSessionExpired(HttpServletRequest request) {
-        return request.getSession() == null;
+        return request.getSession(false) == null;
 //        return (request.getRequestedSessionId() != null)
 //                && !request.isRequestedSessionIdValid();
     }
@@ -225,12 +226,12 @@ public class PageContext {
         if (request == null) {
             return "";
         }
-        if (isSessionExpired(request)) {
+        if (isSessionExpired(request) && varKeep.equals("session")) {
             return "";
         }
         if (varKeep.equals("session") || varKeep.equals("both")) {
             try {
-                HttpSession session = request.getSession();
+                HttpSession session = request.getSession(false);
                 if (session != null) {
                     rtn = (String) session.getAttribute(name);
                 }
@@ -279,9 +280,6 @@ public class PageContext {
         if (request == null) {
             return this;
         }
-        if (isSessionExpired(request)) {
-            return this;
-        }
         if (value != null) {//create mode
             if (varKeep.equals("session") || varKeep.equals("both")) {
                 request.getSession().setAttribute(name, value);
@@ -295,7 +293,7 @@ public class PageContext {
                     }
                     c.setMaxAge(expSec);
                     c.setPath(getRequest().getContextPath() + "/");
-                    getResponse().addCookie(c);
+                    CookieUtil.addCookie(getRequest(), getResponse(), c);
                 } catch (UnsupportedEncodingException e) {
                     //URLEncoder中的编码为utf-8肯定支持，实际不会抛出异常
                     return this;
@@ -304,12 +302,15 @@ public class PageContext {
         } else {
             if (varKeep.equals("session") || varKeep.equals("both")) {
 
-                if (name.indexOf(",") == -1) {
-                    request.getSession().removeAttribute(name);
-                } else {
-                    String na[] = name.replaceAll(" ", "").split(",");
-                    for (String aNa : na) {
-                        request.getSession().removeAttribute(aNa);
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                    if (name.indexOf(",") == -1) {
+                        session.removeAttribute(name);
+                    } else {
+                        String na[] = name.replaceAll(" ", "").split(",");
+                        for (String aNa : na) {
+                            session.removeAttribute(aNa);
+                        }
                     }
                 }
             }
@@ -323,7 +324,7 @@ public class PageContext {
                         aC.setValue(null);
                         aC.setMaxAge(0);
                         aC.setPath(getRequest().getContextPath() + "/");
-                        getResponse().addCookie(aC);
+                        CookieUtil.addCookie(getRequest(), getResponse(), aC);
                     }
                 }
             }
@@ -349,9 +350,6 @@ public class PageContext {
         if (request == null) {
             return;
         }
-        if (isSessionExpired(request)) {
-            return;
-        }
         if (value != null) {//create mode
             if (varKeep.equals("session") || varKeep.equals("both")) {
                 request.getSession().setAttribute(name, value);
@@ -365,7 +363,7 @@ public class PageContext {
                     }
                     c.setMaxAge(expSec);
                     c.setPath(getRequest().getContextPath() + "/");
-                    getResponse().addCookie(c);
+                    CookieUtil.addCookie(getRequest(), getResponse(), c);
                 } catch (UnsupportedEncodingException e) {
                     //URLEncoder中的编码为utf-8肯定支持，实际不会抛出异常
                     return;
@@ -374,12 +372,15 @@ public class PageContext {
         } else {
             if (varKeep.equals("session") || varKeep.equals("both")) {
 
-                if (name.indexOf(",") == -1) {
-                    request.getSession().removeAttribute(name);
-                } else {
-                    String na[] = name.replaceAll(" ", "").split(",");
-                    for (String aNa : na) {
-                        request.getSession().removeAttribute(aNa);
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                    if (name.indexOf(",") == -1) {
+                        session.removeAttribute(name);
+                    } else {
+                        String na[] = name.replaceAll(" ", "").split(",");
+                        for (String aNa : na) {
+                            session.removeAttribute(aNa);
+                        }
                     }
                 }
             }
@@ -393,7 +394,7 @@ public class PageContext {
                         aC.setValue(null);
                         aC.setMaxAge(0);
                         aC.setPath(getRequest().getContextPath() + "/");
-                        getResponse().addCookie(aC);
+                        CookieUtil.addCookie(getRequest(), getResponse(), aC);
                     }
                 }
             }
@@ -409,10 +410,11 @@ public class PageContext {
         if (request == null) {
             return this;
         }
-        if (isSessionExpired(request)) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
             return this;
         }
-        Enumeration enumeration = request.getSession().getAttributeNames();
+        Enumeration enumeration = session.getAttributeNames();
         while (enumeration.hasMoreElements()) {
             String key = (String) enumeration.nextElement();
             ksr(key, null);

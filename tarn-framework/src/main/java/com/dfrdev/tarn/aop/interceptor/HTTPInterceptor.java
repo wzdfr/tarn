@@ -1,6 +1,7 @@
 package com.dfrdev.tarn.aop.interceptor;
 
 import com.dfrdev.tarn.aop.ActionInvocation;
+import com.dfrdev.tarn.core.boot.Config;
 import com.dfrdev.tarn.core.boot.Tarn;
 import com.dfrdev.tarn.core.web.PageContext;
 import com.dfrdev.tarn.util.LogUtil;
@@ -129,7 +130,7 @@ public class HTTPInterceptor {
     }
 
     public static void ergodicMultipartFile(HttpServletRequest request, Object o) throws IOException, IllegalAccessException, InstantiationException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
-        MultipartRequest mreq = new MultipartRequest(request, ".");
+        MultipartRequest mreq = new MultipartRequest(request, Config.getUploadedFileSaveDirectory());
 
         Enumeration paramNames = mreq.getParameterNames();
         Class clazz = o.getClass();

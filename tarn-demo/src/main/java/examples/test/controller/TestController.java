@@ -46,7 +46,7 @@ public class TestController extends Controller {
     @ERequestMapping(value = "save", method = RequestMethod.POST)
     @EResponseType(false)
     public String save() {
-        UploadFile uploadFile2 = getFile("file2", Config.getContextRealPath()+"/test/zzz/11/",1024*1024*10);
+        UploadFile uploadFile2 = getFile("file2", "test/zzz/11/",1024*1024*10);
         String sex = get("sex");
 
         System.out.println(" name:"+name);

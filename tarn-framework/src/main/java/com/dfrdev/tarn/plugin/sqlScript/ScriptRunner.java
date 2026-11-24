@@ -32,17 +32,34 @@ public class ScriptRunner {
         this.delimiter = delimiter;
     }
 
+    /**
+     * 执行 classpath 下的 SQL 脚本。
+     * <p>
+     * 连接所有权归调用方：本类只临时调整 autoCommit 并在结束后恢复，<b>不会关闭 connection</b>。
+     */
     public void runScript(String resource) throws IOException, SQLException {
        if(StringUtil.isEmpty(resource)){
            return;
        }
         InputStream input = StreamHelper.getStreamFromClasspath(resource);
-        Reader reader = new InputStreamReader(input, "UTF-8");
-        runScript(reader);
+        try {
+            Reader reader = new InputStreamReader(input, "UTF-8");
+            runScript(reader);
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException ignore) {
+                }
+            }
+        }
     }
 
     /**
-     * 根据reader读取sql脚本，并运行
+     * 根据reader读取sql脚本，并运行。
+     * <p>
+     * 连接所有权归调用方：本类只临时调整 autoCommit 并在结束后恢复，<b>不会关闭 connection</b>。
+     *
      * @param reader 脚本资源
      */
     public void runScript(Reader reader) throws IOException, SQLException {

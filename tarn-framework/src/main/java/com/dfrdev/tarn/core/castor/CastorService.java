@@ -3,8 +3,6 @@ package com.dfrdev.tarn.core.castor;
 import com.dfrdev.tarn.util.text.StringUtil;
 import com.dfrdev.tarn.json.JsonKit;
 
-import com.sun.xml.internal.fastinfoset.util.StringArray; // TODO(Tarn 2.0+迁移): JDK 内部 API，升级 JDK9+ 前需替换为 String[] 并同步修改 StringArrayCastor
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
@@ -75,7 +73,7 @@ public class CastorService {
             return DateCastor.getInstance().cast(obj, type);
         if (type == java.sql.Date.class)
             return DateCastor.getInstance().cast(obj, type);
-        if ((type == StringArray.class))
+        if ((type == String[].class))
             return StringArrayCastor.getInstance().cast(obj, type);
         if ((type == long.class) || (type == Long.class))
             return LongArrayCastor.getInstance().cast(obj, type);
@@ -92,7 +90,7 @@ public class CastorService {
 //       }
 //     }
 
-        throw new CastorNotFoundException(type.getClass().getName());
+        throw new CastorNotFoundException(type.getName());
     }
 //
 //    private void init() {

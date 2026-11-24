@@ -292,7 +292,7 @@ tarn:
 
 | key | 说明 |
 | --- | --- |
-| `controller-type` | 老链路调度方式：`param` / `method` / `mapping` / `auto` |
+| `controller-type` | 老链路调度方式：`auto` / `requestMapping`；`param` / `method` 已废弃（启动告警并降级为 `auto`） |
 | `intercept-suffix` | Tarn 接管的后缀白名单（`jspx\|jsp\|do\|u\|shtml\|rx`）；不在名单内的带后缀请求直接放行 |
 | `template-base-directory` | 视图模板目录（默认 `/WEB-INF/views`） |
 | `default-view-type` | 默认视图：`JSP` / `FREE_MARKER` / `VELOCITY` / `OTHER` |

@@ -63,6 +63,108 @@ Spring Boot 集成：
 - **独立运行**：内嵌 Jetty，无需外部容器
 - **Spring Boot 集成**：`tarn-spring-boot-starter` 自动装配
 
+## 安全配置
+
+> 配置键可写在 `dev.properties`（老方式）或 `application.yml` 顶层（新方式，优先级更高）。
+
+### 外链重定向白名单
+
+只有视图地址以 `http://` / `https://` 开头、且主机命中白名单时才执行 302 跳转；未配置白名单时**拒绝所有外链重定向**。
+
+```properties
+# dev.properties：多个主机用英文逗号分隔，*. 前缀表示匹配子域
+redirectAllowedHosts=example.com,*.trusted.com
+```
+
+```yaml
+# application.yml（顶层键）
+redirectAllowedHosts: example.com,*.trusted.com
+```
+
+```java
+public class LoginController extends Controller {
+    public String goHome() {
+        return "https://example.com/home";   // 命中白名单 → 302
+    }
+
+    public String unsafe() {
+        return "https://evil.com/x";         // 未命中 → 抛出 RenderException
+    }
+}
+
+// 也可以在启动时用代码覆盖
+RenderFactory.setRedirectAllowedHosts("example.com", "*.trusted.com");
+```
+
+- 相对路径（如 `/login`、`/WEB-INF/views/a.jsp`）不受影响，仍走内部渲染。
+- 白名单为空 = 只允许内部跳转，禁止外链。
+
+### JSP 视图目录限定
+
+JSP 视图必须位于 `templateBaseDirectory` 内；未配置时默认 `/WEB-INF/views`。
+
+```properties
+defaultViewType=JSP
+templateBaseDirectory=/WEB-INF/views
+```
+
+```java
+@ViewRootPath("/WEB-INF/views/user/")
+public class UserController extends Controller {
+    public String detail() {
+        return "detail.jsp";      // 实际渲染 /WEB-INF/views/user/detail.jsp
+    }
+
+    public String unsafe() {
+        return "/index.jsp";      // 不在模板根内 → 抛出 RenderException
+    }
+}
+```
+
+- 含 `..`、反斜杠、`\0` 的视图路径一律拒绝；FreeMarker / Velocity 同样禁止 `..`。
+- 视图前缀请使用 `@ViewRootPath` 注解设置；`viewRootPath` 属于框架自有属性，不接受请求参数注入。
+
+### 环境变量占位符
+
+`application.yml` 的字符串值支持 `${ENV_NAME}` 与 `${ENV_NAME:默认值}`，解析顺序：环境变量 → JVM 系统属性（`-D`）→ 默认值。
+
+```yaml
+tarn:
+  datasource:
+    password: "${TARN_DB_PASSWORD:}"
+```
+
+```bash
+export TARN_DB_PASSWORD='your-password'
+java -jar app.jar
+```
+
+`tarn-demo` 与 `samples/tarn-maven-demo` 的数据库口令已改为该方式：未设置 `TARN_DB_PASSWORD` 时为空串，请按实际环境注入，不要提交明文口令。
+
+### 上传目录与文件限制
+
+1. 保存目录必须是**相对路径**，由框架解析到上传根目录内：
+
+```java
+UploadFile f1 = getFile("file");                    // 上传根目录
+UploadFile f2 = getFile("file2", "avatar/2026/");    // 根目录下的子目录
+// getFile("file", "/opt/upload/") 或含 ".." → IllegalArgumentException
+```
+
+2. 默认上传根目录位于 **Web 根之外**：`<WebRoot>_upload/`（jar 模式为 `<contextRealPath>_upload/`），启动时自动创建；可在初始化前覆盖：
+
+```java
+Config.setUploadedFileSaveDirectory("/data/tarn-upload/");
+```
+
+3. 默认启用扩展名白名单：`jpg/jpeg/png/gif/bmp/webp/pdf/txt/csv/doc/docx/xls/xlsx/ppt/pptx/zip/rar/7z`，并对图片、PDF、ZIP 类文件做魔数校验；如需收窄：
+
+```java
+MultipartRequest.setAllowedExtensions(new String[]{"jpg", "png", "pdf"});
+```
+
+4. 落盘文件名随机化为 UUID，原始文件名通过 `UploadFile.getOriginalFileName()` 获取。
+
 ## 快速开始
 
 ```bash

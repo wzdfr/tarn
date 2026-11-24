@@ -234,6 +234,32 @@ public abstract class DAOAbstract extends ConnectionFactory {
     }
 
     /**
+     * 构造 COUNT 的参数化 SQL：过滤条件中的 order by 截断，参数按 ? 顺序绑定。
+     */
+    private ParameterizedSql parameterizedCountSql(Model tmb, Object[] params) {
+        String fil = tmb.filter;
+        if (fil != null && !fil.equals("")) {
+            int odb = fil.toLowerCase().lastIndexOf("order by");
+            if (odb > 0) {
+                fil = fil.substring(0, odb);
+            }
+        }
+        String sql = "SELECT COUNT(0) AS num FROM " + tmb.table;
+        if (fil != null && !fil.equals("")) {
+            sql += " WHERE " + fil;
+        }
+        // 过滤条件中可绑定的占位符数量有限，避免参数多于 ? 导致驱动报错
+        int placeholders = 0;
+        for (int i = 0; i < sql.length(); i++) {
+            if (sql.charAt(i) == '?') {
+                placeholders++;
+            }
+        }
+        int n = Math.min(placeholders, params.length);
+        return new ParameterizedSql(sql, Arrays.asList(params).subList(0, n));
+    }
+
+    /**
      * 查询数据分页。<br/>
      * 根据传人的Tmb，查出数据并映射到 clazz后，组装到<code>Pager</code>分页类。<br/>
      * 需要注意的是：除系统自带的<code>Dao()</code>类，自定义的Bean的属性应与待查询数据库字段名对应，否则会导致查询失败<br/>
@@ -259,14 +285,8 @@ public abstract class DAOAbstract extends ConnectionFactory {
             if (os == null) {
                 rowCount = count(tmb);
             } else {
-                // 老语义：count 的 filter 将 ? 顺序替换为字面量（保持原样，仅用于 COUNT 文本）
-                String stmp = tmb.filter;
-                if (stmp != null) {
-                    for (int i = 1, n = os.length; i <= n; i++) {
-                        stmp = stmp.replaceFirst("\\?", "'" + os[i - 1] + "'");
-                    }
-                }
-                rowCount = count(tmb, stmp);
+                // COUNT 同样走参数绑定，不再把 ? 替换为字面量（消除注入与类型/转义错误）
+                rowCount = count(parameterizedCountSql(tmb, os));
             }
             pageCount = (rowCount + pageSize - 1) / pageSize;
             if (absPage > pageCount && pageCount > 0) {

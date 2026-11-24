@@ -5,7 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -13,7 +15,9 @@ import java.util.concurrent.ConcurrentMap;
  * JavaBean 属性缓存（Tarn 2.1）。
  * <p>
  * 按类缓存 {@link BeanProperty} 列表，避免每个请求重复反射扫描字段与 setter。
- * 与老实现一致，只处理<b>当前类声明的实例字段</b>（不含静态字段与继承字段）。
+ * {@link #of(Class)} 只收集当前类声明的字段（旧行为）；
+ * Tarn 2.2 的依赖注入使用 {@link #ofIncludingInherited(Class)}，
+ * 会沿继承链收集父类字段（子类优先，同名父类字段被忽略）。
  *
  * @author dfr
  * @since 2.1
@@ -21,6 +25,8 @@ import java.util.concurrent.ConcurrentMap;
 public final class BeanProperties {
 
     private static final ConcurrentMap<Class<?>, List<BeanProperty>> CACHE =
+            new ConcurrentHashMap<Class<?>, List<BeanProperty>>();
+    private static final ConcurrentMap<Class<?>, List<BeanProperty>> INHERITED_CACHE =
             new ConcurrentHashMap<Class<?>, List<BeanProperty>>();
 
     private BeanProperties() {
@@ -30,34 +36,64 @@ public final class BeanProperties {
      * 获取类声明的可注入属性（结果只读、已缓存）
      */
     public static List<BeanProperty> of(Class<?> clazz) {
-        List<BeanProperty> cached = CACHE.get(clazz);
-        if (cached != null) {
-            return cached;
-        }
-        List<BeanProperty> properties = new ArrayList<BeanProperty>();
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isSynthetic() || Modifier.isStatic(field.getModifiers())) {
-                continue;
-            }
-            String suffix = BeanProperty.capitalize(field.getName());
-            Method setter = publicMethod(clazz, "set" + suffix, field.getType());
-            Method getter = publicMethod(clazz, "get" + suffix);
-            if (getter == null) {
-                // boolean 字段的读取方法可能是 isXxx
-                getter = publicMethod(clazz, "is" + suffix);
-            }
-            properties.add(new BeanProperty(field, setter, getter));
-        }
-        List<BeanProperty> result = Collections.unmodifiableList(properties);
-        CACHE.put(clazz, result);
-        return result;
+        return build(clazz, CACHE, false);
     }
 
     /**
-     * 按字段名查找属性：精确匹配优先，其次忽略大小写匹配。
-     *
-     * @return 未找到返回 null
+     * 获取类及父类声明的可注入属性（子类优先，结果只读、已缓存）
+     */
+    public static List<BeanProperty> ofIncludingInherited(Class<?> clazz) {
+        return build(clazz, INHERITED_CACHE, true);
+    }
+
+    private static List<BeanProperty> build(Class<?> clazz,
+                                            ConcurrentMap<Class<?>, List<BeanProperty>> cache,
+                                            boolean includeInherited) {
+        List<BeanProperty> cached = cache.get(clazz);
+        if (cached != null) {
+            return cached;
+        }
+        Map<String, BeanProperty> byName = new LinkedHashMap<String, BeanProperty>();
+        if (includeInherited) {
+            List<Class<?>> hierarchy = new ArrayList<Class<?>>();
+            Class<?> current = clazz;
+            while (current != null && current != Object.class) {
+                hierarchy.add(0, current);
+                current = current.getSuperclass();
+            }
+            // 子类优先：从最子类向根部遍历
+            for (int i = hierarchy.size() - 1; i >= 0; i--) {
+                collect(clazz, hierarchy.get(i), byName);
+            }
+        } else {
+            collect(clazz, clazz, byName);
+        }
+        List<BeanProperty> result = Collections.unmodifiableList(
+                new ArrayList<BeanProperty>(byName.values()));
+        cache.put(clazz, result);
+        return result;
+    }
+
+    private static void collect(Class<?> runtimeClass, Class<?> declaringClass,
+                                Map<String, BeanProperty> byName) {
+        for (Field field : declaringClass.getDeclaredFields()) {
+            if (field.isSynthetic() || Modifier.isStatic(field.getModifiers())
+                    || byName.containsKey(field.getName())) {
+                continue;
+            }
+            String suffix = BeanProperty.capitalize(field.getName());
+            Method setter = publicMethod(runtimeClass, "set" + suffix, field.getType());
+            Method getter = publicMethod(runtimeClass, "get" + suffix);
+            if (getter == null) {
+                // boolean 字段的读取方法可能是 isXxx
+                getter = publicMethod(runtimeClass, "is" + suffix);
+            }
+            byName.put(field.getName(), new BeanProperty(field, setter, getter));
+        }
+    }
+
+    /**
+     * 按名称查找属性（先精确匹配，再忽略大小写）
      */
     public static BeanProperty find(Class<?> clazz, String fieldName) {
         if (fieldName == null || fieldName.isEmpty()) {
@@ -89,5 +125,6 @@ public final class BeanProperties {
      */
     public static void clear() {
         CACHE.clear();
+        INHERITED_CACHE.clear();
     }
 }

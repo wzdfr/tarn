@@ -4,6 +4,7 @@ package com.dfrdev.tarn.aop.interceptor;
 import com.dfrdev.tarn.aop.*;
 import com.dfrdev.tarn.aop.annotation.ERequestMapping;
 import com.dfrdev.tarn.aop.annotation.RequestMethod;
+import com.dfrdev.tarn.container.TarnApplicationContext;
 import com.dfrdev.tarn.core.castor.CastorNotFoundException;
 import org.apache.log4j.Logger;
 
@@ -26,7 +27,7 @@ import com.dfrdev.tarn.util.LogUtil;
 public class RequestMappingInterceptor implements Serializable {
     private static final long serialVersionUID = 6392376146163510046L;
     private static List<ControllerInfo> list = Inject.getControllers();
-    private static Logger logger = Logger.getLogger(ParamInterceptor.class);
+    private static Logger logger = Logger.getLogger(RequestMappingInterceptor.class);
 
     RequestMappingInterceptor() {
 
@@ -42,9 +43,9 @@ public class RequestMappingInterceptor implements Serializable {
                 if (!cm.getMethodName().equals("")) {
                     Object o = null;
                     try {
-                        o = Class.forName(pi.getValue()).newInstance();
+                        o = TarnApplicationContext.getInstance()
+                                .createBean(Class.forName(pi.getValue()));
                         ninter = true;
-                        ServiceInject.inject(o);
                         //完成属性注入
                         AttrInject.handle(req, o);
                         //调用名称为：execute() 的方法

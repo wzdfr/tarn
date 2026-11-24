@@ -73,25 +73,12 @@ public class AppendDaoSQLUtils {
     /**
      * 生成查询SQL语句，查询Object对象
      *
-     * @deprecated 存在 SQL 注入风险（map 值直接拼接），请使用 {@link #generateSelectSqlParameterized}
+     * @deprecated 存在 SQL 注入风险（map 值直接拼接），已禁用；请使用 {@link #generateSelectSqlParameterized}
      */
     @Deprecated
     public static String generateSELECTSqlObj(String tableName, String fields, Map map, String orderBy) {
-        String f = (fields == null || fields.equals("")) ? "*" : fields;
-        String sql = "SELECT " + f;
-        sql += " FROM ";
-        sql += tableName + " ";
-        sql += " WHERE 1=1 ";
-        Set<String> key = map.keySet();
-        for (Iterator it = key.iterator(); it.hasNext(); ) {
-            String k = (String) it.next();
-            sql += " AND " + k + "='" + map.get(k) + "' ";
-        }
-        if (orderBy != null && !orderBy.equals("")) {
-            sql += " ORDER BY " + orderBy;
-        }
-        //todo
-        return sql;
+        throw new UnsupportedOperationException(
+                "generateSELECTSqlObj 因 SQL 注入风险已禁用，请使用 generateSelectSqlParameterized");
     }
 
     /**

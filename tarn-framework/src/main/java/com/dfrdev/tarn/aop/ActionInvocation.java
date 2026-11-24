@@ -43,6 +43,10 @@ public class ActionInvocation {
      * @param value     值
      */
     public static void invokeSet(Object obj, String fieldName, Object value) {
+        // S5：统一拦截框架属性/非白名单字段，避免任意请求参数覆盖对象状态
+        if (!AttrInject.isBindable(obj, fieldName)) {
+            return;
+        }
         Class clazz = obj.getClass();
         try {
             Field field = clazz.getDeclaredField(fieldName);

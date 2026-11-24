@@ -14,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.dfrdev.tarn.core.TarnException;
 public class ConfigLoader {
-    private static boolean loaded = false;
+    private static volatile boolean loaded = false;
 
     private static ReentrantLock lock = new ReentrantLock();
 
@@ -57,11 +57,10 @@ public class ConfigLoader {
             } finally {
                 lock.unlock();
             }
-            lock.unlock();
         }
     }
 
-    public static XMLMultiLoader loadContextMapping() {
+    public static synchronized XMLMultiLoader loadContextMapping() {
         if (loaderContext == null) {
             loaderContext = new XMLMultiLoader();
             // Tarn 2.1+: 优先从 classpath 读取，兼容 Spring Boot 可执行 jar（无解压后的目录）
@@ -86,7 +85,7 @@ public class ConfigLoader {
         return loaderContext;
     }
 
-    public static void reload() {
+    public static synchronized void reload() {
         loaded = false;
         load();
     }
