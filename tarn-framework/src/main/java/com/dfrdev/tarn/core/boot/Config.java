@@ -66,7 +66,8 @@ public class Config {
             configMap.put("System.JavaVersion", System.getProperty("java.version"));
             configMap.put("System.JavaVendor", System.getProperty("java.vendor"));
             configMap.put("System.JavaHome", System.getProperty("java.home"));
-            configMap.put("System.OSPatchLevel", System.getProperty("sun.os.patch.level"));
+            // JDK17/Linux 下 sun.os.patch.level 可能不存在；ConcurrentHashMap 不允许 null value
+            configMap.put("System.OSPatchLevel", System.getProperty("sun.os.patch.level", ""));
             configMap.put("System.OSArch", System.getProperty("os.arch"));
             configMap.put("System.OSVersion", System.getProperty("os.version"));
             configMap.put("System.OSName", System.getProperty("os.name"));
